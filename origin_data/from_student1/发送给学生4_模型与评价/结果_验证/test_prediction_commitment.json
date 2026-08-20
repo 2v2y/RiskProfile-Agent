@@ -1,0 +1,19 @@
+{
+  "created_at_utc": "2026-08-17T07:33:59.471489+00:00",
+  "path": "结果/03_验证/test_predictions_sealed.csv",
+  "sha256": "7d5de975c1168c101ce5d18f362699f1c9b5984c8cadb94b6b300d03466ab1bd",
+  "rows": 1204,
+  "columns": [
+    "sample_id",
+    "entity_proxy_id",
+    "quarter",
+    "score_r0",
+    "score_m1",
+    "score_m2"
+  ],
+  "test_features_commitment_path": "数据/03_封存测试/test_features_commitment.json",
+  "test_features_commitment_sha256": "f6ec9996f499ab06fee3c37499c8b849111a64f99f48c6c5f446fae8473dec7d",
+  "frozen_manifest_sha256": "30cfffe39376d3ef271ead6b61c6daa3e691823f9b18c2d044c0dcc70f435f21",
+  "frozen_model_sha256": "562d7837e0d2bc6389e95607e543f9b07db5be1b1fd0ad05487a1151b5001603",
+  "labels_read": false
+}

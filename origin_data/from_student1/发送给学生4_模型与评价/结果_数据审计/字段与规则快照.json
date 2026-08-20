@@ -1,0 +1,45 @@
+{
+  "as_of": "2026-08-15 06:41:46.741079",
+  "as_of_source": "数据/00_原始数据/download_manifest.json:downloaded_at_utc",
+  "inspection_max_load_dt": "2026-08-14 04:23:08",
+  "violation_max_load_dt": "2026-08-14 00:24:23",
+  "inspection_sha256": "173118928f2fe25bc77d65d6f6ac377ca1e26b81afd5dabac95916c39a2274d5",
+  "violation_sha256": "7d27a8f3f4d47c793dc44a666401a075a97bbf7f099ea8bee18c822aca889bec",
+  "industry_groups": {
+    "221122": "221122",
+    "2211_other": "2211* EXCEPT 221122",
+    "237130": "237130",
+    "238210": "238210"
+  },
+  "primary_inspection_types": [
+    "H"
+  ],
+  "actual_inspection_scopes": [
+    "A",
+    "B",
+    "C"
+  ],
+  "delete_policy_primary": "issuance_event_regardless_of_later_delete_flag",
+  "episode_label_rule": "each component Inspection uses its own inclusive [open_date, open_date+180d] window; entity-quarter label is OR",
+  "episode_positive_available_rule": "earliest eligible citation issuance_date + public_buffer_days; no wait for other components",
+  "episode_negative_available_rule": "only for OR-negative episode: max(each open_date+negative_maturity_days, each close_case_date); any required unclosed component => unavailable",
+  "reserved_not_executed": [
+    "insp_type I/K",
+    "exclude-deleted alternative label",
+    "tree model",
+    "alternative half-life"
+  ],
+  "label_window_days": 180,
+  "negative_maturity_days": 210,
+  "splits": {
+    "train_start": "2015-01-01",
+    "train_end": "2021-12-31",
+    "validation_start": "2022-01-01",
+    "validation_end": "2023-03-31",
+    "embargo_start": "2023-04-01",
+    "embargo_end": "2023-12-31",
+    "model_freeze_date": "2024-01-01",
+    "test_start": "2024-01-01",
+    "test_end": "2025-12-31"
+  }
+}

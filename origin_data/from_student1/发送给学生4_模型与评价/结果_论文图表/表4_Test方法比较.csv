@@ -1,0 +1,5 @@
+﻿row_type,method_or_comparison,quarters,n,positives,ap,recall_at_20,precision_at_20,brier,delta_ap,delta_ap_ci_lower,delta_ap_ci_upper,delta_recall_at_20,delta_recall_ci_lower,delta_recall_ci_upper,bootstrap_valid_ap,bootstrap_valid_recall,positive_recall_quarters,all_test_quarters_have_positive,evidence_gate_met,c1_met,c2_met,overall_support_met,overall_interpretation
+method,M1,8.0,1204.0,656.0,0.589540345996442,0.211890243902439,0.569672131147541,0.2425092359738396,,,,,,,,,,,,,,,
+method,M2,8.0,1204.0,656.0,0.585019853766904,0.198170731707317,0.5327868852459017,0.2411783336321749,,,,,,,,,,,,,,,
+method,R0,8.0,1204.0,656.0,0.5942857025963136,0.2149390243902439,0.5778688524590164,0.2438233760461725,,,,,,,,,,,,,,,
+comparison,M2-M1,,,,,,,,-0.0045204922295379,-0.0121527282706329,0.0021162417401146,-0.0137195121951219,-0.0246023600133585,0.0,2000.0,2000.0,0.0,True,True,False,False,False,未观察到稳定的动态增量价值

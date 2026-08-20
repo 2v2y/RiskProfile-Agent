@@ -1,0 +1,44 @@
+{
+  "primary_comparison": "M2 minus M1",
+  "validation_role": "audit_fixed_methods",
+  "selection_performed": false,
+  "test_labels_seen": false,
+  "test_features_seen": false,
+  "methods_frozen": [
+    "R0",
+    "M1",
+    "M2"
+  ],
+  "fixed_before_validation": {
+    "logistic_C": 1.0,
+    "max_iter": 2000,
+    "feature_groups": {
+      "review_fraction": 0.2,
+      "max_iter": 2000,
+      "C": 1.0,
+      "calibration_bins": 10,
+      "context_features": [
+        "context_naics_group",
+        "context_site_state",
+        "quarter_number"
+      ],
+      "static_features": [
+        "history_inspections",
+        "history_positive_inspections",
+        "smoothed_positive_rate"
+      ],
+      "dynamic_features": [
+        "days_since_last_inspection",
+        "days_since_last_positive",
+        "inspections_365d",
+        "inspections_730d",
+        "positives_365d",
+        "positives_730d",
+        "decayed_inspections",
+        "decayed_positives"
+      ]
+    },
+    "review_fraction": 0.2
+  },
+  "note": "Validation仅核对固定方法的可运行性与表现并形成冻结证据，不搜索或选择超参数；M1/M2同源样本、同一逻辑回归，M2只增加Dynamic。"
+}

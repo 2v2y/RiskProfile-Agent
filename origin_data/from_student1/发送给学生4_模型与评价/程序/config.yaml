@@ -1,0 +1,108 @@
+project:
+  random_seed: 20260812
+  bootstrap_iterations: 2000
+
+performance:
+  csv_chunk_rows: 100000
+
+download:
+  base_url: "https://api.dol.gov/v4"
+  catalog_base_url: "https://apiprod.dol.gov/v4"
+  page_limit: 5000
+  timeout_seconds: 120
+  filter_enabled: true
+  endpoints:
+    inspection:
+      dataset_id: 10334
+      api_name: inspection
+      output: osha_inspection.csv
+      sort_by: activity_nr
+      filter_object:
+        field: open_date
+        operator: gt
+        value: "2009-12-31"
+    violation:
+      dataset_id: 10338
+      api_name: violation
+      output: osha_violation.csv
+      sort_by: activity_nr
+      filter_object:
+        field: issuance_date
+        operator: gt
+        value: "2009-12-31"
+
+schema:
+  inspection_required:
+    - activity_nr
+    - reporting_id
+    - estab_name
+    - site_address
+    - site_city
+    - site_state
+    - site_zip
+    - naics_code
+    - insp_type
+    - insp_scope
+    - why_no_insp
+    - mail_street
+    - mail_city
+    - mail_state
+    - mail_zip
+    - host_est_key
+    - open_date
+    - close_case_date
+    - load_dt
+  violation_required:
+    - activity_nr
+    - citation_id
+    - delete_flag
+    - standard
+    - viol_type
+    - issuance_date
+    - rec
+    - gravity
+    - load_dt
+
+rules:
+  require_entity_audit_gate: true
+  entity_audit_min_ppv: 0.95
+  entity_audit_min_wilson_lower: 0.90
+  entity_audit_min_reviewed_match_pairs: 200
+  industry_groups:
+    221122: "221122"
+    2211_other: "2211* EXCEPT 221122"
+    237130: "237130"
+    238210: "238210"
+  primary_inspection_types: ["H"]
+  actual_inspection_scopes: ["A", "B", "C"]
+  no_inspection_scopes: ["D"]
+  deleted_violation_values: ["Y", "1", "TRUE", "T"]
+  primary_delete_policy: "issuance_event_regardless_of_later_delete_flag"
+  entity_address_fallback_to_site: true
+  label_window_days: 180
+  public_buffer_days: 30
+  negative_maturity_days: 210
+  require_closed_case_for_negative: true
+  smoothing_alpha: 1.0
+  smoothing_beta: 1.0
+  decay_half_life_days: 365
+
+splits:
+  train_start: "2015-01-01"
+  train_end: "2021-12-31"
+  validation_start: "2022-01-01"
+  validation_end: "2023-03-31"
+  embargo_start: "2023-04-01"
+  embargo_end: "2023-12-31"
+  model_freeze_date: "2024-01-01"
+  test_start: "2024-01-01"
+  test_end: "2025-12-31"
+
+model:
+  review_fraction: 0.20
+  max_iter: 2000
+  C: 1.0
+  calibration_bins: 10
+  context_features: [context_naics_group, context_site_state, quarter_number]
+  static_features: [history_inspections, history_positive_inspections, smoothed_positive_rate]
+  dynamic_features: [days_since_last_inspection, days_since_last_positive, inspections_365d, inspections_730d, positives_365d, positives_730d, decayed_inspections, decayed_positives]

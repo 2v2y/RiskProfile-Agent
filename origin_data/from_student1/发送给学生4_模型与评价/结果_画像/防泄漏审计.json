@@ -1,0 +1,47 @@
+{
+  "samples": 6541,
+  "count_semantics": "number_of_violations",
+  "checks": {
+    "history_open_before_cutoff": {
+      "count": 0,
+      "passed": true,
+      "checked_count": 6541
+    },
+    "outcome_available_before_cutoff": {
+      "count": 0,
+      "passed": true,
+      "checked_count": 6541
+    },
+    "context_source_before_cutoff": {
+      "count": 0,
+      "passed": true,
+      "checked_count": 6541
+    },
+    "test_columns_whitelisted": {
+      "count": 0,
+      "passed": true,
+      "checked_count": 18,
+      "missing_columns": [],
+      "unexpected_columns": [],
+      "duplicate_columns": []
+    },
+    "test_forbidden_columns_absent": {
+      "count": 0,
+      "passed": true,
+      "checked_count": 18,
+      "forbidden_columns": []
+    },
+    "m1_m2_same_source_samples": {
+      "count": 0,
+      "passed": true,
+      "checked_count": 6541,
+      "m1_sample_count": 6541,
+      "m2_sample_count": 6541,
+      "sample_set_difference": []
+    }
+  },
+  "history_inspection_at_or_after_cutoff": 0,
+  "citation_available_time_at_or_after_cutoff": 0,
+  "context_source_at_or_after_cutoff": 0,
+  "passed": true
+}

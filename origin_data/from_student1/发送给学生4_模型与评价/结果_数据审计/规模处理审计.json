@@ -1,0 +1,10 @@
+{
+  "csv_chunk_rows": 100000,
+  "inspection_raw_rows_scanned": 1365781,
+  "inspection_rows_staged": 1365781,
+  "inspection_target_latest_rows": 37517,
+  "violation_raw_rows_scanned": 2861703,
+  "violation_relevant_rows_staged": 45678,
+  "strategy": "chunked full Inspection -> SQLite deterministic latest-row dedup and SQL target-NAICS filter -> related-activity Violation staging/dedup -> pandas research subset",
+  "full_raw_tables_loaded_into_memory": false
+}

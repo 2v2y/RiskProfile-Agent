@@ -1,0 +1,13 @@
+核对编号,结果版本,分析版本,数据快照,稿件位置,图表编号,指标名称,方法或分组,季度或范围,点估计,分子,分母,区间类型,区间下限,区间上限,有效重复次数,来源结果文件,来源行键,来源列名,程序版本,是否与稿件一致,首次核对人,交叉核对人,核对日期,问题编号,状态,备注
+CHECK20260815_01,V1,NA,OSHA_20260815_01,NA,NA,两表连接匹配,目标行业内 Violation→Inspection,全部,45678,45678,45678,NA,NA,NA,NA,连接与去重审计.json,violation_rows_matched_to_inspection,NA,01_prepare_data.py,NA,刘知桦,待核对,2026-08-15,NA,待复核,未匹配0；两表重复组0
+CHECK20260815_02,V1,NA,OSHA_20260815_01,NA,NA,行业组互斥,G1–G4 合计,全部,37517,37517,NA,NA,NA,NA,NA,样本排除流.csv,互斥行业组,NA,01_prepare_data.py,NA,刘知桦,待核对,2026-08-15,NA,待复核,"G1=2303,G2=3321,G3=4356,G4=27537；无重复"
+CHECK20260815_03,V1,NA,OSHA_20260815_01,NA,NA,主候选 Planned,insp_type=H（剔除scope D）,全部,15140,NA,NA,NA,NA,NA,NA,样本排除流.csv,主候选Planned检查,NA,01_prepare_data.py,NA,刘知桦,待核对,2026-08-15,NA,待复核,scope≠D 35919 → H 15140
+CHECK20260815_04,V1,NA,OSHA_20260815_01,NA,NA,成熟样本数,entity×季度 episode,全部,6541,NA,NA,NA,NA,NA,NA,成熟度审计.csv,mature_total,NA,01_prepare_data.py,NA,刘知桦,待核对,2026-08-15,NA,待复核,Train/Val 成熟率0.98-1.0；Embargo 0；Test 未成熟保留
+CHECK20260815_05,V1,NA,OSHA_20260815_01,NA,NA,时间切分,Train/Val/Embargo/Test,2015Q1–2025Q4,NA,NA,NA,NA,NA,NA,NA,时间切分审计.csv,split,NA,01_prepare_data.py,NA,刘知桦,待核对,2026-08-15,NA,待复核,四段与 config 一致，互不重叠
+CHECK20260815_06,V1,NA,OSHA_20260815_01,NA,NA,Test 阳性未泄露,Test,2024Q1–2025Q4,空,NA,NA,NA,NA,NA,NA,时间切分审计.csv,positives,NA,01_prepare_data.py,NA,刘知桦,待核对,2026-08-15,NA,通过,开封前 Test 阳性数为空
+CHECK20260819_01,V1,NA,OSHA_20260815_01,NA,表1,样本排除流步骤数,全部,NA,NA,NA,NA,NA,NA,NA,结果/05_论文图表/表1_样本排除流.csv,NA,NA,05_make_paper_tables.py,NA,刘知桦,待核对,2026-08-19,NA,待复核,来源样本排除流.csv直接复制
+CHECK20260819_02,V1,NA,OSHA_20260815_01,NA,表2,画像指标数,全部,NA,NA,NA,NA,NA,NA,NA,结果/05_论文图表/表2_画像指标说明.csv,NA,NA,05_make_paper_tables.py,NA,刘知桦,待核对,2026-08-19,NA,待复核,来源feature_dictionary.csv直接复制
+CHECK20260819_03,V1,NA,OSHA_20260815_01,NA,表3,Validation方法数,全部,3,NA,NA,NA,NA,NA,NA,结果/05_论文图表/表3_Validation方法比较.csv,NA,NA,05_make_paper_tables.py,NA,刘知桦,待核对,2026-08-19,NA,待复核,M0/M1/M2三种方法;来源validation_summary.csv
+CHECK20260819_04,V1,NA,OSHA_20260815_01,NA,表4,M2-M1差值AP,全部,NA,NA,NA,bootstrap,NA,NA,NA,结果/05_论文图表/表4_Test方法比较.csv,NA,NA,05_make_paper_tables.py,NA,刘知桦,待核对,2026-08-19,NA,待复核,含C1/C2判据和全季度阳性总闸;来源test_summary+quarter_metrics+bootstrap_ci+open_record
+CHECK20260819_05,V1,NA,OSHA_20260815_01,NA,图4,Test季度AP比较,2024Q1-2025Q4,NA,NA,NA,NA,NA,NA,NA,结果/05_论文图表/图4_Test季度方法比较.svg,NA,NA,05_make_paper_tables.py,NA,刘知桦,待核对,2026-08-19,NA,待复核,来源test_quarter_metrics.csv;含作图数据CSV
+CHECK20260819_06,V1,NA,OSHA_20260815_01,NA,数字索引,索引条数,全部,NA,NA,NA,NA,NA,NA,NA,结果/05_论文图表/结果数字索引.csv,NA,NA,05_make_paper_tables.py,NA,刘知桦,待核对,2026-08-19,NA,待复核,每个数字带来源文件行号列名和SHA-256;含Test开封后数值

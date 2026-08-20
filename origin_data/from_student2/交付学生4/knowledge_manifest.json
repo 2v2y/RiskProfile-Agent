@@ -1,0 +1,18 @@
+{
+  "知识库版本": "4.0",
+  "获取日期": "2026-08-19",
+  "总文档数": 193,
+  "总片段数": 4656,
+  "来源类型统计": {
+    "法规正文": 190,
+    "解释资料": 3
+  },
+  "eCFR来源": "https://www.ecfr.gov/api/versioner/v1/full/2026-08-17/title-29.xml",
+  "解释文件入口": "https://www.osha.gov/laws-regs/interpretations",
+  "OSHA数据入口": "https://www.osha.gov/data",
+  "文档清单文件": "document_inventory.csv",
+  "片段文件": "chunks/regulation_chunks.jsonl",
+  "对应表文件": "standard_document_mapping.csv",
+  "检索答案文件": "retrieval_gold.csv",
+  "说明": "知识库来源类型按文档第10.2节规定为3种：法规正文、解释资料、历史资料。来源包括：OSHA 29 CFR标准正文(来自osha.gov)、eCFR对应现行法规(来自ecfr.gov API)、OSHA Letters of Interpretation解释资料(来自osha.gov/laws-regs/interpretations)、OSHA检查数据字段解释文件(来自osha.gov/opengov/data-definitions)、OSHA现场工作手册(来自osha.gov/fom)。所有URL均来自方案文档明确提到的osha.gov和ecfr.gov域名。"
+}

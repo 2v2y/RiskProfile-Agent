@@ -1,0 +1,2 @@
+case_role,sample_id,entity_proxy_id,selection_rule,test_outcome_used
+pre_registered_longest_history,02b6cff9775e59cc14d4,dbfd90ee01a41eb4f382a63b,"maximum history_inspections, tie by sample_id ascending",False

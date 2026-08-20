@@ -1,0 +1,14 @@
+{
+  "inspection_rows_in_duplicate_groups": 0,
+  "inspection_duplicate_groups": 0,
+  "inspection_rows_removed": 0,
+  "violation_rows_in_duplicate_groups": 0,
+  "violation_duplicate_groups": 0,
+  "violation_rows_removed": 0,
+  "inspection_unique_activity_nr": 37517,
+  "violation_unique_activity_citation": 45678,
+  "violation_rows_matched_to_inspection": 45678,
+  "violation_rows_unmatched": 0,
+  "dedup_rule": "latest load_dt; lexicographically largest SHA-256 row fingerprint on exact load_dt tie",
+  "audit_scope": "Inspection duplicate groups are counted over all staged Inspection rows, while the returned research subset is latest-row target-NAICS filtered inside SQL; Violation duplicate groups are counted among rows linked to that target Inspection set."
+}

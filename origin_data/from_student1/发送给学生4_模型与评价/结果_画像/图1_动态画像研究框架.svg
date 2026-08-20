@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+  <title id="title">动态画像研究框架</title>
+  <desc id="desc">可用历史数据经统一季度截点形成Context、Static和Dynamic特征，用于同源样本排序和人工复核。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#315a7d"/></marker>
+    <style>.box{fill:#f5f8fb;stroke:#315a7d;stroke-width:2}.main{font:600 23px sans-serif;fill:#17324d}.sub{font:17px sans-serif;fill:#38536b}.note{font:16px sans-serif;fill:#526b7f}.arrow{stroke:#315a7d;stroke-width:3;marker-end:url(#arrow)}</style>
+  </defs>
+  <rect x="35" y="105" width="190" height="130" rx="16" class="box"/><text x="130" y="155" text-anchor="middle" class="main">可用历史数据</text><text x="130" y="190" text-anchor="middle" class="sub">open &amp; available &lt; cutoff</text>
+  <line x1="225" y1="170" x2="270" y2="170" class="arrow"/>
+  <rect x="280" y="105" width="180" height="130" rx="16" class="box"/><text x="370" y="155" text-anchor="middle" class="main">统一季度截点</text><text x="370" y="190" text-anchor="middle" class="sub">ranking cutoff</text>
+  <line x1="460" y1="170" x2="505" y2="170" class="arrow"/>
+  <rect x="515" y="70" width="210" height="200" rx="16" class="box"/><text x="620" y="120" text-anchor="middle" class="main">分层画像</text><text x="620" y="160" text-anchor="middle" class="sub">Context</text><text x="620" y="195" text-anchor="middle" class="sub">Static</text><text x="620" y="230" text-anchor="middle" class="sub">Dynamic</text>
+  <line x1="725" y1="170" x2="770" y2="170" class="arrow"/>
+  <rect x="780" y="105" width="170" height="130" rx="16" class="box"/><text x="865" y="155" text-anchor="middle" class="main">同源样本排序</text><text x="865" y="190" text-anchor="middle" class="sub">M1 / M2</text>
+  <line x1="950" y1="170" x2="995" y2="170" class="arrow"/>
+  <rect x="1005" y="105" width="160" height="130" rx="16" class="box"/><text x="1085" y="155" text-anchor="middle" class="main">人工复核</text><text x="1085" y="190" text-anchor="middle" class="sub">human review</text>
+  <text x="600" y="340" text-anchor="middle" class="note">只供历史线索人工复核，不作为处罚、定责或绝对安全等级依据</text>
+</svg>

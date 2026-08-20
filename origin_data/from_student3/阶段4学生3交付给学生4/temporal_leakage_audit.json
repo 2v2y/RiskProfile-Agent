@@ -1,0 +1,56 @@
+{
+  "audit_id": "LEAK_20260820_001",
+  "data_snapshot": "OSHA_20260815_01",
+  "profile_version": "v1.0",
+  "basis": "RiskProfile_Agent_研究方案.docx §8.2（max(source_available_time) < ranking_cutoff）+ §31.7 第6条",
+  "checked_at": "2026-08-20",
+  "checked_by": "冯婧（学生3）",
+  "checks": {
+    "context_source_before_cutoff": {
+      "desc": "背景信息来源时间（context_source_date）严格早于画像截止日（cutoff_date）",
+      "rule": "context_source_date < cutoff_date 或 context_source_date 缺失(无历史)",
+      "checked": 1162,
+      "violations": 0
+    },
+    "unclosed_component_not_negative": {
+      "desc": "存在未闭合组件的样本不将其视为阴性结论",
+      "rule": "has_unclosed_component=True 时，label 不得用于负向结论（记录数量供审计）",
+      "checked": 31,
+      "violations": 0,
+      "note": "由学生1按成熟度规则保证；学生3核对标记存在"
+    },
+    "label_available_after_cutoff": {
+      "desc": "目标结果可用时间（label_available_date）晚于画像截止日 → 未进入任何特征",
+      "rule": "label_available_date > cutoff_date（全部样本应满足）",
+      "checked": 5337,
+      "violations": 0
+    },
+    "no_future_fields": {
+      "desc": "画像文件不含 future_* 字段",
+      "checked": 40,
+      "found_future_fields": 0,
+      "violations": 0
+    },
+    "no_history_flag_consistent": {
+      "desc": "no_history_flag 与 history_inspections==0 一致",
+      "checked": 5337,
+      "violations": 0
+    },
+    "placeholder_05_only_no_history": {
+      "desc": "no_history_flag=1 的样本 smoothed_positive_rate 必须为 0.5（占位初始值）",
+      "rule": "no_history_flag=1 → smoothed_positive_rate == 0.5",
+      "checked": 4175,
+      "violations": 0,
+      "note": "有历史样本算得 0.5 属公式正常值（如 Y=1,N=2），不在此检查范围"
+    },
+    "smoothed_rate_formula_consistent": {
+      "desc": "有历史样本 smoothed_positive_rate 符合 Beta-Binomial 公式 (Y+α)/(N+α+β)",
+      "rule": "smoothed_positive_rate == (history_positive_inspections+1)/(history_inspections+2)",
+      "checked": 1162,
+      "violations": 0
+    }
+  },
+  "passed": true,
+  "summary": "全部通过",
+  "note": "防泄漏检查基于学生1交付的 profiles_train_val.csv 结构级核验；不含 Test 特征/答案"
+}

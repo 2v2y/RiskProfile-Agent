@@ -1,0 +1,179 @@
+{
+  "manifest_version": "1.0",
+  "profile_definition": "背景信息+长期累计画像+近期变化画像+历史风险构成+模型结果+数据质量标记 六部分结构",
+  "feature_group": "v1.0（14特征）→ 扩展中：+历史风险构成4 +模型结果4 +质量标记6",
+  "freeze_ref": "FREEZE_20260814_001",
+  "rules_ref": [
+    "共同材料/06_画像指标说明.md",
+    "程序/config.yaml",
+    "程序/02_build_profiles.py"
+  ],
+  "parameters": {
+    "smoothing_alpha": 1,
+    "smoothing_beta": 1,
+    "half_life_days": 365,
+    "windows": {
+      "w365": "[t-365d, t)",
+      "w730": "[t-730d, t)"
+    },
+    "cutoff_rule": "画像截止日为季度第一天，程序字段名 ranking_cutoff",
+    "missing_handling": {
+      "smoothed_positive_rate": "无历史时填0.5，同时置 no_history_flag = 1。该0.5仅为Beta-Binomial占位初始值，不代表真实风险率，训练模型时需配合flag使用"
+    }
+  },
+  "leakage_guard": "max(source_available_time) < ranking_cutoff",
+  "fields": [
+    {
+      "field": "context_naics_group",
+      "zh": "截点前最近行业组",
+      "group": "context",
+      "missing_if_no_history": "UNKNOWN"
+    },
+    {
+      "field": "jurisdiction_context",
+      "zh": "监管背景（联邦/州计划分类）",
+      "group": "context"
+    },
+    {
+      "field": "quarter_number",
+      "zh": "自然季度序号",
+      "group": "context"
+    },
+    {
+      "field": "history_inspections",
+      "zh": "成熟历史检查数",
+      "group": "static"
+    },
+    {
+      "field": "history_positive_inspections",
+      "zh": "成熟历史阳性数",
+      "group": "static"
+    },
+    {
+      "field": "smoothed_positive_rate",
+      "zh": "Beta‑Binomial平滑历史率",
+      "group": "static"
+    },
+    {
+      "field": "days_since_last_inspection",
+      "zh": "距上次成熟检查天数",
+      "group": "dynamic"
+    },
+    {
+      "field": "days_since_last_positive",
+      "zh": "距上次成熟阳性天数",
+      "group": "dynamic"
+    },
+    {
+      "field": "inspections_365d",
+      "zh": "365天内成熟检查数",
+      "group": "dynamic"
+    },
+    {
+      "field": "inspections_730d",
+      "zh": "730天内成熟检查数",
+      "group": "dynamic"
+    },
+    {
+      "field": "positives_365d",
+      "zh": "365天内成熟阳性数",
+      "group": "dynamic"
+    },
+    {
+      "field": "positives_730d",
+      "zh": "730天内成熟阳性数",
+      "group": "dynamic"
+    },
+    {
+      "field": "decayed_inspections",
+      "zh": "时间衰减检查量",
+      "group": "dynamic"
+    },
+    {
+      "field": "decayed_positives",
+      "zh": "时间衰减阳性量",
+      "group": "dynamic"
+    },
+    {
+      "field": "historical_standard_codes",
+      "zh": "历史OSHA标准编号列表",
+      "group": "risk_composition"
+    },
+    {
+      "field": "historical_risk_categories",
+      "zh": "历史风险类别列表",
+      "group": "risk_composition"
+    },
+    {
+      "field": "risk_category_counts",
+      "zh": "各类风险计数",
+      "group": "risk_composition"
+    },
+    {
+      "field": "risk_category_unmapped_rate",
+      "zh": "风险未映射比例",
+      "group": "risk_composition"
+    },
+    {
+      "field": "risk_score",
+      "zh": "风险分数（依赖学生4的M2模型）",
+      "group": "model_output"
+    },
+    {
+      "field": "risk_percentile",
+      "zh": "季度内排名位置（依赖学生4的M2模型）",
+      "group": "model_output"
+    },
+    {
+      "field": "model_version",
+      "zh": "模型版本",
+      "group": "model_output"
+    },
+    {
+      "field": "score_evidence",
+      "zh": "分数来源（文件SHA-256）",
+      "group": "model_output"
+    },
+    {
+      "field": "no_history_flag",
+      "zh": "无成熟历史标记",
+      "group": "quality_flags"
+    },
+    {
+      "field": "no_positive_history_flag",
+      "zh": "无成熟违章历史标记",
+      "group": "quality_flags"
+    },
+    {
+      "field": "missing_last_inspection_flag",
+      "zh": "最近检查日期缺失标记",
+      "group": "quality_flags"
+    },
+    {
+      "field": "missing_last_positive_flag",
+      "zh": "最近违章日期缺失标记",
+      "group": "quality_flags"
+    },
+    {
+      "field": "entity_match_uncertain_flag",
+      "zh": "实体匹配不确定标记（来自阶段3盲审）",
+      "group": "quality_flags"
+    },
+    {
+      "field": "insufficient_evidence_flag",
+      "zh": "证据不足标记（汇总标记）",
+      "group": "quality_flags"
+    }
+  ],
+  "existing_14_fields_verified": true,
+  "pending_extensions": [
+    "historical_standard_codes / historical_risk_categories / risk_category_counts / risk_category_unmapped_rate（阶段4第5项，需受限区数据 + 学生2的R1-R9分类表）",
+    "risk_score / risk_percentile / model_version / score_evidence（依赖学生4冻结M2风险模型版本及预处理流水线）",
+    "6 个质量标记（no_history_flag 等，随画像一同计算，无需等待外部依赖，在02_build_profiles.py中直接生成）",
+    "⚠️ 重要约束：smoothed_positive_rate=0.5 必须与 no_history_flag 联合使用。学生4在训练M1/M2时，应将no_history_flag作为独立特征输入，不得将0.5直接解释为真实风险率或事故事实。"
+  ],
+  "notes": "本manifest锁定画像字段定义及核心参数。rules_ref中引用的3个文件已确认存在。",
+  "created_by": "冯婧（学生3）",
+  "created_at": "2026-08-19",
+  "last_modified": "2026-08-19（修正：补充缺失处理、重要约束；rules_ref恢复为字符串数组）"
+}

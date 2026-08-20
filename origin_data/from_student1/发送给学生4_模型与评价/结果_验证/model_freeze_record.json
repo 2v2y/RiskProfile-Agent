@@ -1,0 +1,10 @@
+{
+  "frozen_at_utc": "2026-08-17T07:33:35.999270+00:00",
+  "status": "frozen",
+  "frozen_manifest_path": "结果/03_验证/frozen_manifest.json",
+  "frozen_manifest_sha256": "30cfffe39376d3ef271ead6b61c6daa3e691823f9b18c2d044c0dcc70f435f21",
+  "test_labels_read": false,
+  "test_features_read": false,
+  "test_commitment_sha256": "888b917b79a7d7faa4698fdf28b25b397c196aa17faf2a489540e9187c1073a1",
+  "test_features_commitment_sha256": "f6ec9996f499ab06fee3c37499c8b849111a64f99f48c6c5f446fae8473dec7d"
+}
