@@ -1,0 +1,15 @@
+# RiskProfile-Agent 阶段1 依赖锁定（2026-08-19）
+# 生成环境：Python 3.12.13（Codex 捆绑运行时）
+# 阶段8 追加：langgraph / langchain-core / langchain-openai / pyyaml / jsonschema
+
+python==3.12.13
+pydantic==2.13.4
+pandas==3.0.1
+numpy==2.3.5
+langgraph==1.2.11
+langchain-core==1.6.0
+langchain-openai==1.6.0
+pyyaml==6.0.3
+jsonschema==4.26.0
+
+# 阶段9待追加：openai / sklearn / scipy（版本待定，需与队友环境对齐）

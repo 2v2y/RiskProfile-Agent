@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "audit_result_schema.json",
+  "title": "内容审查结果（Audit Result）",
+  "description": "内容审查模块输出：把报告拆分为原子陈述，逐条检查并给出 PASS/DEFER/REJECT（对应研究方案 14.5、31.11 内容审查模块）。",
+  "type": "object",
+  "required": ["sample_id", "audit_round", "max_rounds", "claims", "aggregate", "overall_verdict"],
+  "additionalProperties": false,
+  "properties": {
+    "sample_id": { "type": "string" },
+    "audit_round": { "type": "integer", "minimum": 1, "description": "当前审计轮次" },
+    "max_rounds": { "type": "integer", "minimum": 1, "description": "最大审计轮次（不允许无限修改）" },
+    "claims": {
+      "type": "array",
+      "description": "逐条原子陈述的审查结果",
+      "items": { "$ref": "#/$defs/claim_result" }
+    },
+    "aggregate": {
+      "type": "object",
+      "required": ["n_pass", "n_defer", "n_reject", "first_attempt_pass"],
+      "additionalProperties": false,
+      "properties": {
+        "n_pass": { "type": "integer", "minimum": 0 },
+        "n_defer": { "type": "integer", "minimum": 0 },
+        "n_reject": { "type": "integer", "minimum": 0 },
+        "first_attempt_pass": { "type": "boolean", "description": "首次审计是否全部通过" }
+      }
+    },
+    "overall_verdict": { "type": "string", "enum": ["PASS", "DEFER", "REJECT"] }
+  },
+  "$defs": {
+    "claim_result": {
+      "type": "object",
+      "required": ["claim_id", "statement_zh", "checks", "verdict", "reasons", "auto_fix_applied"],
+      "additionalProperties": false,
+      "properties": {
+        "claim_id": { "type": "string" },
+        "statement_zh": { "type": "string", "description": "被审查的原子陈述" },
+        "checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["check", "passed", "detail"],
+            "additionalProperties": false,
+            "properties": {
+              "check": {
+                "type": "string",
+                "enum": [
+                  "number_consistency",
+                  "citation_exists",
+                  "evidence_supports",
+                  "forbidden_claim",
+                  "missing_info_hidden",
+                  "future_info_used",
+                  "regulation_mix"
+                ]
+              },
+              "passed": { "type": "boolean" },
+              "detail": { "type": "string" }
+            }
+          }
+        },
+        "verdict": { "type": "string", "enum": ["PASS", "DEFER", "REJECT"] },
+        "reasons": { "type": "array", "items": { "type": "string" } },
+        "auto_fix_applied": { "type": "string", "enum": ["none", "deleted", "downgraded"], "description": "审计失败时允许的修正：删除/降级为不确定/转人工/拒绝" }
+      }
+    }
+  }
+}

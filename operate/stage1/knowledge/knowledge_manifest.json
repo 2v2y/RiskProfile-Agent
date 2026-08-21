@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-08-20T18:12:29",
+  "source": "G:\\Projects\\intern_project\\CahngeDirect_eassy\\origin_data\\from_student2\\student2",
+  "n_documents": 290,
+  "n_chunks": 4656,
+  "n_mapping": 4656,
+  "n_gold": 93,
+  "n_missing_metadata": 0,
+  "schema": "evidence_schema.json",
+  "files": {
+    "regulation_chunks": "G:\\Projects\\intern_project\\CahngeDirect_eassy\\operate\\stage1\\knowledge\\chunks\\regulation_chunks.jsonl",
+    "standard_mapping": "G:\\Projects\\intern_project\\CahngeDirect_eassy\\operate\\stage1\\knowledge\\chunks\\standard_document_mapping.csv",
+    "retrieval_gold": "G:\\Projects\\intern_project\\CahngeDirect_eassy\\operate\\stage1\\knowledge\\chunks\\retrieval_gold.jsonl"
+  }
+}

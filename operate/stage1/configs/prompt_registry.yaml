@@ -1,0 +1,51 @@
+# Prompt Registry（阶段8）
+# Prompt 必须版本化：修改 Prompt 时新增版本文件，不得覆盖历史版本。
+# sha256 由生成脚本在文件落盘后计算并回填，禁止手写。
+
+schema_version: "1.0"
+registry_version: "v1.0"
+created_by: "学生4"
+created_at: "2026-08-21"
+reference: "RiskProfile_Agent_研究方案 §31.11 成果：prompt_registry.yaml"
+note: "确定性模块（profile/retrieval/audit）不使用LLM，条目仅登记规则说明，作为版本追溯。"
+
+prompts:
+  - agent: review_agent
+    prompt_id: "review_agent_v1"
+    version: "v1"
+    updated_at: "2026-08-21"
+    file: "configs/prompts/review_agent_v1.md"
+    sha256: "5426bddfc208e1897a0f0f86b847c9e0053e3313cb7a99788cd4d980b27d71e9"
+    changelog: "阶段8首版：生成最多3项复核重点，每项引用画像事实与法规证据，列出缺失现场信息与人工核实方法，禁止法律结论/处罚建议/事故必然性"
+
+  - agent: semantic_audit_agent
+    prompt_id: "semantic_audit_v1"
+    version: "v1"
+    updated_at: "2026-08-21"
+    file: "configs/prompts/semantic_audit_v1.md"
+    sha256: "c73a6b43e569a3ed53456629f7d0287816ca76b04ab106827d4d9bd442a2cd97"
+    changelog: "阶段8首版：独立语义审查，判断每条陈述是否被已有画像事实和法规证据支持，输出 PASS/DEFER/REJECT 及原因"
+
+  - agent: profile_agent
+    prompt_id: "profile_agent_v1"
+    version: "v1"
+    updated_at: "2026-08-21"
+    file: null
+    sha256: null
+    note: "确定性规则实现（不使用LLM），规则说明见 src/agents/profile_agent.py 与 agent_registry.yaml"
+
+  - agent: retrieval_agent
+    prompt_id: "retrieval_agent_v1"
+    version: "v1"
+    updated_at: "2026-08-21"
+    file: null
+    sha256: null
+    note: "确定性 TF-IDF 检索（不使用LLM），检索请求构造规则见 src/agents/retrieval_agent.py 与 agent_registry.yaml"
+
+  - agent: audit_agent
+    prompt_id: "audit_agent_v1"
+    version: "v1"
+    updated_at: "2026-08-21"
+    file: null
+    sha256: null
+    note: "确定性程序核对器（不使用LLM），检查项见 src/agents/audit_agent.py 与 schemas/audit_result_schema.json"

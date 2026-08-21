@@ -1,0 +1,10 @@
+{
+  "sample_id": "AUDIT_FAIL_FUTURE",
+  "evidence_ledger": [
+    {
+      "claim_id": "c_future",
+      "statement_zh": "该单位未来必然发生事故。",
+      "evidence_refs": ["profile:risk_score"]
+    }
+  ]
+}

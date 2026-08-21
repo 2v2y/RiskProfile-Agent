@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 密钥与环境变量
+.env
+
+# 实验输出（不可覆盖、可重新生成）
+runs/*
+!runs/.gitkeep
+
+# 受限数据与官方原文（不应上传）
+data/00_raw_restricted/*
+!data/00_raw_restricted/.gitkeep
+data/03_test_sealed/*
+!data/03_test_sealed/.gitkeep
+knowledge/raw_official/*
+!knowledge/raw_official/.gitkeep
+
+# 本地生成的模型/缓存文件
+*.joblib
