@@ -20,6 +20,7 @@
     "model": "v0-rule-template",
     "model_note": "阶段8支持 LLM（Qwen）与规则模板双模式；use_llm=true 且配置 qwen 时走 LLMClient",
     "use_llm": false,
+    "fail_on_llm_error": true,
     "prompt_id": "review_agent_v1"
   },
   "llm": {

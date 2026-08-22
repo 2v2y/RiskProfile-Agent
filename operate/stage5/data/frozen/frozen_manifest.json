@@ -1,0 +1,146 @@
+{
+  "created_at_utc": "2026-08-17T07:33:35.991928+00:00",
+  "protocol": "pre-test-freeze-v1",
+  "files": {
+    "profiles_train_val": {
+      "path": "数据/02_分析数据/profiles_train_val.csv",
+      "sha256": "9f1f776c120c08baebd81832b0d3699671ae2f575b92bb6a917efe928a63a24f"
+    },
+    "feature_dictionary": {
+      "path": "数据/02_分析数据/feature_dictionary.csv",
+      "sha256": "4b80a14930d06d7839edea38074bdf4bf054ac30bb43a9ab178f3cb2a3957763"
+    },
+    "test_features_commitment": {
+      "path": "数据/03_封存测试/test_features_commitment.json",
+      "sha256": "f6ec9996f499ab06fee3c37499c8b849111a64f99f48c6c5f446fae8473dec7d"
+    },
+    "sealed_test_commitment": {
+      "path": "数据/03_封存测试/sealed_test_commitment.json",
+      "sha256": "888b917b79a7d7faa4698fdf28b25b397c196aa17faf2a489540e9187c1073a1"
+    },
+    "sample_flow": {
+      "path": "结果/01_数据审计/样本排除流.csv",
+      "sha256": "41ad639b115e106b8a4ebdbaae95f5d7d6d6b83c33c932ee22ce2be3141fc2a9"
+    },
+    "split_audit": {
+      "path": "结果/01_数据审计/时间切分审计.csv",
+      "sha256": "4d2182b2a6b381724917b4955265c5ebb3a53c71515679e369054fd0ab79412e"
+    },
+    "maturity_audit": {
+      "path": "结果/01_数据审计/成熟度审计.csv",
+      "sha256": "13c27b38366d5906e913a5ec9246679a4ee69a9b48741df22d2d997e6ccd846b"
+    },
+    "sample_flow_figure": {
+      "path": "结果/01_数据审计/图2_样本筛选流程.svg",
+      "sha256": "24b2ea2182794969bd7db026237a026249f1c20cfb36c2b56af6e9763fe523cb"
+    },
+    "profile_summary": {
+      "path": "结果/02_画像/画像汇总.csv",
+      "sha256": "30e57cb1dc9aec7a93898745e0a487df1c475b606aef0d56b9c6c58d06f0ff08"
+    },
+    "leakage_audit": {
+      "path": "结果/02_画像/防泄漏审计.json",
+      "sha256": "e076cd43109b5dc44bfb6debecb0a59c76ffb818a1602edb8dfb6344bb0c21c8"
+    },
+    "research_framework_figure": {
+      "path": "结果/02_画像/图1_动态画像研究框架.svg",
+      "sha256": "ecf95b9f1945c517f4afc817233c47a050c7903830abd1f777cc74476706b672"
+    },
+    "profile_trajectory_figure": {
+      "path": "结果/02_画像/图3_匿名画像时间轨迹.svg",
+      "sha256": "a6cf0dbaadb38f73c5f256e74f9f16498ac8897f106bdf0a83839aaaf73abfba"
+    },
+    "profile_definition_freeze": {
+      "path": "记录表/画像定义冻结.csv",
+      "sha256": "8b184a7c9edcc843e3b8be8a759697a6757627a3162f6dba5eb80e41ed32f979"
+    },
+    "validation_predictions": {
+      "path": "结果/03_验证/validation_predictions.csv",
+      "sha256": "d29e5c2c5761a0f76340ab2abca179a3fd5f5126b9789a690a053b8bb801f16b"
+    },
+    "validation_quarter_metrics": {
+      "path": "结果/03_验证/validation_quarter_metrics.csv",
+      "sha256": "66916b77f9a7e1d9207bc093131fcbfa4904e1c3f06883889ea1c9b453e1d4b7"
+    },
+    "validation_summary": {
+      "path": "结果/03_验证/validation_summary.csv",
+      "sha256": "c0b78bf4b06786aff973a874da87874f7c6de85641456137377950f86b3a58cd"
+    },
+    "validation_calibration": {
+      "path": "结果/03_验证/calibration_bins.csv",
+      "sha256": "ab390438dcc873edf2211111887c3f41fe5bb699c1daff493835233a74698b84"
+    },
+    "model_selection": {
+      "path": "结果/03_验证/model_selection.json",
+      "sha256": "c46ac964821a5e48fc51a0da168d833d180ca3bd744895a633f97295bebf070d"
+    },
+    "config": {
+      "path": "程序/config.yaml",
+      "sha256": "18b09a2a8dc4821e3756936ace9c4b12d6701daa3dfccc6509ead34a728bdb0f"
+    },
+    "frozen_config": {
+      "path": "结果/03_验证/frozen_config.json",
+      "sha256": "6540448b98e9fb6ebc1ed49124cee1d4ade217e950c32cba470241410fffbf87"
+    },
+    "frozen_model": {
+      "path": "结果/03_验证/frozen_model.joblib",
+      "sha256": "562d7837e0d2bc6389e95607e543f9b07db5be1b1fd0ad05487a1151b5001603"
+    },
+    "environment_versions": {
+      "path": "结果/03_验证/environment_versions.json",
+      "sha256": "1ef4c11c27b5f2e31e14c98b1270cfc69860b8f9f18b5b072a9e714c6decfd6c"
+    },
+    "prepare_script": {
+      "path": "程序/01_prepare_data.py",
+      "sha256": "d5dbefa07469660f81a504a02e79704cb2f8d331f4bc9aa7034ec8d0af8d4a9f"
+    },
+    "profile_script": {
+      "path": "程序/02_build_profiles.py",
+      "sha256": "96f24bc5a2dac1697616227286d1a3a528b4b9f061274a5f57429965045c9e6e"
+    },
+    "fit_script": {
+      "path": "程序/03_fit_validate.py",
+      "sha256": "8b8248a95498ddfe6633937913ad18cb2aa2f554d81bb3d2e890dd4eab6938b8"
+    },
+    "common_module": {
+      "path": "程序/pipeline_common.py",
+      "sha256": "2a33176cfe460402327b2b929a50641595bbd807fbbd21d34ae9c0c66d0c89c4"
+    },
+    "sealed_test_script": {
+      "path": "程序/04_run_sealed_test.py",
+      "sha256": "e08dc68e82fd2e8a9221acaf2649af7a57fe30caf919fe2c8c5210550aa95c1e"
+    },
+    "sealed_prediction_script": {
+      "path": "程序/03b_generate_sealed_predictions.py",
+      "sha256": "435164b4a731fded05793c5943252e4cdf5379e5976a7e4ae081e00b70e9a7a3"
+    },
+    "paper_table_script": {
+      "path": "程序/05_make_paper_tables.py",
+      "sha256": "94a37053c9889bfc4dd23e66107dbcd74a479695f8d12e1c582ce98af931d35e"
+    },
+    "requirements": {
+      "path": "程序/requirements.txt",
+      "sha256": "e06f5924f250b44b98cd4a97b9227c4ca8fdde6863491cb11fbeee931d1882c7"
+    },
+    "download_manifest": {
+      "path": "数据/00_原始数据/download_manifest.json",
+      "sha256": "542b59445a752f5683d54402bf1cc173d5729055800664027169edfb6122f037"
+    },
+    "field_rule_snapshot": {
+      "path": "结果/01_数据审计/字段与规则快照.json",
+      "sha256": "84be34b5b4f0f57f6ddc2d742f0b978d676448928d0e527ff1e770c80984be30"
+    },
+    "entity_audit_result": {
+      "path": "结果/01_数据审计/实体人工复核结果.json",
+      "sha256": "0e955922804f9e1c5d056aa543c6b7fff6c8aa528ee4eaa35f75cb351baff0b8"
+    },
+    "scale_processing_audit": {
+      "path": "结果/01_数据审计/规模处理审计.json",
+      "sha256": "dfd956b9e278a5903f8172ca14c5113709e12e7296be5a292f9ed7092cb42a70"
+    },
+    "restricted_permission_audit": {
+      "path": "结果/01_数据审计/受限目录权限审计.json",
+      "sha256": "eb5f23beb7d5ae9b668deed0d19290b72b79c08ef8ef7ec9b6e6f00cd1cc4733"
+    }
+  }
+}

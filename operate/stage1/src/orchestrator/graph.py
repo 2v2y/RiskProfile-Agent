@@ -117,6 +117,7 @@ class OrchestratorGraph:
             use_llm=bool(config["review"].get("use_llm", False)),
             prompt_path=str(self.root / config["prompts"]["review_agent"]),
             prompt_version=config["review"].get("prompt_id", "review_agent_v1"),
+            fail_on_llm_error=bool(config["review"].get("fail_on_llm_error", False)),
         )
         self.audit_agent = (agents or {}).get("audit") or AuditAgent(
             forbidden_patterns=config["audit"]["forbidden_patterns"],

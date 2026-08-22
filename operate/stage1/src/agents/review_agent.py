@@ -47,6 +47,7 @@ class ReviewAgent:
         use_llm: bool = False,
         prompt_path: str | None = None,
         prompt_version: str = "review_agent_v1",
+        fail_on_llm_error: bool = False,
     ):
         self.max_points = max_points
         self.model = model
@@ -54,6 +55,7 @@ class ReviewAgent:
         self.use_llm = use_llm
         self.prompt_path = prompt_path
         self.prompt_version = prompt_version
+        self.fail_on_llm_error = fail_on_llm_error
 
     def _system_prompt(self) -> str:
         if self.prompt_path:
@@ -220,8 +222,12 @@ class ReviewAgent:
             if self.use_llm and self.llm_client is not None:
                 try:
                     points = self._llm_points(facts, retrieval, evidence_ids)
-                except Exception:
+                except Exception as exc:
+                    if self.fail_on_llm_error:
+                        raise RuntimeError(f"Review LLM 调用失败，已停止：{exc}") from exc
                     points = None
+                if not points and self.fail_on_llm_error:
+                    raise RuntimeError("Review LLM 返回结果为空或格式无效，已停止")
             if not points:
                 points = self._template_points(facts, retrieval, evidence_ids)
 

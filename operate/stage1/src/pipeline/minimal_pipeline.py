@@ -45,6 +45,7 @@ class MinimalPipeline:
             model=config["review"]["model"],
             llm_client=get_llm_client(config),
             use_llm=bool(config["review"].get("use_llm", False)),
+            fail_on_llm_error=bool(config["review"].get("fail_on_llm_error", False)),
         )
         self.audit_agent = AuditAgent(
             forbidden_patterns=config["audit"]["forbidden_patterns"],

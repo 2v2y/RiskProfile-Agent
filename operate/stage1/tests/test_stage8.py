@@ -648,7 +648,10 @@ def test_e2e_max_rounds_and_errors(config: dict) -> None:
         orch.run(bad_profile, run_name="stage8_error")
         check("端到端错误路径：schema 越界报错", False, "未抛出异常")
     except Exception:  # noqa: BLE001
-        run_dirs = sorted((ROOT / config["paths"]["runs"]).iterdir(), key=lambda p: p.stat().st_mtime)
+        run_dirs = sorted(
+            (p for p in (ROOT / config["paths"]["runs"]).iterdir() if p.is_dir()),
+            key=lambda p: p.stat().st_mtime,
+        )
         latest = run_dirs[-1]
         log_text = (latest / "run_log.jsonl").read_text(encoding="utf-8")
         check(

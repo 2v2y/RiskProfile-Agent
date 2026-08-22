@@ -1,0 +1,6 @@
+# 阶段5 依赖：加载并推理冻结的 sklearn 模型
+numpy>=1.26,<2
+pandas>=2.1,<3
+scikit-learn>=1.3,<2
+scipy>=1.10,<2
+joblib>=1.3,<2

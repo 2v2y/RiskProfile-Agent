@@ -71,13 +71,30 @@ def _env_or(name: str, default: Any) -> Any:
 
 
 def get_llm_client(config: dict[str, Any]) -> LLMClient:
+    # .env 文件不会自动加载；这里在读取环境变量前显式加载，避免服务器上漏配。
+    try:
+        from dotenv import load_dotenv
+
+        load_dotenv()
+    except Exception:
+        pass
+
     llm_cfg = config.get("llm", {})
     provider = llm_cfg.get("provider", "dummy")
     if provider == "qwen":
+        base_url = str(_env_or("QWEN_BASE_URL", llm_cfg.get("base_url", "")))
+        api_key = str(_env_or("QWEN_API_KEY", llm_cfg.get("api_key", "")))
+        model = str(_env_or("QWEN_MODEL", llm_cfg.get("model", "")))
+        if not base_url or not model:
+            raise RuntimeError(
+                "Qwen 配置不完整：QWEN_BASE_URL 和 QWEN_MODEL 必须配置。"
+                "请在 .env 中填写并确保已加载，或 export 对应环境变量。"
+                f"当前 base_url={base_url!r}，model={model!r}"
+            )
         return QwenClient(
-            base_url=str(_env_or("QWEN_BASE_URL", llm_cfg.get("base_url", ""))),
-            api_key=str(_env_or("QWEN_API_KEY", llm_cfg.get("api_key", ""))),
-            model=str(_env_or("QWEN_MODEL", llm_cfg.get("model", ""))),
+            base_url=base_url,
+            api_key=api_key,
+            model=model,
             temperature=float(_env_or("QWEN_TEMPERATURE", llm_cfg.get("temperature", 0.0))),
             max_tokens=int(_env_or("QWEN_MAX_TOKENS", llm_cfg.get("max_tokens", 2048))),
             timeout=float(_env_or("QWEN_TIMEOUT", llm_cfg.get("timeout", 120.0))),
