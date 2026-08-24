@@ -1,0 +1,252 @@
+{
+  "bench_any_key_hits": [],
+  "rt_any_key_hits": [],
+  "gold_any_key_hits": [],
+  "gold_expected_profile_facts_keys": {
+    "decayed_inspections": 5337,
+    "decayed_positives": 5337,
+    "history_inspections": 5337,
+    "history_positive_inspections": 5337,
+    "inspections_365d": 5337,
+    "inspections_730d": 5337,
+    "insufficient_evidence_flag": 5337,
+    "no_history_flag": 5337,
+    "positives_365d": 5337,
+    "positives_730d": 5337,
+    "smoothed_positive_rate": 5337
+  },
+  "bench_s3_vs_s2_diff_fields": {
+    "knowledge_version": 5337
+  },
+  "bench_profile_version": {
+    "FREEZE_20260814_001": 5337
+  },
+  "rt_profile_version": {
+    "FREEZE_20260814_001": 240
+  },
+  "gold_profile_version": {
+    "FREEZE_20260814_001": 5337
+  },
+  "supp_has_profile_version": false,
+  "student3_profiles_profile_version": {
+    "FREEZE_20260814_001": 5337
+  },
+  "manifest_output_files": {
+    "benchmark_cases.jsonl": {
+      "contains": "智能模块运行输入（不含未来答案）",
+      "path": "阶段7/阶段7产物/benchmark_cases.jsonl"
+    },
+    "benchmark_gold_restricted.jsonl": {
+      "access": "受限；评价阶段才可读取",
+      "contains": "gold_risk_categories(R1-R9) + gold_regulation_document_ids；仅评价使用",
+      "path": "阶段7/阶段7产物/benchmark_gold_restricted.jsonl"
+    },
+    "human_blind_sample.csv": {
+      "contains": "人工盲评样本；方法名隐藏",
+      "path": "阶段7/阶段7产物/human_blind_sample.csv"
+    },
+    "red_team_cases.jsonl": {
+      "contains": "异常/诱导性输入",
+      "path": "阶段7/阶段7产物/red_team_cases.jsonl"
+    }
+  },
+  "manifest_has_any_sha": false,
+  "blind_files": [
+    "G:\\Projects\\intern_project\\CahngeDirect_eassy\\operate\\stage1\\tests\\fixtures\\e2e_human_review.json",
+    "G:\\Projects\\github_clone\\eassy_electric\\osha\\.venv\\Lib\\site-packages\\matplotlib\\mpl-data\\stylelib\\seaborn-v0_8-colorblind.mplstyle",
+    "G:\\Projects\\github_clone\\eassy_electric\\osha\\.venv\\Lib\\site-packages\\matplotlib\\mpl-data\\stylelib\\tableau-colorblind10.mplstyle"
+  ],
+  "gold_path_restricted": true,
+  "gitignore_gold_rules": [
+    {
+      "file": "G:\\Projects\\intern_project\\CahngeDirect_eassy\\operate\\stage1\\.gitignore",
+      "matched_lines": [
+        "data/00_raw_restricted/*",
+        "!data/00_raw_restricted/.gitkeep"
+      ]
+    },
+    {
+      "file": "G:\\Projects\\intern_project\\CahngeDirect_eassy\\operate\\stage9_edit\\.gitignore",
+      "matched_lines": [
+        "data/00_raw_restricted/*",
+        "!data/00_raw_restricted/.gitkeep"
+      ]
+    }
+  ],
+  "model_hash_truncated_values": {
+    "562d7837e0d2bc63": 1992
+  },
+  "model_hash_truncated_total": 1992,
+  "score_evidence_full": 5337,
+  "score_evidence_bad": 0,
+  "confirm_doc_mentions_percentile": [],
+  "supp_header": [
+    "sample_id",
+    "entity_proxy_id",
+    "quarter",
+    "split",
+    "historical_standard_codes",
+    "risk_categories",
+    "risk_category_counts",
+    "risk_category_unmapped_rate",
+    "risk_score",
+    "risk_percentile",
+    "model_version",
+    "model_hash",
+    "historical_risk_categories",
+    "score_evidence"
+  ],
+  "r6_mapping_count": 179,
+  "r6_review_count": 23,
+  "r6_final_count": 0,
+  "r6_mapping_subset_of_review": false,
+  "r6_mapping_not_in_review": [
+    "1910.0179",
+    "1910.0181",
+    "1910.0184",
+    "1926.14"
+  ],
+  "r6_review_not_in_mapping": 0,
+  "zip_risk_classification_entries": [
+    [
+      "G:\\Projects\\intern_project\\CahngeDirect_eassy\\origin_data\\交付学生4.zip",
+      "交付学生4/风险分类.csv"
+    ],
+    [
+      "G:\\Projects\\intern_project\\CahngeDirect_eassy\\origin_data\\发送给学生4_模型与评价.zip",
+      "发送给学生4_模型与评价/共同材料/04_风险分类规则.md"
+    ],
+    [
+      "G:\\Projects\\intern_project\\CahngeDirect_eassy\\origin_data\\from_student2\\交付学生4.zip",
+      "交付学生4/风险分类.csv"
+    ]
+  ],
+  "manifest_old": {
+    "知识库版本": "4.0",
+    "获取日期": "2026-08-19",
+    "总文档数": 193,
+    "总片段数": 4656,
+    "来源类型统计": {
+      "法规正文": 190,
+      "解释资料": 3
+    },
+    "eCFR来源": "https://www.ecfr.gov/api/versioner/v1/full/2026-08-17/title-29.xml",
+    "解释文件入口": "https://www.osha.gov/laws-regs/interpretations",
+    "OSHA数据入口": "https://www.osha.gov/data",
+    "文档清单文件": "document_inventory.csv",
+    "片段文件": "chunks/regulation_chunks.jsonl",
+    "对应表文件": "standard_document_mapping.csv",
+    "检索答案文件": "retrieval_gold.csv",
+    "说明": "知识库来源类型按文档第10.2节规定为3种：法规正文、解释资料、历史资料。来源包括：OSHA 29 CFR标准正文(来自osha.gov)、eCFR对应现行法规(来自ecfr.gov API)、OSHA Letters of Interpretation解释资料(来自osha.gov/laws-regs/interpretations)、OSHA检查数据字段解释文件(来自osha.gov/opengov/data-definitions)、OSHA现场工作手册(来自osha.gov/fom)。所有URL均来自方案文档明确提到的osha.gov和ecfr.gov域名。"
+  },
+  "manifest_new_key_fields": {
+    "知识库版本": "5.0-frozen",
+    "冻结日期": "2026-08-20",
+    "总文档数": 193,
+    "总片段数": 4656,
+    "向量数据库版本": "5.0-frozen",
+    "推荐检索方法": "混合检索(精确过滤+BGE语义排序)",
+    "推荐返回条数": "3"
+  },
+  "db_meta_old": {
+    "db_version": "1.0",
+    "created_at": "2026-08-21 13:55:46",
+    "model_name": "BAAI/bge-small-en-v1.5",
+    "embedding_dim": 384,
+    "num_vectors": 4656,
+    "normalization": "L2-normalized",
+    "faiss_index_type": "IndexFlatIP",
+    "similarity_metric": "cosine (via inner product on normalized vectors)",
+    "source_file": "regulation_chunks.jsonl",
+    "source_chunks": 4656
+  },
+  "db_meta_new": {
+    "db_version": "5.0-frozen",
+    "created_at": "2026-08-21 13:55:46",
+    "model_name": "BAAI/bge-small-en-v1.5",
+    "embedding_dim": 384,
+    "num_vectors": 4656,
+    "normalization": "L2-normalized",
+    "faiss_index_type": "IndexFlatIP",
+    "similarity_metric": "cosine (via inner product on normalized vectors)",
+    "source_file": "regulation_chunks.jsonl",
+    "source_chunks": 4656
+  },
+  "inventory_old_rows": 193,
+  "inventory_new_rows": 193,
+  "inventory_rows_differ": 6,
+  "ndcg_files": [],
+  "metrics_ndcg_values": {
+    "N/A": 12
+  },
+  "interp_chunks": [
+    {
+      "chunk_id": "chunk_04600",
+      "standard": "interpretation_2025-08-01",
+      "mapping_standard": "interpretation_2025-08-01"
+    },
+    {
+      "chunk_id": "chunk_04601",
+      "standard": "interpretation_2025-08-01",
+      "mapping_standard": "interpretation_2025-08-01"
+    },
+    {
+      "chunk_id": "chunk_04602",
+      "standard": "interpretation_2025-08-01",
+      "mapping_standard": "interpretation_2025-08-01"
+    },
+    {
+      "chunk_id": "chunk_04603",
+      "standard": "interpretation_2025-08-01",
+      "mapping_standard": "interpretation_2025-08-01"
+    },
+    {
+      "chunk_id": "chunk_04604",
+      "standard": "interpretation_2025-08-01",
+      "mapping_standard": "interpretation_2025-08-01"
+    },
+    {
+      "chunk_id": "chunk_04605",
+      "standard": "interpretation_2025-08-25",
+      "mapping_standard": "interpretation_2025-08-25"
+    }
+  ],
+  "interp_doc_id_in_inventory": [],
+  "new_files_locations": [
+    [
+      "retrieval_validation_metrics.csv",
+      [
+        "G:\\Projects\\intern_project\\CahngeDirect_eassy\\origin_data\\from_student2\\交付_学生4\\交付_学生4\\knowledge\\retrieval_validation_metrics.csv",
+        "G:\\Projects\\intern_project\\CahngeDirect_eassy\\stage9_验收报告_20260824\\extracted_student2_20260824\\交付_学生4\\knowledge\\retrieval_validation_metrics.csv"
+      ]
+    ],
+    [
+      "knowledge_manifest.json",
+      [
+        "G:\\Projects\\intern_project\\CahngeDirect_eassy\\operate\\stage1\\knowledge\\knowledge_manifest.json",
+        "G:\\Projects\\intern_project\\CahngeDirect_eassy\\operate\\stage9_edit\\knowledge\\knowledge_manifest.json",
+        "G:\\Projects\\intern_project\\CahngeDirect_eassy\\origin_data\\from_student2\\student2\\knowledge_manifest.json",
+        "G:\\Projects\\intern_project\\CahngeDirect_eassy\\origin_data\\from_student2\\交付_学生4\\交付_学生4\\knowledge\\knowledge_manifest.json",
+        "G:\\Projects\\intern_project\\CahngeDirect_eassy\\stage9_验收报告_20260824\\extracted_student2_20260824\\交付_学生4\\knowledge\\knowledge_manifest.json"
+      ]
+    ],
+    [
+      "document_inventory.csv",
+      [
+        "G:\\Projects\\intern_project\\CahngeDirect_eassy\\operate\\stage9_edit\\knowledge\\document_inventory.csv",
+        "G:\\Projects\\intern_project\\CahngeDirect_eassy\\origin_data\\from_student2\\student2\\document_inventory.csv",
+        "G:\\Projects\\intern_project\\CahngeDirect_eassy\\origin_data\\from_student2\\交付_学生4\\交付_学生4\\knowledge\\document_inventory.csv",
+        "G:\\Projects\\intern_project\\CahngeDirect_eassy\\stage9_验收报告_20260824\\extracted_student2_20260824\\交付_学生4\\knowledge\\document_inventory.csv"
+      ]
+    ],
+    [
+      "db_meta.json",
+      [
+        "G:\\Projects\\intern_project\\CahngeDirect_eassy\\operate\\stage9_edit\\knowledge\\vector_db\\db_meta.json",
+        "G:\\Projects\\intern_project\\CahngeDirect_eassy\\origin_data\\from_student2\\student2\\交付_学生4\\交付_学生4\\knowledge\\vector_db\\db_meta.json",
+        "G:\\Projects\\intern_project\\CahngeDirect_eassy\\origin_data\\from_student2\\交付_学生4\\交付_学生4\\knowledge\\vector_db\\db_meta.json",
+        "G:\\Projects\\intern_project\\CahngeDirect_eassy\\stage9_验收报告_20260824\\extracted_student2_20260824\\交付_学生4\\knowledge\\vector_db\\db_meta.json"
+      ]
+    ]
+  ]
+}

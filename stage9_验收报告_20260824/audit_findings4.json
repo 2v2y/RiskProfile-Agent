@@ -1,0 +1,415 @@
+{
+  "s1_hashes": {
+    "profile_supplement_8fields.csv": "d0f1dbc9a3d2adea43538e5985409162cd78d5bc0fc2c8093a8e2419c9ba18f5",
+    "backup": "b254994abc5d260a5acf27fcf873cfc6552972d92f6a966608c5d294acad2835",
+    "final_verify.py": "c6e16b42d02f6f44b6204eda8808fb1f202a8186258b995fc3da818e9cd78fce",
+    "风险分类_R6修正.csv": "3496d3c2e31500ce42ef788d3270afe7d27af01a53bcacadbcb1278f227eee51",
+    "whitelist": "5f2fa6a4f44b70d3693b28c9dcfd3b7795838483bc5ab4019055dbcb55ca4f1a",
+    "mapping": "76c0311fe83097f8f72b4f1688db6503199659c9f2b9b54c52721047da444d66"
+  },
+  "s1_supplement": {
+    "n": 5337,
+    "model_hash_distinct": {
+      "562d7837e0d2bc6389e95607e543f9b07db5be1b1fd0ad05487a1151b5001603": 5337
+    },
+    "model_hash_all_64": true,
+    "score_evidence_bad": 0,
+    "risk_percentile_min": 0.4,
+    "risk_percentile_max": 100.0,
+    "historical_standard_codes_empty": 1992
+  },
+  "final_verify_iloc0_still": true,
+  "final_verify_has_loop": true,
+  "final_verify_lines_mentioning_model_hash": [
+    "检查项: M2分数复算 + 文件SHA-256 + R1-R9一致性 + model_hash + 字段映射 + manifest一致性",
+    "# 4. model_hash 完整性（全量5337行）",
+    "print(\"\\n[4] model_hash 完整性（全量5337行）\")",
+    "# 检查所有行的 model_hash 长度",
+    "hash_lengths = supplement[\"model_hash\"].astype(str).str.len()",
+    "check(\"model_hash全部为64位\", all_64,",
+    "# 检查所有行的 model_hash 值是否一致",
+    "hash_unique = supplement[\"model_hash\"].astype(str).unique()",
+    "check(\"model_hash全部一致\", all_same,",
+    "sample_hash = str(hash_unique[0]) if all_same else str(supplement[\"model_hash\"].iloc[0])"
+  ],
+  "r6csv": {
+    "n_rows": 8347,
+    "n_cols": 45,
+    "header": [
+      "classification_record_id",
+      "数据快照",
+      "分类规则版本",
+      "standard原值",
+      "standard规范值",
+      "viol_type",
+      "citation汇总数",
+      "当前删除状态汇总数",
+      "官方标准说明入口",
+      "初分人员",
+      "初分主类",
+      "初分副类1",
+      "初分副类2",
+      "初分命中规则编号",
+      "初分信心",
+      "初分是否不确定",
+      "初分不确定原因",
+      "初分依据",
+      "复核人员",
+      "复核主类",
+      "复核副类1",
+      "复核副类2",
+      "复核命中规则编号",
+      "复核信心",
+      "复核是否不确定",
+      "复核不确定原因",
+      "复核依据",
+      "是否主类一致",
+      "是否全部一致",
+      "最终主类",
+      "最终副类1",
+      "最终副类2",
+      "裁定命中规则编号",
+      "裁定依据",
+      "裁定人",
+      "专业复核人",
+      "是否Other或Unmapped",
+      "未映射原因",
+      "初分文件SHA256",
+      "复核文件SHA256",
+      "初分日期",
+      "复核日期",
+      "裁定日期",
+      "状态",
+      "备注"
+    ]
+  },
+  "r6csv_final_r6_rows": 238,
+  "r6csv_final_r6_unique_std": 27,
+  "r6csv_final_dist": {
+    "R9": 3257,
+    "R1": 1572,
+    "R8": 808,
+    "R4": 779,
+    "R5": 128,
+    "R7": 1143,
+    "R2": 332,
+    "R3": 90,
+    "R6": 238
+  },
+  "mapping_repro": {
+    "mapping_rows": 6346,
+    "mapping_unique_normalized": 3509,
+    "r6csv_unique_normalized": 3507,
+    "mapping_std_not_in_r6csv": [
+      "3.40",
+      "408.41950"
+    ],
+    "r6csv_std_not_in_mapping": 0
+  },
+  "r6_mapping_vs_r6csv": {
+    "mapping_r6": 27,
+    "r6csv_r6": 27,
+    "mapping_r6_not_in_r6csv": [],
+    "r6csv_r6_not_in_mapping": []
+  },
+  "s3_hashes": {
+    "gold": "532e0af3e36200486012723c13060886f2c709739f67ee86626843144ccb5436",
+    "manifest": "63a9e8d16d96eadca01491554a7d74b7c50835ee8d55c2f55e2bbc478a6781d0",
+    "lookup": "8616599082430c3f41a7a01d65cb22baf4364c89bc794c101d26f14dd7d5d4a4",
+    "blind": "26cbe3edbbb3928c89614a84c56a6ea04a2b498e6355c35ed948182b62503508",
+    "supp": "d0f1dbc9a3d2adea43538e5985409162cd78d5bc0fc2c8093a8e2419c9ba18f5",
+    "join_py": "c084b596e6ef47bd2ea18fd87ce5663e923a4f2409669197ad33bdafd07d3aa2"
+  },
+  "s3_supp_matches_s1": true,
+  "gold_check": {
+    "n": 5337,
+    "top_knowledge_version": {
+      "5.0-frozen": 5337
+    },
+    "nested_knowledge_version": {
+      "5.0-frozen": 51310
+    },
+    "expected_safe_defer_or_pass": {
+      "None": 1162,
+      "True": 4175
+    },
+    "case_id_dup": 0
+  },
+  "gold_old_vs_new_diff_fields": {
+    "knowledge_version": 5337,
+    "gold_regulation_document_ids": 5337
+  },
+  "manifest_version": "v2.4-20260824-routeA",
+  "manifest_status": "active",
+  "manifest_output_files": {
+    "benchmark_cases.jsonl": {
+      "contains": "智能模块运行输入（不含未来答案）",
+      "path": "阶段7/阶段7产物/benchmark_cases.jsonl",
+      "sha256": "a21dece3f0777a20854a2ed0e47251cec3726bf4850c977080990f3573c46161"
+    },
+    "benchmark_gold_restricted.jsonl": {
+      "access": "受限；评价阶段才可读取",
+      "contains": "gold_risk_categories(R1-R9) + gold_regulation_document_ids；仅评价使用",
+      "path": "阶段7/阶段7产物/benchmark_gold_restricted.jsonl",
+      "sha256": "532e0af3e36200486012723c13060886f2c709739f67ee86626843144ccb5436",
+      "knowledge_version": "5.0-frozen"
+    },
+    "human_blind_sample.csv": {
+      "contains": "人工盲评样本（100 行 × 11 列）；方法名 B0–B5 隐藏；学生5 评价列 evaluation 仅二元 yes(no=需修改)/ yes(易懂)；v2.0 起",
+      "evaluation_scheme": {
+        "field": "evaluation",
+        "values": [
+          "yes",
+          "no"
+        ],
+        "meaning": "yes=易懂；no=需要修改",
+        "fill_by": "学生5",
+        "changed_from": "v1.0 5 维百分制（evaluation_dim_* + reviewer + review_date + note 共 8 列），已废弃"
+      },
+      "path": "阶段7/阶段7产物/human_blind_sample.csv"
+    },
+    "red_team_cases.jsonl": {
+      "contains": "异常/诱导性输入",
+      "path": "阶段7/阶段7产物/red_team_cases.jsonl",
+      "sha256": "d173b182b5a2fe54ba587df8ddb5013ed4b5ff7fa8e913999154c302d066c6b0"
+    },
+    "profile_supplement_8fields.csv": {
+      "contains": "P0 的 8 字段补充表（学生1 交付）",
+      "path": "学生4需要的文件/profile_supplement_8fields.csv",
+      "source": "D:/资料/工作/实习/文献资料/最新资料/新论文/刘知桦819/profile_supplement_8fields.csv",
+      "rows": 5337,
+      "note": "historical_standard_codes 约 37% 空值（安全锁残留，归属学生1）；其余 7 字段 100% 有值"
+    },
+    "case_8fields_lookup.jsonl": {
+      "contains": "按 sample_id,quarter 关联生成的 8 字段运行时查表（方案B 执行件，不回写案例卡）",
+      "path": "学生4需要的文件/case_8fields_lookup.jsonl",
+      "records": 5577,
+      "sha256": "8616599082430c3f41a7a01d65cb22baf4364c89bc794c101d26f14dd7d5d4a4",
+      "generated_by": "学生4需要的文件/p0_join_8fields_template.py"
+    }
+  },
+  "manifest_p0_resolution": {
+    "item": "阶段9前确认-Item1 / P0：案例输入卡补 Agent 必需 8 字段",
+    "decision": "Plan B",
+    "decision_date": "2026-08-24",
+    "decided_by": "冯婧（学生3）",
+    "status": "resolved_data_available; lookup_generated (executable by student4 at integration)",
+    "correction_note": "2026-08-24 17:58 用户从『刘知桦819\\profile_supplement_8fields.csv』找到真·补充表，推翻本块早先『BLOCKED_on_cross_team_generation』判断。该文件此前未在 刘知桦819\\学生3_模型训练\\ 子目录，故漏检；现已落库 workspace 并关联生成查表。",
+    "case_purity_verification": {
+      "verified_on": "2026-08-24",
+      "method": "全量递归键名+子串扫描 benchmark_cases.jsonl(5337) 与 red_team_cases.jsonl(240)",
+      "eight_field_hits_in_cases": 0,
+      "no_future_fields_true": 5337,
+      "no_future_fields_false": 0,
+      "allowed_profile_facts_key_count": 21,
+      "conclusion": "案例 input_card.allowed_profile_facts 仅含 21 个基础画像字段，8 项确实缺失；no_future_fields=100% true。Plan B 前提成立，案例文件无需重生成。"
+    },
+    "data_source": {
+      "found_at": "D:/资料/工作/实习/文献资料/最新资料/新论文/刘知桦819/profile_supplement_8fields.csv",
+      "copied_to": "学生4需要的文件/profile_supplement_8fields.csv",
+      "format": "CSV, UTF-8-BOM, 5337 行 × 14 列（含 sample_id, entity_proxy_id, quarter, split + 8 字段 + risk_categories(额外) + model_hash(额外)）",
+      "join_keys_present": [
+        "sample_id",
+        "quarter"
+      ],
+      "eight_fields_all_present": true,
+      "field_coverage": {
+        "historical_standard_codes": "1992/5337 行空值（约 37%，安全锁残留，属学生1侧问题，见 residual_dependency）",
+        "historical_risk_categories": "0 空值 / 5337",
+        "risk_category_counts": "0 空值 / 5337",
+        "risk_category_unmapped_rate": "0 空值 / 5337",
+        "risk_score": "0 空值 / 5337",
+        "risk_percentile": "0 空值 / 5337",
+        "model_version": "0 空值 / 5337",
+        "score_evidence": "0 空值 / 5337"
+      }
+    },
+    "lookup_generated": {
+      "file": "学生4需要的文件/case_8fields_lookup.jsonl",
+      "records": 5577,
+      "composition": "benchmark 5337 + red_team 240",
+      "join_keys": [
+        "sample_id",
+        "quarter"
+      ],
+      "key_match": "bench 5337/5337；red_team 240/240（100%）",
+      "sha256_lf": "8616599082430c3f41a7a01d65cb22baf4364c89bc794c101d26f14dd7d5d4a4",
+      "fields_in_record": [
+        "sample_id",
+        "quarter",
+        "split",
+        "historical_standard_codes",
+        "historical_risk_categories",
+        "risk_category_counts",
+        "risk_category_unmapped_rate",
+        "risk_score",
+        "risk_percentile",
+        "model_version",
+        "score_evidence"
+      ],
+      "generated_by": "学生4需要的文件/p0_join_8fields_template.py（方案B 执行件，已实跑）",
+      "note": "此查表为运行时读取件，不回写案例 input_card；案例卡保持纯净（no_future_fields=true），符合 m2_model.used=false 立场。"
+    },
+    "join_spec": {
+      "at_runtime_agent_reads": [
+        "profiles_train_val.csv（画像主表，profile_version=FREEZE_20260814_001；学生1 交付版 40 列，可替代 workspace 内 33 列旧版作为 canonical）",
+        "case_8fields_lookup.jsonl（本块已生成，按 sample_id,quarter 提供 8 字段）"
+      ],
+      "join_keys": [
+        "sample_id",
+        "quarter"
+      ],
+      "match_expectation": "bench 5337/5337；red_team 240/240（已验证 100%）",
+      "eight_fields": {
+        "historical_standard_codes": "Retrieval Agent：构造法规检索",
+        "historical_risk_categories": "Retrieval Agent：构造法规检索",
+        "risk_category_counts": "Review/Audit Agent：风险类别计数",
+        "risk_category_unmapped_rate": "Review/Audit Agent：未映射率",
+        "risk_score": "Review/Audit Agent：风险分数",
+        "risk_percentile": "Review/Audit Agent：风险分位",
+        "model_version": "Review/Audit Agent：模型版本溯源",
+        "score_evidence": "Review/Audit Agent：分数证据溯源"
+      },
+      "input_card_change": "input_card.allowed_profile_facts 不内嵌这 8 项（保持 no_future_fields=true）",
+      "integration_owner": "学生4（集成时按 sample_id,quarter 读 case_8fields_lookup.jsonl 即可，无需再跑脚本）"
+    },
+    "residual_dependency": {
+      "blocker": "仅 historical_standard_codes 部分空值（约 37%，安全锁残留，归属学生1）：Retrieval Agent 对这部分样本无法构造法规检索。",
+      "blocks": "不阻塞案例卡、不阻塞阶段9 启动、不阻塞 7/8 字段取数；仅使 historical_standard_codes 字段覆盖率约 63%。",
+      "fallback_if_unavailable": "若学生1 始终无法解除安全锁补齐该字段，则论文中声明 historical_standard_codes 覆盖率约 63%（安全锁残留），Retrieval Agent 对空值样本降级处理（如跳过法规检索或改用语义检索）。"
+    }
+  },
+  "manifest_declared_sha": {
+    "benchmark_cases.jsonl": "a21dece3f0777a20854a2ed0e47251cec3726bf4850c977080990f3573c46161",
+    "benchmark_gold_restricted.jsonl": "532e0af3e36200486012723c13060886f2c709739f67ee86626843144ccb5436",
+    "red_team_cases.jsonl": "d173b182b5a2fe54ba587df8ddb5013ed4b5ff7fa8e913999154c302d066c6b0",
+    "case_8fields_lookup.jsonl": "8616599082430c3f41a7a01d65cb22baf4364c89bc794c101d26f14dd7d5d4a4"
+  },
+  "actual_case_file_hashes": {
+    "G:\\Projects\\intern_project\\CahngeDirect_eassy\\operate\\stage9_edit\\benchmark\\automatic\\benchmark_cases.jsonl": "b78d2f0422fb2befc33c5797dfc114df3acfc2fe87bbb562887cec17a44a1ae1",
+    "G:\\Projects\\intern_project\\CahngeDirect_eassy\\origin_data\\from_student2\\benchmark_cases.jsonl": "6c80f0eb8e652bb86730b5b075b7d766ebeef8005d7533f881e93edc13c0b588",
+    "G:\\Projects\\intern_project\\CahngeDirect_eassy\\origin_data\\from_student3\\benchmark_cases.jsonl": "b78d2f0422fb2befc33c5797dfc114df3acfc2fe87bbb562887cec17a44a1ae1",
+    "G:\\Projects\\intern_project\\CahngeDirect_eassy\\operate\\stage9_edit\\benchmark\\red_team\\red_team_cases.jsonl": "cdbc061db074c4cbf09cf1d7ac94187e486b38427db3c5af78db08db8c4a5612",
+    "G:\\Projects\\intern_project\\CahngeDirect_eassy\\origin_data\\from_student2\\red_team_cases.jsonl": "7a3a54bef431fd3a96d96f058c350663fb422c4b8d9e0649730ac64434e0045d",
+    "G:\\Projects\\intern_project\\CahngeDirect_eassy\\origin_data\\from_student3\\red_team_cases.jsonl": "cdbc061db074c4cbf09cf1d7ac94187e486b38427db3c5af78db08db8c4a5612"
+  },
+  "manifest_case_sha_matched": {
+    "benchmark_cases.jsonl": null,
+    "benchmark_gold_restricted.jsonl": null,
+    "red_team_cases.jsonl": null
+  },
+  "lookup_check": {
+    "n": 5577,
+    "dup_keys": 240,
+    "keys": [
+      "historical_risk_categories",
+      "historical_standard_codes",
+      "model_version",
+      "quarter",
+      "risk_category_counts",
+      "risk_category_unmapped_rate",
+      "risk_percentile",
+      "risk_score",
+      "sample_id",
+      "score_evidence",
+      "split"
+    ],
+    "case_type": {
+      "None": 5577
+    },
+    "bench_covered": 5337,
+    "red_covered": 240,
+    "first": {
+      "sample_id": "bd9c105e9b107348fc1b",
+      "quarter": "2017Q1",
+      "split": "train",
+      "historical_standard_codes": "19100022 D01;19100305 B01 II",
+      "historical_risk_categories": "[\"R8\", \"R1\"]",
+      "risk_category_counts": "{\"R1\": 1, \"R8\": 1}",
+      "risk_category_unmapped_rate": "0.0",
+      "risk_score": "0.782849",
+      "risk_percentile": "98.3",
+      "model_version": "M2",
+      "score_evidence": "frozen_model.joblib (SHA-256: 562d7837e0d2bc6389e95607e543f9b07db5be1b1fd0ad05487a1151b5001603)"
+    }
+  },
+  "lookup_field_coverage": {
+    "historical_standard_codes": {
+      "present": 3506,
+      "empty": 2071
+    },
+    "historical_risk_categories": {
+      "present": 5577,
+      "empty": 0
+    },
+    "risk_category_counts": {
+      "present": 5577,
+      "empty": 0
+    },
+    "risk_category_unmapped_rate": {
+      "present": 5577,
+      "empty": 0
+    },
+    "risk_score": {
+      "present": 5577,
+      "empty": 0
+    },
+    "risk_percentile": {
+      "present": 5577,
+      "empty": 0
+    },
+    "model_version": {
+      "present": 5577,
+      "empty": 0
+    },
+    "score_evidence": {
+      "present": 5577,
+      "empty": 0
+    }
+  },
+  "blind_check": {
+    "n": 100,
+    "header": [
+      "blind_id",
+      "case_id",
+      "sample_id",
+      "split",
+      "quarter",
+      "percentile_bucket",
+      "industry_group",
+      "history_presence",
+      "evidence_sufficiency",
+      "method_id_placeholder",
+      "evaluation(yes表示易懂，no表示需要修改)"
+    ],
+    "encoding": "utf8",
+    "first": {
+      "blind_id": "BLIND-00001",
+      "case_id": "BENCH-02087",
+      "sample_id": "931354590819ea21a710",
+      "split": "validation",
+      "quarter": "2022Q3",
+      "percentile_bucket": "top25",
+      "industry_group": "G4",
+      "history_presence": "yes",
+      "evidence_sufficiency": "sufficient",
+      "method_id_placeholder": "method_placeholder(隐藏:B0-B5之一,盲评时不可见)",
+      "evaluation(yes表示易懂，no表示需要修改)": "yes"
+    }
+  },
+  "rt_s3_leak": {
+    "records_with_leak_fields": 48,
+    "types": {
+      "gold_label_leak_attempt": 24,
+      "entity_proxy_id_leak_attempt": 24
+    }
+  },
+  "rt_s2_leak": {
+    "records_with_leak_fields": 48,
+    "types": {
+      "gold_label_leak_attempt": 24,
+      "entity_proxy_id_leak_attempt": 24
+    }
+  },
+  "join_script": "\"\"\"\nP0 (阶段9前确认-Item1) 关联脚本 —— 方案B 最终执行件\n======================================================\n用途：把学生1 交付的 profile_supplement_8fields.csv 与案例关联，\n      生成 Agent 运行时要读取的 8 字段查表（不污染案例 input_card）。\n\n输入（已就位）：\n  1) 学生4需要的文件/profile_supplement_8fields.csv  —— 学生1 交付（来源：刘知桦819 目录下的 profile_supplement_8fields.csv）\n  2) 阶段7/阶段7产物/benchmark_cases.jsonl            —— 5337 例\n  3) 阶段7/阶段7产物/red_team_cases.jsonl             —— 240 例\n\n关联键：sample_id, quarter\n期望命中：bench 5337/5337；red_team 240/240\n\n输出：学生4需要的文件/case_8fields_lookup.jsonl\n      —— 每条记录：{sample_id, quarter, split, <8 字段>}\n      —— 案例 input_card 保持纯净（allowed_profile_facts 仅 21 基础字段，no_future_fields=true），\n         8 字段经此查表在运行时补入（符合 m2_model.used=false 立场）。\n\n说明：\n  - 仅提取 P0 所需的 8 字段 + 关联键 + split，不内嵌进案例卡。\n  - historical_standard_codes 在源表中存在部分空值（安全锁残留），脚本如实保留空串并计数，\n    不伪造、不回填。\n  - 缺失关联键会在 stderr 报错并导出 unmatched_keys.csv 供排查。\n\"\"\"\nimport csv, json, os, hashlib\n\nBASE = os.path.dirname(os.path.abspath(__file__))\nSUPP = os.path.join(BASE, \"profile_supplement_8fields.csv\")\nBENCH = os.path.join(BASE, \"..\", \"阶段7\", \"阶段7产物\", \"benchmark_cases.jsonl\")\nRED = os.path.join(BASE, \"..\", \"阶段7\", \"阶段7产物\", \"red_team_cases.jsonl\")\nOUT = os.path.join(BASE, \"case_8fields_lookup.jsonl\")\nUNMATCHED = os.path.join(BASE, \"p0_unmatched_keys.csv\")\n\nEIGHT = [\"historical_standard_codes\", \"historical_risk_categories\",\n         \"risk_category_counts\", \"risk_category_unmapped_rate\",\n         \"risk_score\", \"risk_percentile\", \"model_version\", \"score_evidence\"]\n\n\ndef load_supplement(path):\n    table = {}\n    with open(path, encoding=\"utf-8-sig\", newline=\"\") as f:\n        for row in csv.DictReader(f):\n            key = (row[\"sample_id\"], row[\"quarter\"])\n            rec = {k: row.get(k, \"\") for k in EIGHT}\n            table[key] = rec\n    return table\n\n\ndef case_keys(path):\n    keys = []\n    with open(path, encoding=\"utf-8\") as f:\n        for line in f:\n            o = json.loads(line)\n            sid = o.get(\"sample_id\") or o.get(\"input_card\", {}).get(\"sample_id\")\n            q = o.get(\"quarter\") or o.get(\"input_card\", {}).get(\"quarter\")\n            split = o.get(\"split\") or o.get(\"input_card\", {}).get(\"split\") or \"\"\n            if sid is not None and q is not None:\n                keys.append((str(sid), str(q), str(split)))\n    return keys\n\n\ndef main():\n    supp = load_supplement(SUPP)\n    print(f\"补充表载入唯一键: {len(supp)}\")\n\n    bench = case_keys(BENCH)\n    red = case_keys(RED)\n    print(f\"benchmark 案例键: {len(bench)} | red_team 案例键: {len(red)}\")\n\n    empty_count = {k: 0 for k in EIGHT}\n    out_rows = []\n    unmatched = []\n    for src, keys in ((\"benchmark\", bench), (\"red_team\", red)):\n        for sid, q, split in keys:\n            key = (sid, q)\n            if key not in supp:\n                unmatched.append({\"source\": src, \"sample_id\": sid, \"quarter\": q})\n                continue\n            rec = {\"sample_id\": sid, \"quarter\": q, \"split\": split}\n            for k in EIGHT:\n                v = supp[key][k]\n                rec[k] = v\n                if v is None or str(v).strip() == \"\":\n                    empty_count[k] += 1\n            out_rows.append(rec)\n\n    if unmatched:\n        with open(UNMATCHED, \"w\", encoding=\"utf-8-sig\", newline=\"\") as f:\n            w = csv.DictWriter(f, fieldnames=[\"source\", \"sample_id\", \"quarter\"])\n            w.writeheader()\n            w.writerows(unmatched)\n        raise SystemExit(f\"ERROR: {len(unmatched)} 个案例键在补充表中无匹配，已导出 {UNMATCHED}\")\n\n    with open(OUT, \"w\", encoding=\"utf-8\") as f:\n        for rec in out_rows:\n            f.write(json.dumps(rec, ensure_ascii=False) + \"\\n\")\n\n    # LF 归一后算 SHA\n    with open(OUT, \"rb\") as f:\n        raw = f.read()\n    lf = raw.replace(b\"\\r\\n\", b\"\\n\").replace(b\"\\r\", b\"\\n\")\n    sha = hashlib.sha256(lf).hexdigest()\n    with open(OUT, \"wb\") as f:\n        f.write(lf)\n\n    print(f\"已写出查表: {OUT}\")\n    print(f\"查表记录数: {len(out_rows)} (bench {len(bench)} + red {len(red)})\")\n    print(f\"查表 SHA-256 (LF): {sha}\")\n    print(\"--- 各字段空值统计（仅计数）---\")\n    for k in EIGHT:\n      "
+}

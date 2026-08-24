@@ -1,0 +1,13 @@
+method,top_k,n_queries,recall,precision,mrr,ndcg_at_10,eval_split,config_hash,created_at
+hybrid,1,93,0.7097,0.7097,0.7097,0.7097,retrieval_gold.csv,bge_hybrid_section_float_4656_384,2026-08-24
+hybrid,3,93,1.0000,0.3333,0.8530,0.8914,retrieval_gold.csv,bge_hybrid_section_float_4656_384,2026-08-24
+hybrid,5,93,1.0000,0.2000,0.8530,0.8914,retrieval_gold.csv,bge_hybrid_section_float_4656_384,2026-08-24
+hybrid,10,93,1.0000,0.1000,0.8530,0.8914,retrieval_gold.csv,bge_hybrid_section_float_4656_384,2026-08-24
+vector,1,93,0.0000,0.0000,0.0000,0.0000,retrieval_gold.csv,bge_pure_4656_384,2026-08-24
+vector,3,93,0.0000,0.0000,0.0000,0.0000,retrieval_gold.csv,bge_pure_4656_384,2026-08-24
+vector,5,93,0.0000,0.0000,0.0000,0.0000,retrieval_gold.csv,bge_pure_4656_384,2026-08-24
+vector,10,93,0.0000,0.0000,0.0000,0.0000,retrieval_gold.csv,bge_pure_4656_384,2026-08-24
+keyword,1,93,0.0645,0.0645,0.0645,0.0645,retrieval_gold.csv,tfidf_4656,2026-08-24
+keyword,3,93,0.2903,0.0968,0.1631,0.1957,retrieval_gold.csv,tfidf_4656,2026-08-24
+keyword,5,93,0.4731,0.0946,0.2061,0.2721,retrieval_gold.csv,tfidf_4656,2026-08-24
+keyword,10,93,0.6559,0.0656,0.2290,0.3296,retrieval_gold.csv,tfidf_4656,2026-08-24

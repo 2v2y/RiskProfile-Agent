@@ -1,0 +1,13 @@
+method,top_k,n_queries,recall,precision,mrr,ndcg_at_10,eval_split,config_hash,created_at
+hybrid,1,93,1.0000,1.0000,1.0000,N/A,retrieval_gold.csv,bge_hybrid_4656_384,2026-08-21
+hybrid,3,93,1.0000,0.9821,1.0000,N/A,retrieval_gold.csv,bge_hybrid_4656_384,2026-08-21
+hybrid,5,93,1.0000,0.9613,1.0000,N/A,retrieval_gold.csv,bge_hybrid_4656_384,2026-08-21
+hybrid,10,93,1.0000,0.9032,1.0000,N/A,retrieval_gold.csv,bge_hybrid_4656_384,2026-08-21
+vector,1,93,0.4731,0.4731,0.4731,N/A,retrieval_gold.csv,bge_pure_4656_384,2026-08-21
+vector,3,93,0.5054,0.3620,0.4839,N/A,retrieval_gold.csv,bge_pure_4656_384,2026-08-21
+vector,5,93,0.5269,0.3054,0.4887,N/A,retrieval_gold.csv,bge_pure_4656_384,2026-08-21
+vector,10,93,0.6129,0.2398,0.5009,N/A,retrieval_gold.csv,bge_pure_4656_384,2026-08-21
+keyword,1,22,0.8182,0.8182,0.8182,N/A,retrieval_gold.csv,bm25_22q,2026-08-20
+keyword,3,22,1.0000,0.9394,0.9091,N/A,retrieval_gold.csv,bm25_22q,2026-08-20
+keyword,5,22,1.0000,0.9364,0.9091,N/A,retrieval_gold.csv,bm25_22q,2026-08-20
+keyword,10,22,1.0000,0.9364,0.9091,N/A,retrieval_gold.csv,bm25_22q,2026-08-20

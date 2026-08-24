@@ -1,0 +1,614 @@
+{
+  "frozen_manifest": {
+    "created_at_utc": "2026-08-17T07:33:35.991928+00:00",
+    "protocol": "pre-test-freeze-v1",
+    "files": {
+      "profiles_train_val": {
+        "path": "数据/02_分析数据/profiles_train_val.csv",
+        "sha256": "9f1f776c120c08baebd81832b0d3699671ae2f575b92bb6a917efe928a63a24f"
+      },
+      "feature_dictionary": {
+        "path": "数据/02_分析数据/feature_dictionary.csv",
+        "sha256": "4b80a14930d06d7839edea38074bdf4bf054ac30bb43a9ab178f3cb2a3957763"
+      },
+      "test_features_commitment": {
+        "path": "数据/03_封存测试/test_features_commitment.json",
+        "sha256": "f6ec9996f499ab06fee3c37499c8b849111a64f99f48c6c5f446fae8473dec7d"
+      },
+      "sealed_test_commitment": {
+        "path": "数据/03_封存测试/sealed_test_commitment.json",
+        "sha256": "888b917b79a7d7faa4698fdf28b25b397c196aa17faf2a489540e9187c1073a1"
+      },
+      "sample_flow": {
+        "path": "结果/01_数据审计/样本排除流.csv",
+        "sha256": "41ad639b115e106b8a4ebdbaae95f5d7d6d6b83c33c932ee22ce2be3141fc2a9"
+      },
+      "split_audit": {
+        "path": "结果/01_数据审计/时间切分审计.csv",
+        "sha256": "4d2182b2a6b381724917b4955265c5ebb3a53c71515679e369054fd0ab79412e"
+      },
+      "maturity_audit": {
+        "path": "结果/01_数据审计/成熟度审计.csv",
+        "sha256": "13c27b38366d5906e913a5ec9246679a4ee69a9b48741df22d2d997e6ccd846b"
+      },
+      "sample_flow_figure": {
+        "path": "结果/01_数据审计/图2_样本筛选流程.svg",
+        "sha256": "24b2ea2182794969bd7db026237a026249f1c20cfb36c2b56af6e9763fe523cb"
+      },
+      "profile_summary": {
+        "path": "结果/02_画像/画像汇总.csv",
+        "sha256": "30e57cb1dc9aec7a93898745e0a487df1c475b606aef0d56b9c6c58d06f0ff08"
+      },
+      "leakage_audit": {
+        "path": "结果/02_画像/防泄漏审计.json",
+        "sha256": "e076cd43109b5dc44bfb6debecb0a59c76ffb818a1602edb8dfb6344bb0c21c8"
+      },
+      "research_framework_figure": {
+        "path": "结果/02_画像/图1_动态画像研究框架.svg",
+        "sha256": "ecf95b9f1945c517f4afc817233c47a050c7903830abd1f777cc74476706b672"
+      },
+      "profile_trajectory_figure": {
+        "path": "结果/02_画像/图3_匿名画像时间轨迹.svg",
+        "sha256": "a6cf0dbaadb38f73c5f256e74f9f16498ac8897f106bdf0a83839aaaf73abfba"
+      },
+      "profile_definition_freeze": {
+        "path": "记录表/画像定义冻结.csv",
+        "sha256": "8b184a7c9edcc843e3b8be8a759697a6757627a3162f6dba5eb80e41ed32f979"
+      },
+      "validation_predictions": {
+        "path": "结果/03_验证/validation_predictions.csv",
+        "sha256": "d29e5c2c5761a0f76340ab2abca179a3fd5f5126b9789a690a053b8bb801f16b"
+      },
+      "validation_quarter_metrics": {
+        "path": "结果/03_验证/validation_quarter_metrics.csv",
+        "sha256": "66916b77f9a7e1d9207bc093131fcbfa4904e1c3f06883889ea1c9b453e1d4b7"
+      },
+      "validation_summary": {
+        "path": "结果/03_验证/validation_summary.csv",
+        "sha256": "c0b78bf4b06786aff973a874da87874f7c6de85641456137377950f86b3a58cd"
+      },
+      "validation_calibration": {
+        "path": "结果/03_验证/calibration_bins.csv",
+        "sha256": "ab390438dcc873edf2211111887c3f41fe5bb699c1daff493835233a74698b84"
+      },
+      "model_selection": {
+        "path": "结果/03_验证/model_selection.json",
+        "sha256": "c46ac964821a5e48fc51a0da168d833d180ca3bd744895a633f97295bebf070d"
+      },
+      "config": {
+        "path": "程序/config.yaml",
+        "sha256": "18b09a2a8dc4821e3756936ace9c4b12d6701daa3dfccc6509ead34a728bdb0f"
+      },
+      "frozen_config": {
+        "path": "结果/03_验证/frozen_config.json",
+        "sha256": "6540448b98e9fb6ebc1ed49124cee1d4ade217e950c32cba470241410fffbf87"
+      },
+      "frozen_model": {
+        "path": "结果/03_验证/frozen_model.joblib",
+        "sha256": "562d7837e0d2bc6389e95607e543f9b07db5be1b1fd0ad05487a1151b5001603"
+      },
+      "environment_versions": {
+        "path": "结果/03_验证/environment_versions.json",
+        "sha256": "1ef4c11c27b5f2e31e14c98b1270cfc69860b8f9f18b5b072a9e714c6decfd6c"
+      },
+      "prepare_script": {
+        "path": "程序/01_prepare_data.py",
+        "sha256": "d5dbefa07469660f81a504a02e79704cb2f8d331f4bc9aa7034ec8d0af8d4a9f"
+      },
+      "profile_script": {
+        "path": "程序/02_build_profiles.py",
+        "sha256": "96f24bc5a2dac1697616227286d1a3a528b4b9f061274a5f57429965045c9e6e"
+      },
+      "fit_script": {
+        "path": "程序/03_fit_validate.py",
+        "sha256": "8b8248a95498ddfe6633937913ad18cb2aa2f554d81bb3d2e890dd4eab6938b8"
+      },
+      "common_module": {
+        "path": "程序/pipeline_common.py",
+        "sha256": "2a33176cfe460402327b2b929a50641595bbd807fbbd21d34ae9c0c66d0c89c4"
+      },
+      "sealed_test_script": {
+        "path": "程序/04_run_sealed_test.py",
+        "sha256": "e08dc68e82fd2e8a9221acaf2649af7a57fe30caf919fe2c8c5210550aa95c1e"
+      },
+      "sealed_prediction_script": {
+        "path": "程序/03b_generate_sealed_predictions.py",
+        "sha256": "435164b4a731fded05793c5943252e4cdf5379e5976a7e4ae081e00b70e9a7a3"
+      },
+      "paper_table_script": {
+        "path": "程序/05_make_paper_tables.py",
+        "sha256": "94a37053c9889bfc4dd23e66107dbcd74a479695f8d12e1c582ce98af931d35e"
+      },
+      "requirements": {
+        "path": "程序/requirements.txt",
+        "sha256": "e06f5924f250b44b98cd4a97b9227c4ca8fdde6863491cb11fbeee931d1882c7"
+      },
+      "download_manifest": {
+        "path": "数据/00_原始数据/download_manifest.json",
+        "sha256": "542b59445a752f5683d54402bf1cc173d5729055800664027169edfb6122f037"
+      },
+      "field_rule_snapshot": {
+        "path": "结果/01_数据审计/字段与规则快照.json",
+        "sha256": "84be34b5b4f0f57f6ddc2d742f0b978d676448928d0e527ff1e770c80984be30"
+      },
+      "entity_audit_result": {
+        "path": "结果/01_数据审计/实体人工复核结果.json",
+        "sha256": "0e955922804f9e1c5d056aa543c6b7fff6c8aa528ee4eaa35f75cb351baff0b8"
+      },
+      "scale_processing_audit": {
+        "path": "结果/01_数据审计/规模处理审计.json",
+        "sha256": "dfd956b9e278a5903f8172ca14c5113709e12e7296be5a292f9ed7092cb42a70"
+      },
+      "restricted_permission_audit": {
+        "path": "结果/01_数据审计/受限目录权限审计.json",
+        "sha256": "eb5f23beb7d5ae9b668deed0d19290b72b79c08ef8ef7ec9b6e6f00cd1cc4733"
+      }
+    }
+  },
+  "mapping_r6zip_vs_confirmed_same": true,
+  "gold_depth": {
+    "n": 5337,
+    "knowledge_version": {
+      "4.0": 5337
+    },
+    "split": {
+      "train": 4656,
+      "validation": 681
+    },
+    "refs_total": 51310,
+    "refs_with_chunk_id": 29906,
+    "refs_null_chunk": 21404,
+    "refs_chunk_not_in_kb": 0,
+    "gold_has_unclosed_component": {
+      "False": 5306,
+      "True": 31
+    },
+    "gold_label": {
+      "1.0": 3039,
+      "0.0": 2298
+    },
+    "ref_chunk_id_sample": [
+      "chunk_00001",
+      "chunk_00261",
+      "chunk_02044",
+      "chunk_00468",
+      "chunk_00347"
+    ]
+  },
+  "bench_profiles_join": {
+    "bench_n": 5337,
+    "profiles_n": 5337,
+    "bench_key_matched_to_profiles": 5337,
+    "bench_key_unmatched": 0,
+    "no_future_fields": {
+      "True": 5337
+    },
+    "schema_version": {
+      "1.0": 5337
+    },
+    "split": {
+      "train": 4656,
+      "validation": 681
+    },
+    "strat_risk_category": {
+      "R1": 1039,
+      "R2": 4212,
+      "R8": 86
+    },
+    "input_card_keys": {
+      "allowed_profile_facts": 5337,
+      "max_review_priorities": 5337,
+      "query_text": 5337,
+      "required_outputs": 5337
+    }
+  },
+  "s1_vs_s3_profiles": {
+    "common_keys": 5337,
+    "diff_rows": 692,
+    "diff_fields": {
+      "decayed_inspections": 579,
+      "decayed_positives": 450,
+      "smoothed_positive_rate": 31
+    },
+    "samples": [
+      {
+        "key": [
+          "bd9c105e9b107348fc1b",
+          "2017Q1"
+        ],
+        "fields": [
+          "decayed_inspections",
+          "decayed_positives"
+        ]
+      },
+      {
+        "key": [
+          "b8d84b54f6e8b12983a5",
+          "2017Q4"
+        ],
+        "fields": [
+          "decayed_inspections",
+          "decayed_positives"
+        ]
+      },
+      {
+        "key": [
+          "aa93dedee997a3261498",
+          "2015Q3"
+        ],
+        "fields": [
+          "decayed_inspections"
+        ]
+      }
+    ]
+  },
+  "risk_csv_final_dist": {
+    "n": 8347,
+    "最终主类": {
+      "R9": 3257,
+      "R1": 1572,
+      "R8": 1046,
+      "R4": 779,
+      "R5": 128,
+      "R7": 1143,
+      "R2": 332,
+      "R3": 90
+    },
+    "是否Other或Unmapped": {
+      "是": 3257,
+      "否": 5090
+    }
+  },
+  "rag_retriever_same": true,
+  "whitelist_0821_top": {
+    "version": "1.0",
+    "defined_by": "学生1",
+    "defined_date": "2026-08-21"
+  },
+  "whitelist_0821_has_r1_names": [
+    "note",
+    "whitelisted_fields",
+    "r1_r9_categories",
+    "model_input",
+    "schema_alignment",
+    "field_name_mapping"
+  ],
+  "red_team_s3": {
+    "n": 240,
+    "types": {
+      "missing_required_profile_fields": 24,
+      "all_profile_facts_zero_cannot_pass": 24,
+      "forbidden_future_field_injected": 24,
+      "gold_label_leak_attempt": 24,
+      "wrong_industry_out_of_scope": 24,
+      "no_history_with_unjustified_causal_claim": 24,
+      "regulation_lookup_way_off_scope": 24,
+      "entity_proxy_id_leak_attempt": 24,
+      "audit_blocked_by_insufficient_evidence": 24,
+      "double_audit_overflow": 24
+    },
+    "knowledge_version": {
+      "4.0": 240
+    },
+    "expected_outcome": {
+      "defer_or_reject": 240
+    }
+  },
+  "leak_audit": {
+    "samples": 6541,
+    "count_semantics": "number_of_violations",
+    "checks": {
+      "history_open_before_cutoff": {
+        "count": 0,
+        "passed": true,
+        "checked_count": 6541
+      },
+      "outcome_available_before_cutoff": {
+        "count": 0,
+        "passed": true,
+        "checked_count": 6541
+      },
+      "context_source_before_cutoff": {
+        "count": 0,
+        "passed": true,
+        "checked_count": 6541
+      },
+      "test_columns_whitelisted": {
+        "count": 0,
+        "passed": true,
+        "checked_count": 18,
+        "missing_columns": [],
+        "unexpected_columns": [],
+        "duplicate_columns": []
+      },
+      "test_forbidden_columns_absent": {
+        "count": 0,
+        "passed": true,
+        "checked_count": 18,
+        "forbidden_columns": []
+      },
+      "m1_m2_same_source_samples": {
+        "count": 0,
+        "passed": true,
+        "checked_count": 6541,
+        "m1_sample_count": 6541,
+        "m2_sample_count": 6541,
+        "sample_set_difference": []
+      }
+    },
+    "history_inspection_at_or_after_cutoff": 0,
+    "citation_available_time_at_or_after_cutoff": 0,
+    "context_source_at_or_after_cutoff": 0,
+    "passed": true
+  },
+  "time_split_audit": {
+    "n": 44,
+    "header": [
+      "split",
+      "quarter",
+      "candidate_total",
+      "mature_positive",
+      "mature_negative",
+      "immature_open_case",
+      "immature_other",
+      "mature_total",
+      "mature_rate",
+      "maturity_boundary",
+      "n",
+      "positives"
+    ],
+    "rows": [
+      {
+        "split": "embargo",
+        "quarter": "2023Q2",
+        "candidate_total": "164",
+        "mature_positive": "0.0",
+        "mature_negative": "0.0",
+        "immature_open_case": "0",
+        "immature_other": "164",
+        "mature_total": "0",
+        "mature_rate": "0.0",
+        "maturity_boundary": "2026-08-15 06:41:46.741079",
+        "n": "0",
+        "positives": ""
+      },
+      {
+        "split": "embargo",
+        "quarter": "2023Q3",
+        "candidate_total": "176",
+        "mature_positive": "0.0",
+        "mature_negative": "0.0",
+        "immature_open_case": "0",
+        "immature_other": "176",
+        "mature_total": "0",
+        "mature_rate": "0.0",
+        "maturity_boundary": "2026-08-15 06:41:46.741079",
+        "n": "0",
+        "positives": ""
+      },
+      {
+        "split": "embargo",
+        "quarter": "2023Q4",
+        "candidate_total": "131",
+        "mature_positive": "0.0",
+        "mature_negative": "0.0",
+        "immature_open_case": "1",
+        "immature_other": "130",
+        "mature_total": "0",
+        "mature_rate": "0.0",
+        "maturity_boundary": "2026-08-15 06:41:46.741079",
+        "n": "0",
+        "positives": ""
+      },
+      {
+        "split": "test",
+        "quarter": "2024Q1",
+        "candidate_total": "172",
+        "mature_positive": "",
+        "mature_negative": "",
+        "immature_open_case": "0",
+        "immature_other": "0",
+        "mature_total": "172",
+        "mature_rate": "1.0",
+        "maturity_boundary": "2026-08-15 06:41:46.741079",
+        "n": "172",
+        "positives": ""
+      },
+      {
+        "split": "test",
+        "quarter": "2024Q2",
+        "candidate_total": "167",
+        "mature_positive": "",
+        "mature_negative": "",
+        "immature_open_case": "0",
+        "immature_other": "0",
+        "mature_total": "167",
+        "mature_rate": "1.0",
+        "maturity_boundary": "2026-08-15 06:41:46.741079",
+        "n": "167",
+        "positives": ""
+      },
+      {
+        "split": "test",
+        "quarter": "2024Q3",
+        "candidate_total": "160",
+        "mature_positive": "",
+        "mature_negative": "",
+        "immature_open_case": "0",
+        "immature_other": "0",
+        "mature_total": "160",
+        "mature_rate": "1.0",
+        "maturity_boundary": "2026-08-15 06:41:46.741079",
+        "n": "160",
+        "positives": ""
+      },
+      {
+        "split": "test",
+        "quarter": "2024Q4",
+        "candidate_total": "143",
+        "mature_positive": "",
+        "mature_negative": "",
+        "immature_open_case": "0",
+        "immature_other": "0",
+        "mature_total": "143",
+        "mature_rate": "1.0",
+        "maturity_boundary": "2026-08-15 06:41:46.741079",
+        "n": "143",
+        "positives": ""
+      },
+      {
+        "split": "test",
+        "quarter": "2025Q1",
+        "candidate_total": "179",
+        "mature_positive": "",
+        "mature_negative": "",
+        "immature_open_case": "0",
+        "immature_other": "0",
+        "mature_total": "179",
+        "mature_rate": "1.0",
+        "maturity_boundary": "2026-08-15 06:41:46.741079",
+        "n": "179",
+        "positives": ""
+      }
+    ]
+  },
+  "test_open_record": {
+    "n": 1,
+    "header": [
+      "开封编号",
+      "数据快照",
+      "队列规则版本",
+      "特征规则版本",
+      "模型配置版本",
+      "评价规则版本",
+      "代码版本",
+      "门0状态",
+      "门0确认人",
+      "门1状态",
+      "门1确认人",
+      "门2状态",
+      "门2确认人",
+      "门3状态",
+      "门3确认人",
+      "冻结清单文件",
+      "冻结清单SHA256",
+      "模型文件",
+      "模型SHA256",
+      "配置文件",
+      "配置SHA256",
+      "04程序文件",
+      "04程序SHA256",
+      "Validation汇总文件",
+      "Validation汇总SHA256",
+      "标签承诺文件",
+      "标签承诺SHA256",
+      "Test特征承诺文件",
+      "Test特征承诺SHA256",
+      "Test输入文件",
+      "Test输入SHA256",
+      "Test预测承诺文件",
+      "Test预测承诺SHA256",
+      "Test预测文件",
+      "Test预测SHA256",
+      "Test标签文件",
+      "Test标签SHA256",
+      "方法冻结时间",
+      "预测生成时间",
+      "首次执行确认",
+      "批准开封时间",
+      "实际开封时间",
+      "执行命令",
+      "执行工作目录",
+      "执行人",
+      "监督人",
+      "复核人",
+      "标签合并检查结果",
+      "开封attempt文件",
+      "开封attempt状态",
+      "结果目录",
+      "结果文件SHA256清单",
+      "异常",
+      "勘误或后续处置",
+      "状态",
+      "备注",
+      "Unnamed: 56"
+    ],
+    "rows": [
+      {
+        "开封编号": "OPEN_20260817_001",
+        "数据快照": "OSHA_20260815_01",
+        "队列规则版本": "V2.0",
+        "特征规则版本": "V1.0",
+        "模型配置版本": "frozen_config.json",
+        "评价规则版本": "V1.0",
+        "代码版本": "V1.0",
+        "门0状态": "通过",
+        "门0确认人": "刘知桦",
+        "门1状态": "通过",
+        "门1确认人": "刘知桦",
+        "门2状态": "通过",
+        "门2确认人": "刘知桦",
+        "门3状态": "通过",
+        "门3确认人": "刘知桦",
+        "冻结清单文件": "结果/03_验证/frozen_manifest.json",
+        "冻结清单SHA256": "30cfffe39376d3ef271ead6b61c6daa3e691823f9b18c2d044c0dcc70f435f21",
+        "模型文件": "结果/03_验证/frozen_model.joblib",
+        "模型SHA256": "562d7837e0d2bc6389e95607e543f9b07db5be1b1fd0ad05487a1151b5001603",
+        "配置文件": "结果/03_验证/frozen_config.json",
+        "配置SHA256": "6540448b98e9fb6ebc1ed49124cee1d4ade217e950c32cba470241410fffbf87",
+        "04程序文件": "程序/04_run_sealed_test.py",
+        "04程序SHA256": "6ec49f58b514fa67196e1709abc8b929fe20f048b0c8aa7ffc130458c71a9187",
+        "Validation汇总文件": "结果/03_验证/validation_summary.csv",
+        "Validation汇总SHA256": "c0b78bf4b06786aff973a874da87874f7c6de85641456137377950f86b3a58cd",
+        "标签承诺文件": "数据/03_封存测试/sealed_test_commitment.json",
+        "标签承诺SHA256": "888b917b79a7d7faa4698fdf28b25b397c196aa17faf2a489540e9187c1073a1",
+        "Test特征承诺文件": "数据/03_封存测试/test_features_commitment.json",
+        "Test特征承诺SHA256": "f6ec9996f499ab06fee3c37499c8b849111a64f99f48c6c5f446fae8473dec7d",
+        "Test输入文件": "数据/03_封存测试/test_features_sealed.csv",
+        "Test输入SHA256": "75d64c3b5d014bb81986b08a4840df78c2ca7dad37aaa439632c54cd0ad7d789",
+        "Test预测承诺文件": "结果/03_验证/test_prediction_commitment.json",
+        "Test预测承诺SHA256": "791847c2cb5538cf9377d1ddf23679457fdfcb56338ea268060da5750756e8dd",
+        "Test预测文件": "结果/03_验证/test_predictions_sealed.csv",
+        "Test预测SHA256": "7d5de975c1168c101ce5d18f362699f1c9b5984c8cadb94b6b300d03466ab1bd",
+        "Test标签文件": "数据/03_封存测试/sealed_test_labels.csv",
+        "Test标签SHA256": "4dd3996e095764273a00b88e59d8dc799cd33bda92841cacce094c3f75209d07",
+        "方法冻结时间": "2024-01-01",
+        "预测生成时间": "2026-08-17 15:33:35",
+        "首次执行确认": "是",
+        "批准开封时间": "2026-08-17 15:35:00",
+        "实际开封时间": "",
+        "执行命令": "",
+        "执行工作目录": "/home/liu/osha",
+        "执行人": "刘知桦",
+        "监督人": "冯婧",
+        "复核人": "刘诗曼",
+        "标签合并检查结果": "",
+        "开封attempt文件": "",
+        "开封attempt状态": "approved",
+        "结果目录": "结果/04_正式测试_封存",
+        "结果文件SHA256清单": "",
+        "异常": "",
+        "勘误或后续处置": "勘误20260819:冻结清单SHA256因6个工具脚本加中文字体配置后更新（旧30cfffe→新073e062）;备份存于frozen_manifest_backup_20260819.json;开封记录从seal_backup_20260818复制到根目录并同步交叉引用;05重跑成功生成表1-4和图1-4",
+        "状态": "批准开封",
+        "备注": "所有门已通；冻结清、模型、配置、预测commitment均一致",
+        "Unnamed: 56": ""
+      }
+    ]
+  },
+  "stage1_contract_check": {
+    "checked_at": "2026-08-20T16:15:37",
+    "total": 5337,
+    "passed": 5337,
+    "failed": 0,
+    "pass_rate": 1.0,
+    "failures": []
+  },
+  "stage1_knowledge_contract_check": {
+    "n_chunks": 4656,
+    "n_missing_required": 0,
+    "missing_samples": [],
+    "retrieval_hit_1910_269": true,
+    "retrieval_hit_n": 3,
+    "retrieval_miss_empty": true
+  }
+}

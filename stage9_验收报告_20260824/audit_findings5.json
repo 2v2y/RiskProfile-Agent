@@ -1,0 +1,341 @@
+{
+  "hashes": {
+    "交付清单.md": "b2cf93df1ffb8afa7eb2a0d8fe68cd954534130813a73ca4e5bc8da965824c76",
+    "学生2交付说明.md": "04ba6faf58a97faa20a46d544a67dc5024b618c4b7bea9deedd85caf85a1e0c3",
+    "学生4检索程序接入指南.md": "f7a26fc213ea1088dd1d24735bd1da2d791ab9054fd98278b80f667556f54094",
+    "knowledge/chunks/regulation_chunks.jsonl": "155f92e5a7e324f5a1fdb8fa33508c4c6bf67db127bb35fcf37dd852e52bcb0e",
+    "knowledge/document_inventory.csv": "bc97c2911d5facc7ed0fb7f2ff857e018b2c02e7e7e4efbdd2376f26ea8c8e51",
+    "knowledge/knowledge_manifest.json": "13ec6ebee1d03fef44a0391f3cb5eb3cf64310cb233858589a72e0cdaad46ad7",
+    "knowledge/retrieval_gold.csv": "191f14ff054f93829da2853a9ba1e3fda488f84446d7cd1883b70224ac645271",
+    "knowledge/retrieval_validation_metrics.csv": "14029549ce827445c07cbbe5ab932f2649b2156ce0c2a6ffb90d17e33c15ba58",
+    "knowledge/standard_document_mapping.csv": "436da4d19d3a4a61bf7e7b32f35614744e8742903c41ce06dc3d0894e6e6823c",
+    "knowledge/standard_to_r1r9_mapping.csv": "fe62373844a9901b086df21e723a15ed47f550804ea3da70e9105606c598969b",
+    "knowledge/vector_db/chunk_ids.json": "92c09bdc9c54b9ddff552c143fff5331e2387c84be3c2ee55a56168ea48065d0",
+    "knowledge/vector_db/db_meta.json": "38f028584594de6e79f74939294006286ce8c342ffcc63ae12a92197910c8f93",
+    "knowledge/vector_db/embeddings.npy": "36036b9ae633b3ad8587c9a55841bce8a4e628a1a9c1439eaec4c92dd45ee438",
+    "knowledge/vector_db/faiss_index.bin": "1d4b9a11030272c4f94d372707a0f338a7c9413af3ef5c0041d51e50e1fca036",
+    "src/retrieval/rag_retriever.py": "b9521adc04e91999bea17031b97c18f20b2f0577c220eeed43b0982b906c8f52"
+  },
+  "chunks": {
+    "new_n": 4656,
+    "old_n": 4656,
+    "chunk_id_order_same": true,
+    "chunk_id_set_same": true,
+    "n_changed": 13,
+    "changed_fields": {
+      "standard": 13
+    },
+    "interp_new_style": 13,
+    "interp_old_style_left": 0
+  },
+  "mapping": {
+    "new_rows": 4656,
+    "old_rows": 4656,
+    "header": [
+      "OSHA标准编号",
+      "条款编号",
+      "片段编号",
+      "来源类型",
+      "来源网址",
+      "获取日期"
+    ],
+    "new_chunk_ids": 4656,
+    "chunk_id_set_same": true,
+    "n_changed": 13
+  },
+  "inventory_interp": [
+    {
+      "文档编号": "OSHA-INTERP-2025-08-01",
+      "OSHA标准编号": "1910.134",
+      "标题": "Whether the respiratory protection medical evaluation may consider factors beyond respirator use",
+      "来源类型": "解释资料"
+    },
+    {
+      "文档编号": "OSHA-INTERP-2025-08-25",
+      "OSHA标准编号": "1910.332(b), 1910.333",
+      "标题": "Electrical Busway Hot Swappable Plug-In Units",
+      "来源类型": "解释资料"
+    },
+    {
+      "文档编号": "OSHA-INTERP-2025-11-24",
+      "OSHA标准编号": "1910.147, 1910.333(b)(2)",
+      "标题": "Clarification Regarding the Requirements of 29 CFR 1910.147",
+      "来源类型": "解释资料"
+    }
+  ],
+  "interp_mapping_rows": [
+    {
+      "chunk_id": "chunk_04600",
+      "chunk_standard": "OSHA-INTERP-2025-08-01",
+      "mapping_standard": "OSHA-INTERP-2025-08-01",
+      "mapping_section": "section_1"
+    },
+    {
+      "chunk_id": "chunk_04601",
+      "chunk_standard": "OSHA-INTERP-2025-08-01",
+      "mapping_standard": "OSHA-INTERP-2025-08-01",
+      "mapping_section": "section_2"
+    },
+    {
+      "chunk_id": "chunk_04602",
+      "chunk_standard": "OSHA-INTERP-2025-08-01",
+      "mapping_standard": "OSHA-INTERP-2025-08-01",
+      "mapping_section": "section_3"
+    },
+    {
+      "chunk_id": "chunk_04603",
+      "chunk_standard": "OSHA-INTERP-2025-08-01",
+      "mapping_standard": "OSHA-INTERP-2025-08-01",
+      "mapping_section": "section_4"
+    }
+  ],
+  "adapter_document_id_check": {
+    "unknown_chunks": 0,
+    "samples": []
+  },
+  "gold_refs_in_new_chunks": {
+    "refs_with_chunk": 29906,
+    "missing": 0
+  },
+  "retrieval_gold_missing_chunks": 0,
+  "chunk_ids_order_matches_chunks": true,
+  "chunk_ids_n": 4656,
+  "r1r9_map_compare": {
+    "s2_rows": 6346,
+    "s1_rows": 6346,
+    "s2_header": [
+      "standard_code",
+      "standard_normalized",
+      "r_category",
+      "r_category_name",
+      "basis"
+    ],
+    "s1_header": [
+      "standard_code",
+      "standard_normalized",
+      "r_category",
+      "r_category_name",
+      "basis"
+    ],
+    "s2_cat_dist": {
+      "R1": 1084,
+      "R2": 236,
+      "R3": 60,
+      "R4": 539,
+      "R5": 84,
+      "R7": 902,
+      "R8": 777,
+      "R9": 2664
+    },
+    "s1_cat_dist": {
+      "R1": 1084,
+      "R2": 236,
+      "R3": 60,
+      "R4": 539,
+      "R5": 84,
+      "R7": 902,
+      "R8": 598,
+      "R6": 179,
+      "R9": 2664
+    },
+    "s2_r6": 0,
+    "s1_r6": 179,
+    "s2_sample_names": [
+      [
+        "R1",
+        "电气危险与带电防护"
+      ],
+      [
+        "R1",
+        "电气危险与带电防护"
+      ],
+      [
+        "R1",
+        "电气危险与带电防护"
+      ]
+    ],
+    "s1_sample_names": [
+      [
+        "R1",
+        "电气危险与带电防护"
+      ],
+      [
+        "R1",
+        "电气危险与带电防护"
+      ],
+      [
+        "R1",
+        "电气危险与带电防护"
+      ]
+    ]
+  },
+  "rag_retriever": {
+    "len": 8654,
+    "has_section_match": true,
+    "has_float_compare": true,
+    "has_osha_interp": false,
+    "head": "\"\"\"\nRAG检索接口（混合检索版）\n基于BGE向量 + FAISS索引 + 精确过滤\n供学生4接入检索程序时使用\n\n检索策略：\n  - 标准编号查询（如\"1910.132\"）→ 精确过滤 + BGE语义排序\n  - 自然语言查询（如\"fall protection\"）→ 纯BGE语义检索\n  - DOL格式查询（如\"19100132 Q01\"）→ 自动转换格式后检索\n\n验证结果（93条验证集，最终版）：\n  - Recall@3 = 1.0000（100%命中）\n  - Precision@3 = 0.3333\n  - MRR = 0.8530\n  - NDCG@10 = 0.8914\n  改进点：1)标准编号查询时优先匹配section字段；\n  2)用float比较处理编号截断(如1926.105 vs 1926.1050)。\n\n使用方法：\n    from rag_retriever import RAGRetriever\n\n    retriever = RAGRetriever()\n    results = retriever.search(\"1910.132\", k=3)\n    for r in results:\n        print(r[\"chunk_id\"], r[\"standard\"], r[\"score\"], r[\"text\"][:100])\n\"\"\"\n\nimport os\nimport re\nimport json\nimport numpy as np\n\n\nclass RAGRetriever:\n    \"\"\"\n    RAG检索器：混合检索（精确过滤 + BGE语义排序）\n\n    检索流程：\n    1. 判断查询类型（标准编号 or 自然语言）\n    2. 如果是标准编号：\n       a. 转换格式（DOL格式 → 知识库格式）\n       b. 精确过滤出所有匹配的法规片段\n       c. 在匹配片段中用BGE语义排序\n    3. 如果是自然语言：\n       a. 用BGE编码查询\n       b. FAISS全局搜索最相似的片段\n    4. 返回top-k结果\n    \"\"\"\n\n    def __init__(self):\n        \"\"\"初始化：加载FAISS索引、BGE模型、法规片段\"\"\"\n        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))\n        knowledge_dir = os.path.join(base_dir, \"knowledge\")\n        db_dir = os.path.join(knowledge_dir, \"vector_db\")\n\n  "
+  },
+  "metrics": {
+    "n_rows": 12,
+    "header": [
+      "method",
+      "top_k",
+      "n_queries",
+      "recall",
+      "precision",
+      "mrr",
+      "ndcg_at_10",
+      "eval_split",
+      "config_hash",
+      "created_at"
+    ],
+    "ndcg_na": 0,
+    "rows": [
+      {
+        "method": "hybrid",
+        "top_k": "1",
+        "n_queries": "93",
+        "recall": "0.7097",
+        "precision": "0.7097",
+        "mrr": "0.7097",
+        "ndcg_at_10": "0.7097",
+        "eval_split": "retrieval_gold.csv",
+        "config_hash": "bge_hybrid_section_float_4656_384",
+        "created_at": "2026-08-24"
+      },
+      {
+        "method": "hybrid",
+        "top_k": "3",
+        "n_queries": "93",
+        "recall": "1.0000",
+        "precision": "0.3333",
+        "mrr": "0.8530",
+        "ndcg_at_10": "0.8914",
+        "eval_split": "retrieval_gold.csv",
+        "config_hash": "bge_hybrid_section_float_4656_384",
+        "created_at": "2026-08-24"
+      },
+      {
+        "method": "hybrid",
+        "top_k": "5",
+        "n_queries": "93",
+        "recall": "1.0000",
+        "precision": "0.2000",
+        "mrr": "0.8530",
+        "ndcg_at_10": "0.8914",
+        "eval_split": "retrieval_gold.csv",
+        "config_hash": "bge_hybrid_section_float_4656_384",
+        "created_at": "2026-08-24"
+      },
+      {
+        "method": "hybrid",
+        "top_k": "10",
+        "n_queries": "93",
+        "recall": "1.0000",
+        "precision": "0.1000",
+        "mrr": "0.8530",
+        "ndcg_at_10": "0.8914",
+        "eval_split": "retrieval_gold.csv",
+        "config_hash": "bge_hybrid_section_float_4656_384",
+        "created_at": "2026-08-24"
+      },
+      {
+        "method": "vector",
+        "top_k": "1",
+        "n_queries": "93",
+        "recall": "0.0000",
+        "precision": "0.0000",
+        "mrr": "0.0000",
+        "ndcg_at_10": "0.0000",
+        "eval_split": "retrieval_gold.csv",
+        "config_hash": "bge_pure_4656_384",
+        "created_at": "2026-08-24"
+      },
+      {
+        "method": "vector",
+        "top_k": "3",
+        "n_queries": "93",
+        "recall": "0.0000",
+        "precision": "0.0000",
+        "mrr": "0.0000",
+        "ndcg_at_10": "0.0000",
+        "eval_split": "retrieval_gold.csv",
+        "config_hash": "bge_pure_4656_384",
+        "created_at": "2026-08-24"
+      },
+      {
+        "method": "vector",
+        "top_k": "5",
+        "n_queries": "93",
+        "recall": "0.0000",
+        "precision": "0.0000",
+        "mrr": "0.0000",
+        "ndcg_at_10": "0.0000",
+        "eval_split": "retrieval_gold.csv",
+        "config_hash": "bge_pure_4656_384",
+        "created_at": "2026-08-24"
+      },
+      {
+        "method": "vector",
+        "top_k": "10",
+        "n_queries": "93",
+        "recall": "0.0000",
+        "precision": "0.0000",
+        "mrr": "0.0000",
+        "ndcg_at_10": "0.0000",
+        "eval_split": "retrieval_gold.csv",
+        "config_hash": "bge_pure_4656_384",
+        "created_at": "2026-08-24"
+      },
+      {
+        "method": "keyword",
+        "top_k": "1",
+        "n_queries": "93",
+        "recall": "0.0645",
+        "precision": "0.0645",
+        "mrr": "0.0645",
+        "ndcg_at_10": "0.0645",
+        "eval_split": "retrieval_gold.csv",
+        "config_hash": "tfidf_4656",
+        "created_at": "2026-08-24"
+      },
+      {
+        "method": "keyword",
+        "top_k": "3",
+        "n_queries": "93",
+        "recall": "0.2903",
+        "precision": "0.0968",
+        "mrr": "0.1631",
+        "ndcg_at_10": "0.1957",
+        "eval_split": "retrieval_gold.csv",
+        "config_hash": "tfidf_4656",
+        "created_at": "2026-08-24"
+      },
+      {
+        "method": "keyword",
+        "top_k": "5",
+        "n_queries": "93",
+        "recall": "0.4731",
+        "precision": "0.0946",
+        "mrr": "0.2061",
+        "ndcg_at_10": "0.2721",
+        "eval_split": "retrieval_gold.csv",
+        "config_hash": "tfidf_4656",
+        "created_at": "2026-08-24"
+      },
+      {
+        "method": "keyword",
+        "top_k": "10",
+        "n_queries": "93",
+        "recall": "0.6559",
+        "precision": "0.0656",
+        "mrr": "0.2290",
+        "ndcg_at_10": "0.3296",
+        "eval_split": "retrieval_gold.csv",
+        "config_hash": "tfidf_4656",
+        "created_at": "2026-08-24"
+      }
+    ]
+  }
+}
