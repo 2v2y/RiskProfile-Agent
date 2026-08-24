@@ -62,7 +62,20 @@ class QwenClient:
             timeout=self.timeout,
         )
         response = llm.invoke(messages)
-        return response.content
+        content = response.content
+        # Qwen/vLLM 返回的 content 可能是字符串，也可能是内容块列表。
+        # 统一转成字符串，避免后续 .strip() / JSON 解析出错。
+        if isinstance(content, str):
+            return content
+        if isinstance(content, list):
+            parts: list[str] = []
+            for block in content:
+                if isinstance(block, dict):
+                    parts.append(str(block.get("text", "")))
+                else:
+                    parts.append(str(block))
+            return "".join(parts)
+        return str(content)
 
 
 def _env_or(name: str, default: Any) -> Any:

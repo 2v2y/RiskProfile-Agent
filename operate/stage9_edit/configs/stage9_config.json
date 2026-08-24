@@ -11,7 +11,7 @@
   },
   "review": {
     "max_points": 3,
-    "model": "qwen3.8-27b",
+    "model": "Qwen3.8-27B",
     "use_llm": false,
     "fail_on_llm_error": false,
     "prompt_id": "review_agent_v1",

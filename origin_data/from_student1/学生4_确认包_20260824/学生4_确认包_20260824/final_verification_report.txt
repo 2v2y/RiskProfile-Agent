@@ -1,0 +1,16 @@
+最终综合验证报告
+日期: 2026-08-24
+======================================================================
+
+[PASS] M2分数复算: 5337行, 精确匹配100.0%, 最大差异5.00e-07
+[PASS] R1-R9三文件一致: 9个类别全部匹配
+[PASS] model_hash为64位: 长度=64, 值=562d7837e0d2bc63...
+[PASS] model_hash与manifest一致: manifest=562d7837e0d2bc63... supplement=562d7837e0d2bc63...
+[PASS] model_hash与实际文件一致: 文件=562d7837e0d2bc63... supplement=562d7837e0d2bc63...
+[PASS] score_evidence包含完整hash: score_evidence中包含64位SHA-256
+[PASS] 字段映射完整: 2个映射: {'candidate_naics_group': 'industry_group', 'cutoff_date': 'ranking_cutoff'}
+[PASS] Pipeline含ColumnTransformer: 可自动处理字符串列
+[PASS] Pipeline含LogisticRegression: 分类模型
+
+总计: 9 PASS, 0 FAIL
+状态: ALL PASS

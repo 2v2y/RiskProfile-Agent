@@ -158,15 +158,27 @@ class ReviewAgent:
             "verification_instructions_zh": "由人工确认单位历史、监管背景与现场情况后，再决定检查重点",
         }
 
-    def _parse_llm_json(self, text: str) -> dict[str, Any]:
-        text = text.strip()
+    def _parse_llm_json(self, text: Any) -> dict[str, Any]:
+        # content 可能是字符串或内容块列表，统一转成字符串。
+        if isinstance(text, list):
+            text = "".join(
+                str(block.get("text", "") if isinstance(block, dict) else block)
+                for block in text
+            )
+        text = str(text).strip()
         text = re.sub(r"^```(?:json)?\s*", "", text)
         text = re.sub(r"\s*```$", "", text)
         start = text.find("{")
         end = text.rfind("}")
         if start >= 0 and end > start:
             text = text[start : end + 1]
-        return json.loads(text)
+        try:
+            data = json.loads(text)
+        except Exception as exc:
+            raise ValueError(f"无法解析 LLM JSON 输出，前200字符：{text[:200]}") from exc
+        if not isinstance(data, dict):
+            raise ValueError(f"LLM 输出不是 JSON 对象，前200字符：{text[:200]}")
+        return data
 
     def _llm_points(
         self,
