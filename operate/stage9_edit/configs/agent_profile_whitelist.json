@@ -1,0 +1,250 @@
+{
+  "schema_version": "1.0",
+  "name": "agent_profile_whitelist",
+  "reference_doc": "RiskProfile_Agent_研究方案.docx §31.7 第9条（生成智能模块允许读取的字段清单）+ §31.11（画像整理模块只接收画像白名单）",
+  "delivery_target": "学生4（Agent 系统）",
+  "created_by": "冯婧（学生3）",
+  "created_at": "2026-08-20",
+  "profile_version": "v1.0",
+  "whitelist_note": "此列表决定了智能模块能从画像中读取哪些字段。白名单外的字段即使存在于画像中，智能体也不可见。",
+  "allow_read_fields": [
+    {
+      "field": "context_naics_group",
+      "zh": "截点前最近行业组",
+      "purpose": "Profile/Review Agent"
+    },
+    {
+      "field": "jurisdiction_context",
+      "zh": "监管背景",
+      "purpose": "Profile/Review Agent"
+    },
+    {
+      "field": "quarter_number",
+      "zh": "自然季度序号",
+      "purpose": "Profile/Review Agent"
+    },
+    {
+      "field": "history_inspections",
+      "zh": "成熟历史检查数",
+      "purpose": "Profile/Review Agent"
+    },
+    {
+      "field": "history_positive_inspections",
+      "zh": "成熟历史阳性数",
+      "purpose": "Profile/Review Agent"
+    },
+    {
+      "field": "smoothed_positive_rate",
+      "zh": "Beta‑Binomial平滑历史率",
+      "purpose": "Profile/Review Agent",
+      "note": "无历史时=0.5占位，须配合no_history_flag使用，不可将0.5解释为真实风险率"
+    },
+    {
+      "field": "days_since_last_inspection",
+      "zh": "距上次成熟检查天数",
+      "purpose": "Profile/Review Agent"
+    },
+    {
+      "field": "days_since_last_positive",
+      "zh": "距上次成熟阳性天数",
+      "purpose": "Profile/Review Agent",
+      "note": "无阳性时保留缺失值"
+    },
+    {
+      "field": "inspections_365d",
+      "zh": "365天内成熟检查数",
+      "purpose": "Profile/Review Agent"
+    },
+    {
+      "field": "inspections_730d",
+      "zh": "730天内成熟检查数",
+      "purpose": "Profile/Review Agent"
+    },
+    {
+      "field": "positives_365d",
+      "zh": "365天内成熟阳性数",
+      "purpose": "Profile/Review Agent"
+    },
+    {
+      "field": "positives_730d",
+      "zh": "730天内成熟阳性数",
+      "purpose": "Profile/Review Agent"
+    },
+    {
+      "field": "decayed_inspections",
+      "zh": "时间衰减检查量",
+      "purpose": "Profile/Review Agent"
+    },
+    {
+      "field": "decayed_positives",
+      "zh": "时间衰减阳性量",
+      "purpose": "Profile/Review Agent"
+    },
+    {
+      "field": "historical_standard_codes",
+      "zh": "历史OSHA标准编号列表",
+      "purpose": "Retrieval Agent（仅用于构建检索查询）"
+    },
+    {
+      "field": "historical_risk_categories",
+      "zh": "历史风险类别列表",
+      "purpose": "Retrieval/Review Agent"
+    },
+    {
+      "field": "risk_category_counts",
+      "zh": "各风险类别计数",
+      "purpose": "Retrieval/Review Agent"
+    },
+    {
+      "field": "risk_category_unmapped_rate",
+      "zh": "风险未映射比例",
+      "purpose": "Audit Agent"
+    },
+    {
+      "field": "risk_score",
+      "zh": "风险分数",
+      "purpose": "Review Agent",
+      "note": "只读，不可修改；不是真实发生概率"
+    },
+    {
+      "field": "risk_percentile",
+      "zh": "季度内排名位置",
+      "purpose": "Review Agent",
+      "note": "只读，不可修改"
+    },
+    {
+      "field": "model_version",
+      "zh": "模型版本",
+      "purpose": "Audit Agent",
+      "note": "审计溯源，只读"
+    },
+    {
+      "field": "score_evidence",
+      "zh": "分数来源（文件SHA‑256）",
+      "purpose": "Audit Agent",
+      "note": "审计溯源哈希，只读"
+    },
+    {
+      "field": "no_history_flag",
+      "zh": "无成熟历史标记",
+      "purpose": "Audit/Review Agent"
+    },
+    {
+      "field": "no_positive_history_flag",
+      "zh": "无成熟违章历史标记",
+      "purpose": "Audit/Review Agent"
+    },
+    {
+      "field": "missing_last_inspection_flag",
+      "zh": "最近检查日期缺失标记",
+      "purpose": "Audit/Review Agent"
+    },
+    {
+      "field": "missing_last_positive_flag",
+      "zh": "最近违章日期缺失标记",
+      "purpose": "Audit/Review Agent"
+    },
+    {
+      "field": "entity_match_uncertain_flag",
+      "zh": "实体匹配不确定标记",
+      "purpose": "Audit Agent"
+    },
+    {
+      "field": "insufficient_evidence_flag",
+      "zh": "可用依据不足标记",
+      "purpose": "Audit Agent"
+    },
+    {
+      "field": "profile_version",
+      "zh": "画像冻结版本号",
+      "purpose": "Audit Agent",
+      "note": "画像数据集溯源，只读"
+    }
+  ],
+  "forbidden_fields": [
+    {
+      "field": "sample_id",
+      "reason": "原始标识符，禁止暴露给智能体"
+    },
+    {
+      "field": "entity_proxy_id",
+      "reason": "匿名单位ID，仅用于内部连接"
+    },
+    {
+      "field": "activity_nrs",
+      "reason": "原始检查编号，禁止暴露"
+    },
+    {
+      "field": "activity_count",
+      "reason": "内部统计计数"
+    },
+    {
+      "field": "context_activity_nr",
+      "reason": "内部连接键"
+    },
+    {
+      "field": "candidate_naics_group",
+      "reason": "候选匹配字段"
+    },
+    {
+      "field": "candidate_site_state",
+      "reason": "候选匹配字段"
+    },
+    {
+      "field": "label",
+      "reason": "未来答案，禁止暴露给Agent"
+    },
+    {
+      "field": "label_available_date",
+      "reason": "答案可用时间，禁止暴露"
+    },
+    {
+      "field": "has_unclosed_component",
+      "reason": "内部状态标记"
+    },
+    {
+      "field": "split",
+      "reason": "数据划分标记"
+    },
+    {
+      "field": "maturity_boundary",
+      "reason": "内部成熟度参数"
+    },
+    {
+      "field": "is_mature_at_as_of",
+      "reason": "内部判定字段"
+    },
+    {
+      "field": "is_mature_for_use",
+      "reason": "内部判定字段"
+    },
+    {
+      "field": "episode_open_date",
+      "reason": "样本生成内部字段"
+    },
+    {
+      "field": "episode_last_open_date",
+      "reason": "样本生成内部字段"
+    },
+    {
+      "field": "context_source_date",
+      "reason": "内部来源日期"
+    },
+    {
+      "field": "cutoff_date",
+      "reason": "画像截止日，由程序管理，不交给Agent"
+    }
+  ],
+  "forbidden_content_type": [
+    "原始名称",
+    "原始地址",
+    "原始电话",
+    "原始检查编号（activity_nrs）",
+    "Test样本明细",
+    "Test答案",
+    "future_* 字段",
+    "gold_* 字段"
+  ],
+  "rule": "画像整理模块只能读取白名单内的字段，基于已有数字写成事实，不能重新计算或修改（§8.7）。白名单外字段即使存在于画像文件中，智能模块也不得读取。",
+  "count": 29
+}

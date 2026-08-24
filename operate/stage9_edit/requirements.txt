@@ -1,0 +1,17 @@
+# RiskProfile-Agent 阶段9：复用阶段1依赖，追加学生2 RAG 检索器依赖。
+
+pydantic>=2.5,<3
+pandas>=2.1,<3
+numpy>=1.26,<2
+python-dotenv>=1.0,<2
+
+langgraph>=1.2,<2
+langchain-core>=1.6,<2
+langchain-openai>=1.6,<2
+pyyaml>=6.0,<7
+jsonschema>=4.0,<5
+
+# 学生2 FAISS/BGE 检索器
+faiss-cpu>=1.8,<2
+sentence-transformers>=3,<5
+torch>=2.0
