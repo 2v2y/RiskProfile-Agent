@@ -1,0 +1,21 @@
+# 真实实验数据不入库（按项目数据管理规则，仅服务器/公司内保存）
+data/
+
+# 运行输出不入库
+results/
+*.log
+
+# 密钥
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 系统/编辑器
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

@@ -1,0 +1,37 @@
+{
+  "$id": "schema_mapping.json",
+  "title": "学生1画像CSV -> ProfileCard 字段映射（已验收数据的适配层记录）",
+  "description": "不改动已验收数据；仅在本适配层把 CSV 列名映射到 Agent 输入 Schema（ProfileCard）。",
+  "source": {
+    "profiles_train_val.csv": "学生1 冻结画像（SHA-256 9f1f776c…，5337 行，Train 4656 + Validation 681）",
+    "profile_supplement_8fields.csv": "学生1 08-24 修复版 8 字段补充表（SHA-256 d0f1dbc9…，5337 行，model_hash 全 64 位）"
+  },
+  "rename": {
+    "cutoff_date": "ranking_cutoff",
+    "context_naics_group": "industry_group"
+  },
+  "naics_to_industry_group": {
+    "221122": "G1",
+    "2211_other": "G2",
+    "237130": "G3",
+    "238210": "G4",
+    "_default": "UNKNOWN"
+  },
+  "transforms": {
+    "risk_percentile": {"from": "0-100 百分位", "to": "0-1 比例", "op": "divide_by_100"},
+    "historical_standard_codes": {"from": "分号分隔 DOL 格式", "to": "标准格式 list", "op": "split_semicolon_convert"},
+    "historical_risk_categories": {"from": "JSON 字符串 list", "to": "list[str]", "op": "json_load"},
+    "risk_category_counts": {"from": "JSON 字符串 dict", "to": "dict[str,int]", "op": "json_load"},
+    "days_since_last_inspection": {"from": "空串=缺失", "to": "null + missing_last_inspection_flag", "op": "nullable"},
+    "days_since_last_positive": {"from": "空串=缺失", "to": "null + missing_last_positive_flag", "op": "nullable"}
+  },
+  "derived_flags": {
+    "no_history_flag": "history_inspections == 0",
+    "no_positive_history_flag": "history_inspections > 0 and history_positive_inspections == 0",
+    "missing_last_inspection_flag": "days_since_last_inspection 为空",
+    "missing_last_positive_flag": "days_since_last_positive 为空",
+    "insufficient_evidence_flag": "no_history or missing_last_inspection or missing_last_positive",
+    "entity_match_uncertain_flag": "固定 False（学生1 已通过实体匹配盲审）"
+  },
+  "profile_version": "FREEZE_20260814_001"
+}
