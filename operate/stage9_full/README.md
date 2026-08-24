@@ -32,6 +32,8 @@ stage9_full/
 
 数据只读，实验代码**不修改**任何已验收数据；字段差异统一在 `adapters/schema_adapter.py` 做映射，映射规则记录在 `config/schema_mapping.json`。
 
+R1—R9 风险分类的权威映射以学生2交付的最新版 `standard_to_r1r9_mapping.csv`（6346 行）为准（见 `config/experiment_config.json` 的 `data.r1r9_mapping`）。运行链路直接使用学生1补充表中已算好的 `historical_risk_categories`，该映射文件作为分类口径的可追溯权威引用。
+
 ## 3. Baseline 定义（沿用项目 B0—B5）
 
 | 方法 | 说明 | 用 LLM | 用检索 | 用 Agent | 用独立语义审查 |
