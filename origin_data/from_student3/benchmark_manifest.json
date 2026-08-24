@@ -1,0 +1,219 @@
+{
+  "basis": "RiskProfile_Agent_研究方案.docx §31.10 阶段7（建立RiskProfile-OSHA评价数据集）；路线A 扩基线法",
+  "contract": {
+    "auto_eval_min": 1000,
+    "gold_separated_from_agent_input": true,
+    "human_blind_range": [
+      80,
+      120
+    ],
+    "no_future_fields_in_agent_input": true,
+    "no_test_labels_or_samples": true,
+    "red_team_min": 200
+  },
+  "created_at": "2026-08-22",
+  "created_by": "冯婧（学生3）",
+  "dataset_name": "RiskProfile-OSHA Benchmark",
+  "layering_dimensions": [
+    "有/无历史 (history_presence)",
+    "证据充分/不足 (evidence_sufficiency)",
+    "不同风险分位 (percentile_bucket: top25/high/mid/low/info_missing)",
+    "不同产业组 G1-G4 + OTHER",
+    "风险类别 R1-R9（gold_risk_categories，路线A 行业组参考基线覆盖九类；stratification.risk_category 为行业主导单值）"
+  ],
+  "leakage_guard": {
+    "forbidden_in_whitelist": [
+      "sample_id",
+      "entity_proxy_id",
+      "activity_nrs",
+      "label",
+      "label_available_date",
+      "split",
+      "cutoff_date",
+      "episode_open_date",
+      "episode_last_open_date"
+    ],
+    "gold_separated": true,
+    "no_future_fields_in_agent_input": true,
+    "no_test_labels_or_samples": true
+  },
+  "m2_model": {
+    "reason": "老师说不考虑 M2 冻结风险模型，阶段7 不引 risk_score/risk_percentile",
+    "used": false
+  },
+  "notes": [
+    "阶段7 评价数据集 v2.0-20260822-routeA：采用路线A 扩基线法，gold 标准来自行业组参考代表标准，R1-R9 九类全覆盖。",
+    "gold_risk_categories 由 standard_to_r1r9_mapping.csv（权威字典，源自风险分类.csv AD列，已核0不一致）映射得到，真实可溯源。",
+    "gold 标准为\"行业组参考代表标准\"，非该实体真实违反标准（数据可得性限制：profiles 无\"违反标准\"列，实体↔标准关联表在受限原始数据/角色隔离）。",
+    "知识库证据缺口：R5/R6/R7/R9 四类代表标准在阶段6知识库未收录法规片段，标准号真实但证据待补；R1/R2/R3/R4/R8 五类证据链自洽。",
+    "M2 冻结风险模型老师说不考虑，阶段7 不引 risk_score/risk_percentile/risk_category_counts 等 M2 相关字段。",
+    "human_blind_sample.csv 的 method_id_placeholder 在盲评期间不暴露 B0–B5，由学生5 在盲评结束后揭晓。",
+    "所有自动评价案例已通过 no_future_fields 校验；future_* 字段在 input_card 中显式禁止。"
+  ],
+  "output_files": {
+    "benchmark_cases.jsonl": {
+      "contains": "智能模块运行输入（不含未来答案）",
+      "path": "阶段7/阶段7产物/benchmark_cases.jsonl"
+    },
+    "benchmark_gold_restricted.jsonl": {
+      "access": "受限；评价阶段才可读取",
+      "contains": "gold_risk_categories(R1-R9) + gold_regulation_document_ids；仅评价使用",
+      "path": "阶段7/阶段7产物/benchmark_gold_restricted.jsonl"
+    },
+    "human_blind_sample.csv": {
+      "contains": "人工盲评样本；方法名隐藏",
+      "path": "阶段7/阶段7产物/human_blind_sample.csv"
+    },
+    "red_team_cases.jsonl": {
+      "contains": "异常/诱导性输入",
+      "path": "阶段7/阶段7产物/red_team_cases.jsonl"
+    }
+  },
+  "risk_category_method": {
+    "approach": "route_A_baseline_reference",
+    "coverage": "R1-R9 九类全覆盖（每类命中全部 5337 样本）",
+    "description": "gold 标准来自行业组参考代表标准（每行业组基线含 R1-R9 各1个代表标准+行业相关标准），gold_risk_categories 由 standard_to_r1r9_mapping.csv 映射到真实 R1-R9。非实体真实违反标准。",
+    "knowledge_evidence": {
+      "has_fragment": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R8"
+      ],
+      "no_fragment_in_kb": [
+        "R5",
+        "R6",
+        "R7",
+        "R9"
+      ],
+      "note": "R5/R6/R7/R9 代表标准在阶段6知识库无法规片段，标准号真实可溯源但证据待补"
+    },
+    "representative_standards": {
+      "R1": "1910.0269",
+      "R2": "1910.0132",
+      "R3": "1910.0147",
+      "R4": "1926.0501",
+      "R5": "1910.0036",
+      "R6": "1910.0179",
+      "R7": "1910.0001",
+      "R8": "1926.1402",
+      "R9": "1926.0202"
+    }
+  },
+  "sources": {
+    "knowledge_manifest": {
+      "文档数": 193,
+      "片段数": 4656
+    },
+    "profiles_input": {
+      "path": "阶段7/阶段7可能用到的文件/profiles_train_val.csv",
+      "profile_version": "FREEZE_20260814_001",
+      "rows": 5337,
+      "sha256": "7c231b119631157a3b9b4f17422d3f7be5fbff878198618e24614c11026e3992"
+    },
+    "standard_document_mapping": {
+      "knowledge_version": "5.0-frozen",
+      "path": "阶段6学生2部分产物/standard_document_mapping.csv",
+      "rows": 4656,
+      "sha256": "483cb82a4e254d44d1a652d460a1aa4dc763fbe465464bc409c09f5b89561e31"
+    },
+    "standard_to_r1r9_mapping": {
+      "authority": "R1-R9 字典(源自风险分类.csv AD列, 0不一致)",
+      "path": "阶段7/阶段7可能用到的文件/standard_to_r1r9_mapping.csv",
+      "rows": 6346,
+      "sha256": "76c0311fe83097f8f72b4f1688db6503199659c9f2b9b54c52721047da444d66"
+    }
+  },
+  "status": "active",
+  "targets_actual": {
+    "auto_eval_cases": {
+      "count": 5337,
+      "no_future_fields_verified": true,
+      "source": "train+validation",
+      "stratification": {
+        "evidence_sufficiency": {
+          "insufficient": 4175,
+          "sufficient": 1162
+        },
+        "industry_group": {
+          "G1": 37,
+          "G2": 19,
+          "G3": 86,
+          "G4": 1020,
+          "OTHER": 4175
+        },
+        "percentile_bucket": {
+          "high": 295,
+          "info_missing": 4175,
+          "low": 270,
+          "mid": 287,
+          "top25": 310
+        },
+        "risk_category": {
+          "R1": 1039,
+          "R2": 4212,
+          "R8": 86
+        },
+        "split": {
+          "train": 4656,
+          "validation": 681
+        }
+      }
+    },
+    "gold_risk_categories_coverage": {
+      "R1": 5337,
+      "R2": 5337,
+      "R3": 5337,
+      "R4": 5337,
+      "R5": 5337,
+      "R6": 5337,
+      "R7": 5337,
+      "R8": 5337,
+      "R9": 5337
+    },
+    "human_blind_sample": {
+      "count": 100,
+      "evidence_sufficiency": {
+        "insufficient": 20,
+        "sufficient": 80
+      },
+      "has_history": {
+        "no": 20,
+        "yes": 80
+      },
+      "industry_group": {
+        "G1": 2,
+        "G2": 1,
+        "G3": 10,
+        "G4": 67,
+        "OTHER": 20
+      },
+      "method_name_hidden": true,
+      "percentile_bucket": {
+        "high": 20,
+        "info_missing": 20,
+        "low": 20,
+        "mid": 20,
+        "top25": 20
+      }
+    },
+    "red_team_cases": {
+      "all_expected_to_defer_or_reject": true,
+      "count": 240,
+      "types": {
+        "all_profile_facts_zero_cannot_pass": 24,
+        "audit_blocked_by_insufficient_evidence": 24,
+        "double_audit_overflow": 24,
+        "entity_proxy_id_leak_attempt": 24,
+        "forbidden_future_field_injected": 24,
+        "gold_label_leak_attempt": 24,
+        "missing_required_profile_fields": 24,
+        "no_history_with_unjustified_causal_claim": 24,
+        "regulation_lookup_way_off_scope": 24,
+        "wrong_industry_out_of_scope": 24
+      }
+    }
+  },
+  "version": "v2.0-20260822-routeA"
+}
