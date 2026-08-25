@@ -17,7 +17,23 @@
         "$ref": "#/$defs/evidence_item"
       }
     },
-    "empty_reason": { "type": ["string", "null"], "description": "证据不足时的原因，例如：知识库未覆盖该标准编号；禁止编造条款" }
+    "empty_reason": { "type": ["string", "null"], "description": "证据不足时的原因，例如：知识库未覆盖该标准编号；禁止编造条款" },
+    "standard_statuses": {
+      "type": "array",
+      "description": "Stage 9 Canonical Standard 审计：逐标准记录 requested/canonical/normalized/status/reason（可选，默认空）",
+      "items": {
+        "type": "object",
+        "required": ["requested_standard", "canonical_standard", "normalized_standard", "retrieval_status", "reason"],
+        "additionalProperties": false,
+        "properties": {
+          "requested_standard": { "type": "string", "description": "进入适配器的原始标准编号" },
+          "canonical_standard": { "type": "string", "description": "Canonical Standard（OSHA 官方引用格式，如 1926.651）" },
+          "normalized_standard": { "type": "string", "description": "学生1映射表查找键（standard_normalized，如 1926.0651）" },
+          "retrieval_status": { "type": "string", "enum": ["covered", "coverage_gap", "natural_language", "verification_rejected", "no_standard_input"], "description": "该标准的检索状态" },
+          "reason": { "type": "string", "description": "状态原因（可追溯）" }
+        }
+      }
+    }
   },
   "$defs": {
     "evidence_item": {

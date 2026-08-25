@@ -20,11 +20,12 @@
 - 为什么无法确定：真实 Qwen 输出未接入，本地无法得到真实引用。
 - 需要人工确认什么：正式实验在服务器用 Qwen 运行，离线数字不作为结论。
 
-## 3. R1—R9 映射权威版本 —— 已决议：以学生2交付的最新版为准
+## 3. R1—R9 映射权威版本 —— 已决议（2026-08-25 更新）：以学生1交付版为唯一 Canonical Standard
 
-- 决议：R1—R9 权威映射采用**学生2交付的最新版** `origin_data/from_student2/交付_学生4/交付_学生4/knowledge/standard_to_r1r9_mapping.csv`（6346 行，SHA `fe623738…`）。
-- 记录的事实（供追溯）：该版不含 R6（R6=0、R8=777），即机械类风险并入 R8；学生1 08-24 版（SHA `76c0311f…`）含 R6=179。二者差异已记录，本次以学生2交付版为准。
-- 运行说明：stage9_full 运行链路直接使用学生1补充表已算好的 `historical_risk_categories`，不运行时读取该映射文件；该映射作为 R1—R9 分类口径的可追溯权威引用。
+- 决议：R1—R9 权威映射采用**学生1 08-24 最终版** `origin_data/from_student1/回复学生4_20260824/回复学生4_20260824/standard_to_r1r9_mapping.csv`（6346 行，SHA `76c0311f…`，含 R6=179）。`config/experiment_config.json` 的 `data.r1r9_mapping` 已同步切换。
+- 原因：以学生1交付的标准体系作为 Stage 9 唯一 Canonical Standard（见 `docs/standard_consistency_analysis.md`）。画像 `risk_category_counts` / `historical_risk_categories` 本身就是按学生1口径生成（实测含 R6，如 1910.212 → R6 共 85 行），与学生2包内旧映射（R6=0、R8=777）不一致；stage9_验收报告 06 也判定学生2包内映射为旧版需替换。
+- 记录的事实（供追溯）：学生1版 R6=27 个唯一标准（179 行映射键）、R8=152；学生2包内版 R6=0、R8=179，二者差异仅 27 个标准的 R6/R8 归属。
+- 运行说明：stage9_full 运行链路仍直接使用学生1补充表已算好的 `historical_risk_categories`；该映射用于标准一致性审计与复算（`experiments/audit_standard_consistency.py`、`tests/test_canonical_standard.py`）。
 
 ## 4. `historical_standard_codes` 约 37% 空值
 
@@ -46,3 +47,14 @@
 - 相关文件：`experiments/run_test.py`
 - 当前观察：正式 Test 使用封存数据，仓库不包含；入口只做纪律校验并拒绝伪造。
 - 需要人工确认什么：封存 Test 数据的存放位置与开封流程（阶段11）。
+
+## 7. [DATA GAP] 学生2知识库未覆盖画像中的大量联邦标准（含 1926.651）
+
+- 相关文件：`origin_data/from_student2/交付_学生4/交付_学生4/knowledge/chunks/regulation_chunks.jsonl`；
+  全量证据见 `docs/standard_consistency_analysis.md`。
+- 当前观察：画像 144 个联邦标准中仅 44 个在知识库有正文片段；1926.651（开挖 Subpart P）、1926.652、
+  1926.4xx、1926.451–454（脚手架）、1926.6xx 等共 100 个联邦标准缺失（3723 次出现）。
+- 当前处理：Stage 9 已按 Canonical Standard 正确识别并如实返回 `coverage_gap`（`retrieval.standard_statuses`），
+  不伪造、不调用语义回退误命中。
+- 需要谁补充什么：学生2按画像标准分布补充法规正文并重建向量索引（version 5.0-frozen 之后的新版本）；
+  或导师/学生4拍板正式实验的评价口径（仅对知识库覆盖标准评价检索维度）。

@@ -8,7 +8,7 @@
     "profile_supplement": "origin_data/from_student1/回复学生4_20260824/回复学生4_20260824/profile_supplement_8fields.csv",
     "knowledge_dir": "origin_data/from_student2/交付_学生4/交付_学生4/knowledge",
     "rag_retriever_path": "origin_data/from_student2/交付_学生4/交付_学生4/src/retrieval/rag_retriever.py",
-    "r1r9_mapping": "origin_data/from_student2/交付_学生4/交付_学生4/knowledge/standard_to_r1r9_mapping.csv",
+    "r1r9_mapping": "origin_data/from_student1/回复学生4_20260824/回复学生4_20260824/standard_to_r1r9_mapping.csv",
     "benchmark_cases": "origin_data/from_student2/benchmark_cases.jsonl",
     "red_team_cases": "origin_data/from_student2/red_team_cases.jsonl",
     "gold": "origin_data/from_student3/student3/学生4需要的文件/benchmark_gold_restricted.jsonl",

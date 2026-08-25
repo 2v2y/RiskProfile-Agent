@@ -51,6 +51,23 @@ R1—R9 风险分类的权威映射以学生2交付的最新版 `standard_to_r1r
 
 固定流程（阶段八 `operate/stage1` 已实现并验证）：Profile → Retrieval → Review → Audit（确定性核对 + 独立语义审查）→ PASS / DEFER（转人工） / REJECT。stage9_full 复用它，并把 Retrieval 换成学生2 FAISS/BGE 检索（缺依赖时自动回退关键词），证据输出符合 `evidence_schema`（含 evidence_id / document_id / standard / section / source / score）。
 
+## 4.1 Canonical Standard 统一层（2026-08-25 新增）
+
+- 全链路标准编号统一走 `adapters/canonical_standard.py`：Canonical Standard = OSHA 官方引用格式
+  （如 `1926.651`），DOL 原值（`19260651 A`）与映射键（`1926.0651`）都会被规范化为同一格式；
+- R1–R9 映射以学生1最终版 `standard_to_r1r9_mapping.csv`（SHA `76c0311f…`，含 R6=179）为权威口径，
+  与学生1画像 `risk_category_counts` 一致（见 `UNRESOLVED.md` 第 3 条）；
+- Retrieval 前做知识库覆盖预检：有覆盖才调用学生2 RAG；无覆盖返回 `coverage_gap`，禁止语义回退误命中；
+- `RetrievalResult.standard_statuses` 逐标准记录 requested / canonical / normalized / status / reason；
+- 决议依据与全量证据见 `docs/standard_consistency_analysis.md`。
+
+常用命令：
+
+```bash
+python -m experiments.audit_standard_consistency     # 四层标准一致性审计
+python -m tests.test_canonical_standard              # Canonical 回归测试（5 个代表性标准）
+```
+
 ## 5. 评价指标
 
 实现于 `evaluation/metrics.py`，逐样本比较 Agent 输出与 Ground Truth：

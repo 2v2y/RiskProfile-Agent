@@ -19,7 +19,7 @@
   },
   "transforms": {
     "risk_percentile": {"from": "0-100 百分位", "to": "0-1 比例", "op": "divide_by_100"},
-    "historical_standard_codes": {"from": "分号分隔 DOL 格式", "to": "标准格式 list", "op": "split_semicolon_convert"},
+    "historical_standard_codes": {"from": "分号分隔 DOL 格式", "to": "list[str]（保留原始 DOL 值，按白名单定义；使用时经 canonical_standard 统一）", "op": "split_semicolon_keep_raw"},
     "historical_risk_categories": {"from": "JSON 字符串 list", "to": "list[str]", "op": "json_load"},
     "risk_category_counts": {"from": "JSON 字符串 dict", "to": "dict[str,int]", "op": "json_load"},
     "days_since_last_inspection": {"from": "空串=缺失", "to": "null + missing_last_inspection_flag", "op": "nullable"},

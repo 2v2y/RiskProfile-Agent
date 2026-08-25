@@ -100,6 +100,9 @@ class RetrievalResult(BaseModel):
     risk_categories: list[str] = []
     items: list[EvidenceItem] = []
     empty_reason: Optional[str] = None
+    # Stage 9 Canonical Standard 审计字段（可选，默认空；含逐标准 requested/canonical/
+    # normalized/status/reason，见 docs/standard_consistency_analysis.md）
+    standard_statuses: list[dict[str, Any]] = []
 
 
 # ---------------------------------------------------------------- 复核建议卡

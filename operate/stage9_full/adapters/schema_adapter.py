@@ -1,10 +1,15 @@
-"""学生1画像CSV -> ProfileCard 的字段适配（只做映射与类型转换，不改已验收数据）。"""
+"""学生1画像CSV -> ProfileCard 的字段适配（只做映射与类型转换，不改已验收数据）。
+
+标准编号统一走 canonical_standard 层（Canonical Standard = OSHA 官方引用格式，
+见 docs/standard_consistency_analysis.md），保证画像、映射、检索三层口径一致。
+"""
 
 from __future__ import annotations
 
 import json
-import re
 from typing import Any
+
+from adapters import canonical_standard
 
 NAICS_TO_GROUP = {
     "221122": "G1",
@@ -15,16 +20,12 @@ NAICS_TO_GROUP = {
 
 
 def convert_standard(raw: str) -> str | None:
-    raw = str(raw or "").strip()
-    if not raw:
-        return None
-    parts = raw.split()
-    code = parts[0]
-    if re.match(r"^(1910|1926)\.\d+", code):
-        return code
-    if code.isdigit() and len(code) >= 7 and code[:4] in ("1910", "1926"):
-        return f"{code[:4]}.{int(code[4:])}"
-    return code
+    """标准编号统一转换入口（委托 canonical_standard.canonicalize）。
+
+    兼容旧行为：DOL 原值 ``19260651 J02`` → ``1926.651``；新增统一：映射键
+    ``1926.0651`` → ``1926.651``；非联邦编号原样保留。
+    """
+    return canonical_standard.canonicalize(raw)
 
 
 def _num(value: Any, default: float = 0.0) -> float:
@@ -95,9 +96,9 @@ def row_to_profile_card(prof: dict[str, str], supp: dict[str, str] | None) -> di
 
     if supp:
         card["historical_standard_codes"] = [
-            c
-            for c in (convert_standard(p) for p in str(supp.get("historical_standard_codes", "")).split(";"))
-            if c
+            c.strip()
+            for c in str(supp.get("historical_standard_codes", "")).split(";")
+            if c.strip()
         ]
         card["historical_risk_categories"] = _json_list(supp.get("historical_risk_categories", ""))
         card["risk_category_counts"] = _json_dict(supp.get("risk_category_counts", ""))
