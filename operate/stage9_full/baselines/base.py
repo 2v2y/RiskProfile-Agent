@@ -14,6 +14,7 @@
 from __future__ import annotations
 
 import json
+import re
 import time
 from pathlib import Path
 from typing import Any
@@ -90,12 +91,39 @@ class BaseBaseline:
         self.review_llm = ReviewAgent(
             max_points=config["review"]["max_points"],
             model=config["review"]["model"],
-            llm_client=FakeLLM(),
+            llm_client=self._llm_client(),
             use_llm=True,
             prompt_path=config["prompts"]["review_agent"],
             prompt_version=config["review"].get("prompt_id", "review_agent_v1"),
             fail_on_llm_error=False,
         )
+
+    def _llm_client(self):
+        if self.config.get("llm", {}).get("provider") == "qwen":
+            return get_llm_client(self.config)
+        return FakeLLM()
+
+    def _review_system_prompt(self) -> str:
+        p = Path(self.config["prompts"]["review_agent"])
+        if p.exists():
+            return p.read_text(encoding="utf-8")
+        return (
+            "你是职业安全检查复核建议生成器。只输出 JSON，格式为 "
+            '{"review_points":[{"point_id":"point_1","focus_zh":"...",'
+            '"basis_profile_facts":["profile:field"],"regulation_refs":[],'
+            '"missing_field_info":[],"verification_instructions_zh":"..."}]}'
+        )
+
+    @staticmethod
+    def _parse_json_response(text: str) -> dict[str, Any]:
+        text = text.strip()
+        text = re.sub(r"^```(?:json)?\s*", "", text)
+        text = re.sub(r"\s*```$", "", text)
+        start = text.find("{")
+        end = text.rfind("}")
+        if start >= 0 and end > start:
+            text = text[start : end + 1]
+        return json.loads(text)
 
     def _facts(self, profile: dict[str, Any]) -> list[dict[str, Any]]:
         return self.profile_agent.run(profile)["facts"]
@@ -111,7 +139,7 @@ class BaseBaseline:
     def _direct_llm_points(self, profile: dict[str, Any], facts: list[dict[str, Any]],
                            retrieval: RetrievalResult) -> list[dict[str, Any]]:
         messages = [
-            {"role": "system", "content": "你是职业安全检查复核建议生成器。只输出 JSON。"},
+            {"role": "system", "content": self._review_system_prompt()},
             {
                 "role": "user",
                 "content": json.dumps(
@@ -121,9 +149,9 @@ class BaseBaseline:
                 ),
             },
         ]
-        text = FakeLLM().generate(messages)
+        text = self._llm_client().generate(messages)
         try:
-            data = json.loads(text)
+            data = self._parse_json_response(text)
             raw = data.get("review_points") or []
         except Exception:
             return []
