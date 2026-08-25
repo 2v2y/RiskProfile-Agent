@@ -133,11 +133,30 @@ Stage 9 实验输出（retrieval.standard_statuses 逐标准记录）
 ### 4.1 检索行为变化（防 fallback 误命中）
 
 1. 检索前对每个标准做 KB 覆盖预检（exact 或与学生2一致的前缀匹配）；
-2. 有覆盖 → 用 Canonical 查询学生2 RAG（不修改学生2算法/索引/模型）；
-3. 无覆盖 → **不调用学生2 RAG、不返回语义近似片段**，逐标准记录 `coverage_gap`；
-4. `RetrievalResult` 增加可选字段 `standard_statuses`，每条含
+2. **KB 侧标准同样先 canonicalize**（`_build_kb_standards`）：知识库若以映射键格式
+   存放（如 `1926.0651`），与请求侧 `1926.651` 视为同一 Canonical 精确命中；
+3. 覆盖判定仅用 **canonical 精确匹配**，不使用前缀匹配（`1926.65` 不命中
+   `1926.651` / `1926.0651`，`1910.30` 不命中 `1910.303`）；
+4. 有覆盖 → 用 Canonical 查询学生2 RAG（不修改学生2算法/索引/模型）；
+5. 无覆盖 → **不调用学生2 RAG、不返回语义近似片段**，逐标准记录 `coverage_gap`；
+6. `RetrievalResult` 增加可选字段 `standard_statuses`，每条含
    `requested_standard / canonical_standard / normalized_standard / retrieval_status / reason`；
-5. RAG 返回的 items 做归属校验，不属于请求标准家族的直接丢弃并记录 `verification_rejected`。
+7. RAG 返回的 items 做归属校验，不属于请求标准家族的直接丢弃并记录 `verification_rejected`。
+
+> 注：冻结知识库（5.0-frozen，含验收提取副本）实测 **不存在** `1926.651` / `1926.0651` /
+> `1926.65` 任何片段（chunk/mapping/inventory 均为 0），因此真实数据下 1926.651 仍返回
+> `coverage_gap`（数据缺口）；上述等价逻辑由 `tests/test_kb_padded_standard_equivalence`
+> 用内存 fixture 验证，不修改冻结文件。
+
+### 4.2 测试设计（离线确定性）
+
+- `tests/test_canonical_standard.py` 共 4 个 pytest 用例，全部 `use_rag=False` 或注入
+  `_FakeRAG`，**不初始化学生2真实 RAG**，不触发 SentenceTransformer / BGE / FAISS / 外网；
+- `tests/test_smoke.py` 默认 `use_rag=False`（环境变量 `RP_STAGE9_SMOKE_USE_RAG=1` 可切回真实 RAG）；
+- 服务器若需真实 RAG 集成验证：先确保本地模型可用，例如
+  `export TRANSFORMERS_CACHE=/DATA/models`（或按 sentence-transformers 缓存目录布局放置
+  `BAAI/bge-small-en-v1.5`），再执行 `python -m experiments.run_smoke --n 3`；
+  正式实验参数（top_k=3、method、5.0-frozen、bge-small-en-v1.5、384 维）不受测试影响。
 
 ### 4.2 R1–R9 映射权威版本切换
 

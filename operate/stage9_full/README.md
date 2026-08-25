@@ -65,8 +65,12 @@ R1—R9 风险分类的权威映射以学生2交付的最新版 `standard_to_r1r
 
 ```bash
 python -m experiments.audit_standard_consistency     # 四层标准一致性审计
-python -m tests.test_canonical_standard              # Canonical 回归测试（5 个代表性标准）
+python -m pytest -v tests/test_canonical_standard.py # Canonical 回归测试（4 个离线用例，不初始化真实 RAG）
+python -m pytest -v tests/                           # 全部测试（含 smoke，默认离线）
 ```
+
+测试默认不加载学生2真实 RAG（避免 HuggingFace 网络依赖）；服务器真实 RAG 集成验证见
+`docs/standard_consistency_analysis.md` 4.2 节（本地模型 `/DATA/models/bge-small-en-v1.5`）。
 
 ## 5. 评价指标
 

@@ -106,19 +106,26 @@ class Stage9RetrievalAdapter:
         return out
 
     def _build_kb_standards(self) -> set[str]:
-        """知识库实际覆盖的标准集合（chunk standard / mapping / inventory，统一官方格式）。"""
+        """知识库实际覆盖的标准集合（chunk standard / mapping / inventory）。
+
+        两侧统一：KB 原始 standard（无论官方格式 1926.651 还是映射键格式 1926.0651）
+        都先 canonicalize，再与请求侧 Canonical Standard 精确比较。
+        """
         out: set[str] = set()
         for c in self.chunks:
             s = str(c.get("standard", "")).strip()
-            if s:
-                out.add(s)
+            canon = canonical_standard.canonicalize(s)
+            if canon:
+                out.add(canon)
         for meta in self.mapping.values():
             s = str(meta.get("standard_number") or "").strip()
-            if s:
-                out.add(s)
+            canon = canonical_standard.canonicalize(s)
+            if canon:
+                out.add(canon)
         for key in self.inventory:
-            if key:
-                out.add(key)
+            canon = canonical_standard.canonicalize(key)
+            if canon:
+                out.add(canon)
         return out
 
     def _try_load_rag(self, rag_path: Path | None):
@@ -166,14 +173,15 @@ class Stage9RetrievalAdapter:
     def _kb_coverage(self, canonical: str) -> tuple[bool, str]:
         """知识库是否覆盖该 Canonical Standard。
 
-        仅精确匹配（chunk standard == canonical）视为覆盖：画像中的标准是完整标准号，
-        不采用前缀匹配，避免 1910.30 误命中 1910.303 等跨标准前缀。
+        - 两侧都先 canonicalize：KB 中 1926.0651 与请求侧 1926.651 视为同一标准；
+        - 仅**精确的 Canonical 匹配**视为覆盖，不使用前缀匹配，
+          避免 1926.65 误命中 1926.651 / 1926.0651、1910.30 误命中 1910.303 等跨标准前缀。
         """
         canonical = str(canonical or "").strip()
         if not canonical:
             return False, "none"
         if canonical in self._kb_standards:
-            return True, "exact"
+            return True, "exact_canonical"
         return False, "none"
 
     @staticmethod
@@ -207,16 +215,17 @@ class Stage9RetrievalAdapter:
         """确定性关键词回退：只在该标准的片段内做 token 打分（已由覆盖预检限定）。"""
         q_tokens = set(re.findall(r"[a-z0-9]+", str(query_text).lower()))
         scored: list[tuple[float, dict[str, Any]]] = []
-        allowed = set(standards)
+        allowed = set(standards)  # Canonical Standard 集合
         for chunk in self.chunks:
             chunk_std = str(chunk.get("standard", ""))
-            if chunk_std not in allowed:
+            chunk_std_canon = canonical_standard.canonicalize(chunk_std) or chunk_std
+            if chunk_std_canon not in allowed:
                 continue
             text_tokens = set(
                 re.findall(r"[a-z0-9]+", f"{chunk.get('text','')} {chunk.get('section','')}".lower())
             )
             score = float(len(q_tokens & text_tokens)) if q_tokens else 1.0
-            if chunk_std in standards:
+            if chunk_std_canon in standards:
                 score += 10.0
             scored.append((score, chunk))
         scored.sort(key=lambda x: x[0], reverse=True)
@@ -254,7 +263,7 @@ class Stage9RetrievalAdapter:
                     "normalized_standard": norm_key,
                     "retrieval_status": "covered" if covered else "coverage_gap",
                     "reason": (
-                        f"知识库存在标准 {canon} 的法规片段（{mode}），允许调用学生2 RAG"
+                        f"知识库存在标准 {canon} 的法规片段（{mode}，canonical 精确匹配），允许调用学生2 RAG"
                         if covered
                         else (
                             f"知识库不存在标准 {canon} 的法规正文片段（coverage gap），"
