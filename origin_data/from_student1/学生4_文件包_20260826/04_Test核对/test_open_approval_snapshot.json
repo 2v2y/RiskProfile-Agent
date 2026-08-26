@@ -1,0 +1,184 @@
+{
+  "status": "approved_snapshot",
+  "snapshotted_at_utc": "2026-08-17T07:50:17.774408+00:00",
+  "source_csv_path": "记录表/测试开封记录.csv",
+  "source_csv_sha256": "3cc516020c97037b75d5b58a19e98a9244739689cf6690e2ce9d1ea791204678",
+  "source_row_number": 2,
+  "approved_fields": {
+    "开封编号": "OPEN_20260817_001",
+    "数据快照": "OSHA_20260815_01",
+    "队列规则版本": "V2.0",
+    "特征规则版本": "V1.0",
+    "模型配置版本": "frozen_config.json",
+    "评价规则版本": "V1.0",
+    "代码版本": "V1.0",
+    "门0状态": "通过",
+    "门0确认人": "刘知桦",
+    "门1状态": "通过",
+    "门1确认人": "刘知桦",
+    "门2状态": "通过",
+    "门2确认人": "刘知桦",
+    "门3状态": "通过",
+    "门3确认人": "刘知桦",
+    "冻结清单文件": "结果/03_验证/frozen_manifest.json",
+    "冻结清单SHA256": "073e062a5223fafeb4c3c7d4aaebdc03bde016a24cbf4db91461a672d5645bd8",
+    "模型文件": "结果/03_验证/frozen_model.joblib",
+    "模型SHA256": "562d7837e0d2bc6389e95607e543f9b07db5be1b1fd0ad05487a1151b5001603",
+    "配置文件": "结果/03_验证/frozen_config.json",
+    "配置SHA256": "6540448b98e9fb6ebc1ed49124cee1d4ade217e950c32cba470241410fffbf87",
+    "04程序文件": "程序/04_run_sealed_test.py",
+    "04程序SHA256": "6ec49f58b514fa67196e1709abc8b929fe20f048b0c8aa7ffc130458c71a9187",
+    "Validation汇总文件": "结果/03_验证/validation_summary.csv",
+    "Validation汇总SHA256": "c0b78bf4b06786aff973a874da87874f7c6de85641456137377950f86b3a58cd",
+    "标签承诺文件": "数据/03_封存测试/sealed_test_commitment.json",
+    "标签承诺SHA256": "888b917b79a7d7faa4698fdf28b25b397c196aa17faf2a489540e9187c1073a1",
+    "Test特征承诺文件": "数据/03_封存测试/test_features_commitment.json",
+    "Test特征承诺SHA256": "f6ec9996f499ab06fee3c37499c8b849111a64f99f48c6c5f446fae8473dec7d",
+    "Test输入文件": "数据/03_封存测试/test_features_sealed.csv",
+    "Test输入SHA256": "75d64c3b5d014bb81986b08a4840df78c2ca7dad37aaa439632c54cd0ad7d789",
+    "Test预测承诺文件": "结果/03_验证/test_prediction_commitment.json",
+    "Test预测承诺SHA256": "791847c2cb5538cf9377d1ddf23679457fdfcb56338ea268060da5750756e8dd",
+    "Test预测文件": "结果/03_验证/test_predictions_sealed.csv",
+    "Test预测SHA256": "7d5de975c1168c101ce5d18f362699f1c9b5984c8cadb94b6b300d03466ab1bd",
+    "Test标签文件": "数据/03_封存测试/sealed_test_labels.csv",
+    "Test标签SHA256": "4dd3996e095764273a00b88e59d8dc799cd33bda92841cacce094c3f75209d07",
+    "方法冻结时间": "2024-01-01",
+    "预测生成时间": "2026-08-17 15:33:35",
+    "首次执行确认": "是",
+    "批准开封时间": "2026-08-17 15:35:00",
+    "实际开封时间": "",
+    "执行命令": "",
+    "执行工作目录": "/home/liu/osha",
+    "执行人": "刘知桦",
+    "监督人": "冯婧",
+    "复核人": "刘诗曼",
+    "标签合并检查结果": "",
+    "开封attempt文件": "",
+    "开封attempt状态": "approved",
+    "结果目录": "结果/04_正式测试_封存",
+    "结果文件SHA256清单": "",
+    "异常": "",
+    "勘误或后续处置": "",
+    "状态": "批准开封",
+    "备注": "所有门已通；冻结清、模型、配置、预测commitment均一致",
+    "Unnamed: 56": ""
+  },
+  "matching_validation": {
+    "validation_passed": true,
+    "status_is_approved": true,
+    "distinct_people_count": 3,
+    "command_is_allowed": true,
+    "artifacts_and_values": {
+      "冻结清单文件": {
+        "approved": "结果/03_验证/frozen_manifest.json",
+        "expected": "结果/03_验证/frozen_manifest.json",
+        "matched": true
+      },
+      "冻结清单SHA256": {
+        "approved": "073e062a5223fafeb4c3c7d4aaebdc03bde016a24cbf4db91461a672d5645bd8",
+        "expected": "073e062a5223fafeb4c3c7d4aaebdc03bde016a24cbf4db91461a672d5645bd8",
+        "matched": true
+      },
+      "模型文件": {
+        "approved": "结果/03_验证/frozen_model.joblib",
+        "expected": "结果/03_验证/frozen_model.joblib",
+        "matched": true
+      },
+      "模型SHA256": {
+        "approved": "562d7837e0d2bc6389e95607e543f9b07db5be1b1fd0ad05487a1151b5001603",
+        "expected": "562d7837e0d2bc6389e95607e543f9b07db5be1b1fd0ad05487a1151b5001603",
+        "matched": true
+      },
+      "配置文件": {
+        "approved": "结果/03_验证/frozen_config.json",
+        "expected": "结果/03_验证/frozen_config.json",
+        "matched": true
+      },
+      "配置SHA256": {
+        "approved": "6540448b98e9fb6ebc1ed49124cee1d4ade217e950c32cba470241410fffbf87",
+        "expected": "6540448b98e9fb6ebc1ed49124cee1d4ade217e950c32cba470241410fffbf87",
+        "matched": true
+      },
+      "04程序文件": {
+        "approved": "程序/04_run_sealed_test.py",
+        "expected": "程序/04_run_sealed_test.py",
+        "matched": true
+      },
+      "04程序SHA256": {
+        "approved": "6ec49f58b514fa67196e1709abc8b929fe20f048b0c8aa7ffc130458c71a9187",
+        "expected": "6ec49f58b514fa67196e1709abc8b929fe20f048b0c8aa7ffc130458c71a9187",
+        "matched": true
+      },
+      "Validation汇总文件": {
+        "approved": "结果/03_验证/validation_summary.csv",
+        "expected": "结果/03_验证/validation_summary.csv",
+        "matched": true
+      },
+      "Validation汇总SHA256": {
+        "approved": "c0b78bf4b06786aff973a874da87874f7c6de85641456137377950f86b3a58cd",
+        "expected": "c0b78bf4b06786aff973a874da87874f7c6de85641456137377950f86b3a58cd",
+        "matched": true
+      },
+      "标签承诺文件": {
+        "approved": "数据/03_封存测试/sealed_test_commitment.json",
+        "expected": "数据/03_封存测试/sealed_test_commitment.json",
+        "matched": true
+      },
+      "标签承诺SHA256": {
+        "approved": "888b917b79a7d7faa4698fdf28b25b397c196aa17faf2a489540e9187c1073a1",
+        "expected": "888b917b79a7d7faa4698fdf28b25b397c196aa17faf2a489540e9187c1073a1",
+        "matched": true
+      },
+      "Test特征承诺文件": {
+        "approved": "数据/03_封存测试/test_features_commitment.json",
+        "expected": "数据/03_封存测试/test_features_commitment.json",
+        "matched": true
+      },
+      "Test特征承诺SHA256": {
+        "approved": "f6ec9996f499ab06fee3c37499c8b849111a64f99f48c6c5f446fae8473dec7d",
+        "expected": "f6ec9996f499ab06fee3c37499c8b849111a64f99f48c6c5f446fae8473dec7d",
+        "matched": true
+      },
+      "Test输入文件": {
+        "approved": "数据/03_封存测试/test_features_sealed.csv",
+        "expected": "数据/03_封存测试/test_features_sealed.csv",
+        "matched": true
+      },
+      "Test输入SHA256": {
+        "approved": "75d64c3b5d014bb81986b08a4840df78c2ca7dad37aaa439632c54cd0ad7d789",
+        "expected": "75d64c3b5d014bb81986b08a4840df78c2ca7dad37aaa439632c54cd0ad7d789",
+        "matched": true
+      },
+      "Test预测承诺文件": {
+        "approved": "结果/03_验证/test_prediction_commitment.json",
+        "expected": "结果/03_验证/test_prediction_commitment.json",
+        "matched": true
+      },
+      "Test预测承诺SHA256": {
+        "approved": "791847c2cb5538cf9377d1ddf23679457fdfcb56338ea268060da5750756e8dd",
+        "expected": "791847c2cb5538cf9377d1ddf23679457fdfcb56338ea268060da5750756e8dd",
+        "matched": true
+      },
+      "Test预测文件": {
+        "approved": "结果/03_验证/test_predictions_sealed.csv",
+        "expected": "结果/03_验证/test_predictions_sealed.csv",
+        "matched": true
+      },
+      "Test预测SHA256": {
+        "approved": "7d5de975c1168c101ce5d18f362699f1c9b5984c8cadb94b6b300d03466ab1bd",
+        "expected": "7d5de975c1168c101ce5d18f362699f1c9b5984c8cadb94b6b300d03466ab1bd",
+        "matched": true
+      },
+      "Test标签文件": {
+        "approved": "数据/03_封存测试/sealed_test_labels.csv",
+        "expected": "数据/03_封存测试/sealed_test_labels.csv",
+        "matched": true
+      },
+      "Test标签SHA256": {
+        "approved": "4dd3996e095764273a00b88e59d8dc799cd33bda92841cacce094c3f75209d07",
+        "expected": "4dd3996e095764273a00b88e59d8dc799cd33bda92841cacce094c3f75209d07",
+        "matched": true
+      }
+    }
+  }
+}

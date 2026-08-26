@@ -4,7 +4,7 @@
   "description": "不改动已验收数据；仅在本适配层把 CSV 列名映射到 Agent 输入 Schema（ProfileCard）。",
   "source": {
     "profiles_train_val.csv": "学生1 冻结画像（SHA-256 9f1f776c…，5337 行，Train 4656 + Validation 681）",
-    "profile_supplement_8fields.csv": "学生1 08-24 修复版 8 字段补充表（SHA-256 d0f1dbc9…，5337 行，model_hash 全 64 位）"
+    "profile_supplement_8fields.csv": "学生1 2026-08-26 完整包 8 字段补充表（SHA-256 d7a142e3…，5337 行，model_hash 全 64 位；已回填 183 行空 historical_standard_codes）"
   },
   "rename": {
     "cutoff_date": "ranking_cutoff",

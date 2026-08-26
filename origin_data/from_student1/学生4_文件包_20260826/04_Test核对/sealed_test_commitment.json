@@ -1,0 +1,16 @@
+{
+  "path": "数据/03_封存测试/sealed_test_labels.csv",
+  "sha256": "4dd3996e095764273a00b88e59d8dc799cd33bda92841cacce094c3f75209d07",
+  "rows": 1204,
+  "test_candidate_total": 1208,
+  "test_mature_rows": 1204,
+  "columns": [
+    "sample_id",
+    "entity_proxy_id",
+    "quarter",
+    "label",
+    "label_available_date"
+  ],
+  "positive_count_disclosed": false,
+  "created_by_stage": "01_prepare_data.py"
+}

@@ -1,0 +1,25 @@
+{
+  "path": "数据/03_封存测试/test_features_sealed.csv",
+  "sha256": "75d64c3b5d014bb81986b08a4840df78c2ca7dad37aaa439632c54cd0ad7d789",
+  "rows": 1204,
+  "columns": [
+    "sample_id",
+    "entity_proxy_id",
+    "quarter",
+    "split",
+    "context_naics_group",
+    "context_site_state",
+    "quarter_number",
+    "history_inspections",
+    "history_positive_inspections",
+    "smoothed_positive_rate",
+    "days_since_last_inspection",
+    "days_since_last_positive",
+    "inspections_365d",
+    "inspections_730d",
+    "positives_365d",
+    "positives_730d",
+    "decayed_inspections",
+    "decayed_positives"
+  ]
+}

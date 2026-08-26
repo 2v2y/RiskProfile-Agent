@@ -1,0 +1,244 @@
+{
+  "version": "1.1",
+  "defined_by": "学生1",
+  "defined_date": "2026-08-21",
+  "note": "由学生1建议纳入R1-R9字段，理由：R1-R9专为智能模块设计，不进入M1/M2模型。R1-R9名称已按04_风险分类规则.md官方定义修正，映射来源为学生2风险分类.csv最终主类。",
+  "whitelisted_fields": [
+    {
+      "field": "context_naics_group",
+      "group": "Context",
+      "description": "同一代理实体截点前最近一条成熟历史检查的NAICS行业组。"
+    },
+    {
+      "field": "jurisdiction_context",
+      "group": "Context",
+      "description": "同一代理实体截点前最近一条成熟历史检查的监管背景分类。"
+    },
+    {
+      "field": "quarter_number",
+      "group": "Context",
+      "description": "排序截点所在的自然季度序号（1-4），表示季节背景。"
+    },
+    {
+      "field": "history_inspections",
+      "group": "Static",
+      "description": "同一代理实体在截点前已达到结果可用时间的历史检查数。"
+    },
+    {
+      "field": "history_positive_inspections",
+      "group": "Static",
+      "description": "成熟历史检查中在主观察窗内至少签发一条直接关联citation的检查数。"
+    },
+    {
+      "field": "smoothed_positive_rate",
+      "group": "Static",
+      "description": "对成熟历史阳性比例使用预先固定的Beta先验平滑。"
+    },
+    {
+      "field": "days_since_last_inspection",
+      "group": "Dynamic",
+      "description": "截点与最近一次成熟历史检查开始日期之间的天数。"
+    },
+    {
+      "field": "days_since_last_positive",
+      "group": "Dynamic",
+      "description": "截点与最近一次成熟阳性历史检查开始日期之间的天数。"
+    },
+    {
+      "field": "inspections_365d",
+      "group": "Dynamic",
+      "description": "截点前365天内的成熟历史检查数。"
+    },
+    {
+      "field": "inspections_730d",
+      "group": "Dynamic",
+      "description": "截点前730天内的成熟历史检查数。"
+    },
+    {
+      "field": "positives_365d",
+      "group": "Dynamic",
+      "description": "截点前365天内的成熟阳性历史检查数。"
+    },
+    {
+      "field": "positives_730d",
+      "group": "Dynamic",
+      "description": "截点前730天内的成熟阳性历史检查数。"
+    },
+    {
+      "field": "decayed_inspections",
+      "group": "Dynamic",
+      "description": "对全部成熟历史检查按距截点时间进行指数衰减加权（半衰期365天）。"
+    },
+    {
+      "field": "decayed_positives",
+      "group": "Dynamic",
+      "description": "对全部成熟阳性历史检查按距截点时间进行指数衰减加权（半衰期365天）。"
+    },
+    {
+      "field": "historical_standard_codes",
+      "group": "历史风险构成",
+      "description": "截点前所有成熟历史检查中签发的OSHA标准编号（standard）的集合。"
+    },
+    {
+      "field": "historical_risk_categories",
+      "group": "历史风险构成",
+      "description": "由 historical_standard_codes 经 R1-R9 分类表映射得到的风险类别集合。"
+    },
+    {
+      "field": "risk_category_counts",
+      "group": "历史风险构成",
+      "description": "R1-R9 各风险类别在历史违章记录中的出现次数。"
+    },
+    {
+      "field": "risk_category_unmapped_rate",
+      "group": "历史风险构成",
+      "description": "历史OSHA标准编号中无法映射到R1-R9的比例。"
+    },
+    {
+      "field": "risk_score",
+      "group": "模型结果",
+      "description": "固定M2模型输出的连续风险分数。"
+    },
+    {
+      "field": "risk_percentile",
+      "group": "模型结果",
+      "description": "该样本在同一季度所有候选样本中按risk_score排序的相对位置（0-1）。"
+    },
+    {
+      "field": "model_version",
+      "group": "模型结果",
+      "description": "M2模型的版本标识符，用于追踪模型变更。"
+    },
+    {
+      "field": "score_evidence",
+      "group": "模型结果",
+      "description": "M2模型文件和预处理流水线的SHA-256校验值，用于可复现性验证。"
+    },
+    {
+      "field": "no_history_flag",
+      "group": "数据质量标记",
+      "description": "标记该季度样本在截点前没有任何成熟历史检查。"
+    },
+    {
+      "field": "no_positive_history_flag",
+      "group": "数据质量标记",
+      "description": "标记该季度样本在截点前有成熟历史检查但没有任何一次签发了违章记录。"
+    },
+    {
+      "field": "missing_last_inspection_flag",
+      "group": "数据质量标记",
+      "description": "标记因数据问题无法确定最近一次成熟检查日期的样本。"
+    },
+    {
+      "field": "missing_last_positive_flag",
+      "group": "数据质量标记",
+      "description": "标记因数据问题无法确定最近一次成熟阳性检查日期的样本。"
+    },
+    {
+      "field": "entity_match_uncertain_flag",
+      "group": "数据质量标记",
+      "description": "标记该代理实体的单位匹配在阶段3盲审中被判定为存在不确定性。"
+    },
+    {
+      "field": "insufficient_evidence_flag",
+      "group": "数据质量标记",
+      "description": "汇总标记，表示该样本整体证据质量不足，建议转人工。"
+    },
+    {
+      "field": "profile_version",
+      "group": "元数据",
+      "description": "生成该画像时所使用的 manifest 版本标识符。"
+    },
+    {
+      "field": "R1_电气危险与带电防护",
+      "group": "HistoricalRiskComposition",
+      "description": "实体历史违章中涉及电气危险与带电防护类标准的次数。覆盖触电、电弧、裸露带电部分、接近带电体、断电确认等。"
+    },
+    {
+      "field": "R2_个人防护装备",
+      "group": "HistoricalRiskComposition",
+      "description": "实体历史违章中涉及个人防护装备类标准的次数。覆盖PPE选择错误或缺失、眼睛面部防护、头部防护、足部防护、呼吸防护(Subpart I)等。"
+    },
+    {
+      "field": "R3_能量隔离与上锁挂牌",
+      "group": "HistoricalRiskComposition",
+      "description": "实体历史违章中涉及能量隔离与上锁挂牌类标准的次数。覆盖LOTO(Subpart J)、检修前未可靠隔离危险能量等。"
+    },
+    {
+      "field": "R4_高处作业与坠落防护",
+      "group": "HistoricalRiskComposition",
+      "description": "实体历史违章中涉及高处作业与坠落防护类标准的次数。覆盖梯子、脚手架、屋面、杆塔、平台等坠落风险(Subpart D)。"
+    },
+    {
+      "field": "R5_作业许可、培训与程序执行",
+      "group": "HistoricalRiskComposition",
+      "description": "实体历史违章中涉及作业许可、培训与程序执行类标准的次数。覆盖许可、培训、资质、告知、程序或监护不足等。"
+    },
+    {
+      "field": "R6_机械设备与工器具安全",
+      "group": "HistoricalRiskComposition",
+      "description": "实体历史违章中涉及机械设备与工器具安全类标准的次数。覆盖运动部件、起重设备、车辆、工具的使用和防护(Subpart O)等。"
+    },
+    {
+      "field": "R7_受限空间、消防与危险环境",
+      "group": "HistoricalRiskComposition",
+      "description": "实体历史违章中涉及受限空间、消防与危险环境类标准的次数。覆盖有限空间、缺氧、有毒气体、火灾爆炸、动火和危险物质环境等。"
+    },
+    {
+      "field": "R8_现场通道、物体打击与综合防护",
+      "group": "HistoricalRiskComposition",
+      "description": "实体历史违章中涉及现场通道、物体打击与综合防护类标准的次数。覆盖通道、堆放、孔洞、落物、车辆人员交叉等布置问题。"
+    },
+    {
+      "field": "R9_其他或尚未分类",
+      "group": "HistoricalRiskComposition",
+      "description": "实体历史违章中不属于R1-R8的标准次数。覆盖记录保存、通用安全、IIPP、热病预防、州法规引用等无法归入R1-R8的标准。"
+    }
+  ],
+  "r1_r9_categories": {
+    "R1_电气危险与带电防护": "触电、电弧、裸露带电部分、接近带电体、断电确认",
+    "R2_个人防护装备": "PPE缺失或选择错误、眼睛面部防护、头部防护、足部防护、呼吸防护(Subpart I)",
+    "R3_能量隔离与上锁挂牌": "LOTO(Subpart J)、检修前未可靠隔离危险能量",
+    "R4_高处作业与坠落防护": "梯子、脚手架、屋面、杆塔、平台坠落风险(Subpart D)",
+    "R5_作业许可、培训与程序执行": "许可、培训、资质、告知、程序或监护不足",
+    "R6_机械设备与工器具安全": "运动部件、起重设备、车辆、工具的使用和防护(Subpart O)",
+    "R7_受限空间、消防与危险环境": "有限空间、缺氧、有毒气体、火灾爆炸、动火和危险物质环境",
+    "R8_现场通道、物体打击与综合防护": "通道、堆放、孔洞、落物、车辆人员交叉等布置问题",
+    "R9_其他或尚未分类": "记录保存、通用安全、IIPP、热病预防、州法规引用等"
+  },
+  "model_input": {
+    "note": "R1-R9及risk_category_unmapped_rate不进入M1/M2模型",
+    "excluded": [
+      "R1_电气危险与带电防护",
+      "R2_个人防护装备",
+      "R3_能量隔离与上锁挂牌",
+      "R4_高处作业与坠落防护",
+      "R5_作业许可、培训与程序执行",
+      "R6_机械设备与工器具安全",
+      "R7_受限空间、消防与危险环境",
+      "R8_现场通道、物体打击与综合防护",
+      "R9_其他或尚未分类",
+      "risk_category_unmapped_rate"
+    ]
+  },
+  "schema_alignment": {
+    "profile_schema": "schemas/profile_schema.json",
+    "r1_r9_format": "R1-R9名称依据04_风险分类规则.md官方定义；映射来源为学生2风险分类.csv最终主类",
+    "pending_delivery": "R1-R9 fields marked x-pending-delivery=true in profile_schema; now delivered by student 1",
+    "delivery_status": "Delivered in profile_supplement_8fields.csv",
+    "score_evidence": {
+      "value": "frozen_model.joblib (SHA-256: 562d7837e0d2bc6389e95607e543f9b07db5be1b1fd0ad05487a1151b5001603)",
+      "model_path": "/home/liu/osha/结果/03_验证/frozen_model.joblib",
+      "model_size": "14714 bytes",
+      "sha256_full": "562d7837e0d2bc6389e95607e543f9b07db5be1b1fd0ad05487a1151b5001603"
+    }
+  },
+  "field_name_mapping": {
+    "description": "profiles_train_val.csv列名与学生4 schema字段名的映射，agent读取时需转换",
+    "mappings": {
+      "candidate_naics_group": "industry_group",
+      "cutoff_date": "ranking_cutoff"
+    },
+    "reason": "profiles_train_val.csv受安全锁保护（Test已开封），不能修改列名，通过映射层解决"
+  }
+}

@@ -5,16 +5,16 @@
   "data_root_env": "RP_DATA_ROOT",
   "data": {
     "profiles_train_val": "origin_data/from_student1/student1/数据_分析数据/profiles_train_val.csv",
-    "profile_supplement": "origin_data/from_student1/回复学生4_20260824/回复学生4_20260824/profile_supplement_8fields.csv",
-    "knowledge_dir": "origin_data/from_student2/交付_学生4/交付_学生4/knowledge",
-    "rag_retriever_path": "origin_data/from_student2/交付_学生4/交付_学生4/src/retrieval/rag_retriever.py",
-    "r1r9_mapping": "origin_data/from_student1/回复学生4_20260824/回复学生4_20260824/standard_to_r1r9_mapping.csv",
-    "benchmark_cases": "origin_data/from_student2/benchmark_cases.jsonl",
-    "red_team_cases": "origin_data/from_student2/red_team_cases.jsonl",
-    "gold": "origin_data/from_student3/student3/学生4需要的文件/benchmark_gold_restricted.jsonl",
-    "manifest": "origin_data/from_student3/student3/学生4需要的文件/benchmark_manifest.json",
-    "lookup": "origin_data/from_student3/student3/学生4需要的文件/case_8fields_lookup.jsonl",
-    "whitelist": "origin_data/from_student1/回复学生4_20260824/回复学生4_20260824/agent_profile_whitelist.json"
+    "profile_supplement": "origin_data/from_student1/学生4_完整包_20260826/01_数据文件/profile_supplement_8fields.csv",
+    "knowledge_dir": "origin_data/from_student2/交付_学生4修正/交付_学生4修正/knowledge",
+    "rag_retriever_path": "origin_data/from_student2/交付_学生4修正/交付_学生4修正/src/retrieval/rag_retriever.py",
+    "r1r9_mapping": "origin_data/from_student1/学生4_完整包_20260826/01_数据文件/standard_to_r1r9_mapping.csv",
+    "benchmark_cases": "origin_data/from_student3/benchmark_cases.jsonl",
+    "red_team_cases": "origin_data/from_student3/red_team_cases.jsonl",
+    "gold": "origin_data/from_student3/00_gold_restricted/benchmark_gold_restricted.jsonl",
+    "manifest": "origin_data/from_student3/学生4交付包_20260826/benchmark_manifest.json",
+    "lookup": "origin_data/from_student3/学生4交付包_20260826/case_8fields_lookup.jsonl",
+    "whitelist": "origin_data/from_student1/学生4_完整包_20260826/01_数据文件/agent_profile_whitelist.json"
   },
   "retrieval": {
     "top_k": 3,

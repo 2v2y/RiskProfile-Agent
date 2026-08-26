@@ -77,7 +77,7 @@ def test_canonical_cases() -> None:
     mapping = canonical_standard.R1R9Mapping(data["r1r9_mapping"])
 
     cases = [
-        ("19260651 A", "1926.651", "1926.0651", "R8", "coverage_gap"),
+        ("19260651 A", "1926.651", "1926.0651", "R8", "covered"),  # 6.0-frozen 已补齐 1926.651
         ("19261053", "1926.1053", "1926.1053", "R4", "covered"),
         ("19260502", "1926.502", "1926.0502", "R4", "covered"),
         ("19260960", "1926.960", "1926.096", "R1", "covered"),
@@ -143,17 +143,23 @@ def test_rag_path_coverage_discipline() -> None:
     fake = _FakeRAG(adapter.chunks)
     adapter.rag = fake
 
-    # 3a) 无覆盖（真实知识库没有 1926.651/1926.0651）：绝不调用 RAG
-    gap = adapter.run(["19260651 A"], query_id="gap")
+    # 3a) 无覆盖（非联邦州法规代码，知识库不含）：绝不调用 RAG
+    gap = adapter.run(["16VAC25-60-130"], query_id="gap")
     assert gap.empty_reason and "覆盖" in gap.empty_reason
     assert fake.calls == [], f"coverage_gap 不应调用 RAG: {fake.calls}"
 
-    # 3b) 1926.65 不能前缀误命中 1926.651 / 1926.0651（真实 KB 也没有 1926.65 片段）
+    # 3b) 1926.65 已覆盖，但检索只能返回 1926.65 自身片段，
+    #     不能前缀误命中 1926.651 / 1926.0651（6.0 KB 同时含有这两个标准）
     near = adapter.run(["1926.65"], query_id="near")
     status = next(s for s in near.standard_statuses if s["requested_standard"] == "1926.65")
-    assert status["retrieval_status"] == "coverage_gap", status
-    assert near.items == []
-    assert fake.calls == [], "1926.65 不应触发 RAG"
+    assert status["retrieval_status"] == "covered", status
+    assert fake.calls == ["1926.65"], f"1926.65 已覆盖，应按 Canonical 调用 RAG: {fake.calls}"
+    assert near.items, "1926.65 应有证据"
+    assert all(i.standard_number == "1926.65" for i in near.items), [
+        i.standard_number for i in near.items
+    ]
+    assert not any(i.standard_number in {"1926.651", "1926.0651"} for i in near.items)
+    fake.calls.clear()
 
     # 3c) 有覆盖的标准：按单个 Canonical 逐条调用 RAG，返回按请求标准过滤
     covered = adapter.run(["19100132", "19260502"], query_id="multi-covered")
@@ -177,8 +183,8 @@ def test_kb_padded_standard_equivalence() -> None:
     """4) 回归：若知识库存在 1926.0651（映射键格式），请求侧 1926.651 必须命中；
     同时 1926.65 不得被识别为 1926.651。
 
-    注：冻结知识库（5.0-frozen）实测 1926.651/1926.0651 均为 0 片段，属真实数据缺口；
-    本用例用内存 fixture 验证适配层等价逻辑（不改任何冻结文件）。
+    注：6.0-frozen 已含 1926.651 官方格式片段；本用例额外注入 1926.0651（映射键格式）
+    片段，验证适配层对"知识库以 padded 形式存在"的等价逻辑（不改任何冻结文件）。
     """
     adapter = _adapter()
 
@@ -207,11 +213,11 @@ def test_kb_padded_standard_equivalence() -> None:
     reverse = adapter.run(["1926.0651"], query_id="equiv-rev")
     assert reverse.items and all(i.standard_number == "1926.651" for i in reverse.items)
 
-    # 1926.65 不能匹配 1926.651 / 1926.0651（即使 KB 有 1926.0651）
-    assert adapter._kb_coverage("1926.65") == (False, "none")
+    # 1926.65 在 6.0 KB 中已覆盖，但检索只能返回 1926.65 自身，不能匹配 1926.651 / 1926.0651
+    assert adapter._kb_coverage("1926.65")[0] is True
     near = adapter.run(["1926.65"], query_id="near2")
-    assert near.items == []
-    assert next(s for s in near.standard_statuses)["retrieval_status"] == "coverage_gap"
+    assert near.items and all(i.standard_number == "1926.65" for i in near.items)
+    assert not any(i.standard_number in {"1926.651", "1926.0651"} for i in near.items)
 
 
 # --------------------------------------------------------------------------- 直接运行入口

@@ -1,0 +1,119 @@
+{
+  "opened_at_utc": "2026-08-17T07:51:08.199915+00:00",
+  "confirmation_flag": "--confirm-open-test",
+  "prediction_sha256_before_open": "7d5de975c1168c101ce5d18f362699f1c9b5984c8cadb94b6b300d03466ab1bd",
+  "label_sha256_before_open": "4dd3996e095764273a00b88e59d8dc799cd33bda92841cacce094c3f75209d07",
+  "frozen_config_sha256": "6540448b98e9fb6ebc1ed49124cee1d4ade217e950c32cba470241410fffbf87",
+  "frozen_model_sha256": "562d7837e0d2bc6389e95607e543f9b07db5be1b1fd0ad05487a1151b5001603",
+  "frozen_manifest_sha256": "073e062a5223fafeb4c3c7d4aaebdc03bde016a24cbf4db91461a672d5645bd8",
+  "model_freeze_record_sha256": "e02cc2dd3c3aa989c02e360013165a39c4bc89700aaf6089076b73b68487fb29",
+  "sealed_test_commitment_sha256": "888b917b79a7d7faa4698fdf28b25b397c196aa17faf2a489540e9187c1073a1",
+  "test_features_commitment_sha256": "f6ec9996f499ab06fee3c37499c8b849111a64f99f48c6c5f446fae8473dec7d",
+  "test_prediction_commitment_sha256": "791847c2cb5538cf9377d1ddf23679457fdfcb56338ea268060da5750756e8dd",
+  "test_open_approval_snapshot_sha256": "e1a428e569e3a495637062504713ce09c278b69560b1152aed94985f4716acc0",
+  "test_open_approval_source_csv_sha256": "3cc516020c97037b75d5b58a19e98a9244739689cf6690e2ce9d1ea791204678",
+  "open_script_sha256": "6ec49f58b514fa67196e1709abc8b929fe20f048b0c8aa7ffc130458c71a9187",
+  "common_module_sha256": "5dfa6cf8164eb16a4a0867c16b1283721d96390240e932f6c8b238347442b3ed",
+  "rows": 1204,
+  "quarters": [
+    "2024Q1",
+    "2024Q2",
+    "2024Q3",
+    "2024Q4",
+    "2025Q1",
+    "2025Q2",
+    "2025Q3",
+    "2025Q4"
+  ],
+  "bootstrap_iterations": 2000,
+  "pre_registered_criteria": {
+    "c1_ap_ci_lower_above_zero": false,
+    "c2_recall_ci_lower_above_zero": false,
+    "c2_positive_quarters": 0,
+    "c2_requires_at_least_5_of_8": false,
+    "all_test_quarters_have_positive": true,
+    "interpretation_downgraded_if_any_quarter_has_zero_positive": false
+  },
+  "test_maturity_by_quarter": [
+    {
+      "quarter": "2024Q1",
+      "candidate_total": 172,
+      "mature_total": 172,
+      "immature_open_case": 0,
+      "immature_other": 0,
+      "mature_rate": 1.0,
+      "maturity_boundary": "2026-08-15 06:41:46.741079"
+    },
+    {
+      "quarter": "2024Q2",
+      "candidate_total": 167,
+      "mature_total": 167,
+      "immature_open_case": 0,
+      "immature_other": 0,
+      "mature_rate": 1.0,
+      "maturity_boundary": "2026-08-15 06:41:46.741079"
+    },
+    {
+      "quarter": "2024Q3",
+      "candidate_total": 160,
+      "mature_total": 160,
+      "immature_open_case": 0,
+      "immature_other": 0,
+      "mature_rate": 1.0,
+      "maturity_boundary": "2026-08-15 06:41:46.741079"
+    },
+    {
+      "quarter": "2024Q4",
+      "candidate_total": 143,
+      "mature_total": 143,
+      "immature_open_case": 0,
+      "immature_other": 0,
+      "mature_rate": 1.0,
+      "maturity_boundary": "2026-08-15 06:41:46.741079"
+    },
+    {
+      "quarter": "2025Q1",
+      "candidate_total": 179,
+      "mature_total": 179,
+      "immature_open_case": 0,
+      "immature_other": 0,
+      "mature_rate": 1.0,
+      "maturity_boundary": "2026-08-15 06:41:46.741079"
+    },
+    {
+      "quarter": "2025Q2",
+      "candidate_total": 143,
+      "mature_total": 143,
+      "immature_open_case": 0,
+      "immature_other": 0,
+      "mature_rate": 1.0,
+      "maturity_boundary": "2026-08-15 06:41:46.741079"
+    },
+    {
+      "quarter": "2025Q3",
+      "candidate_total": 139,
+      "mature_total": 137,
+      "immature_open_case": 2,
+      "immature_other": 0,
+      "mature_rate": 0.9856115107913668,
+      "maturity_boundary": "2026-08-15 06:41:46.741079"
+    },
+    {
+      "quarter": "2025Q4",
+      "candidate_total": 105,
+      "mature_total": 103,
+      "immature_open_case": 2,
+      "immature_other": 0,
+      "mature_rate": 0.9809523809523808,
+      "maturity_boundary": "2026-08-15 06:41:46.741079"
+    }
+  ],
+  "output_sha256": {
+    "test_predictions_with_labels.csv": "9d57df93d21058befdb4a53c12e17fefe81ed44f88d7bd20dcdc19a55336f1de",
+    "test_quarter_metrics.csv": "dc68bccc61ed3212fa51582a992268c77c19dd15df22f051853a4c2d9fa8637b",
+    "test_summary.csv": "c5b0549eb0f066396051ccaa3af580f9bf581b28b4ad79013eccd0e27e2d4e6c",
+    "bootstrap_ci.csv": "60194b74c5c58afa11f3b40f6c6d02b08cbd132c9a0bf1d39556dbe572151ff3",
+    "calibration_bins.csv": "f54356c16846b1c4eb8071c18af144ef1e8d69fa454f1b2040e2dce34bff7e40",
+    "test_maturity_by_quarter.csv": "491ddd411320cdc9b4194777dca2db792017ee60c5d26ce2ecc5f20dbc696af9"
+  }
+}

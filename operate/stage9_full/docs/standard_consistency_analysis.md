@@ -216,3 +216,24 @@ Ambiguous mapping keys: 0
 - 知识库 100 个标准中画像只用到 44 个（联邦标准 144 个里只有 44 个有正文），**覆盖缺口是真实数据问题**；
 - 学生1/学生2 映射差异恰好 27 个机械类标准（R6 vs R8），与验收报告 P1 结论一致；
 - 审计 JSON 输出在 `results/audit_standard_consistency/<时间戳>/audit.json`。
+
+## 8. 6.0-frozen 复核（2026-08-26，最终数据源）
+
+学生1/2/3 最终交付接入后重跑审计：
+
+```text
+Canonical standards (student1 mapping): 2866
+Profile standards: 701 (federal 147, non-federal 554)   # 学生1已回填 183 行空标准编号
+Student2 mapping standards: 2895
+Knowledge chunk standards: 273 (chunks 22781)          # 6.0-frozen
+Profile ∩ Knowledge: 147
+Profile standards missing from knowledge: 554 (federal 0)   # 联邦标准 100% 覆盖
+R category diff (student1 vs student2 mapping): 0            # 以学生1映射为准，无差异
+Ambiguous mapping keys: 0
+1926.651 special check: chunks=37, mapping S1=33, profile=223  # 覆盖缺口已解决
+```
+
+- 画像 147 个联邦标准全部有知识库片段（5.0 时仅 44/144）；
+- 验证集 681：有标准 471、≥1 标准覆盖 362、全部覆盖 303、无覆盖 109（州法规代码）、无标准 210；
+- 剩余缺口仅两类：gold 代表标准 1910.1/1926.202 无片段（10,674 条引用维持 False）与
+  画像真实无历史记录样本（210 条），均按"证据不足"口径处理。

@@ -1,0 +1,6 @@
+split,quarter_range,sample_count,assignment_rule,maturity_boundary,label_available,positive_count,negative_count,excluded_count,exclusion_reason,source_config
+train,2015Q1-2021Q4,4656,成熟样本，按季度起始日落入2015-01-01至2021-12-31区间,2024-01-01（各季度独立的label成熟截止日）,是（所有组成检查的结果已完全公开）,3120,1536,0,NA,"config.yaml: splits.train_start=2015-01-01, train_end=2021-12-31"
+validation,2022Q1-2023Q1,681,成熟样本，按季度起始日落入2022-01-01至2023-03-31区间,2024-01-01（各季度独立的label成熟截止日）,是（所有组成检查的结果已完全公开）,416,265,0,NA,"config.yaml: splits.validation_start=2022-01-01, validation_end=2023-03-31"
+embargo,2023Q2-2023Q4,0,缓冲期，2023-04-01至2023-12-31区间内的候选样本全部排除,2026-08-15 06:41:46.741079（数据快照截止日）,否（结果尚未完全公开）,0,0,471,结果未成熟：2023Q2(164条)、2023Q3(176条)、2023Q4(131条，含1条未关闭案件)，均为immature_other或immature_open_case,"config.yaml: splits.embargo_start=2023-04-01, embargo_end=2023-12-31"
+test,2024Q1-2025Q4,1204,成熟样本，按季度起始日落入2024-01-01至2025-12-31区间；标签封存，开封前不可读,2026-08-15 06:41:46.741079（数据快照截止日）,是（所有组成检查的结果已完全公开，mature_rate=1.0）,656,548,0,NA（所有2024Q1-2025Q4候选样本均成熟）,"config.yaml: splits.test_start=2024-01-01, test_end=2025-12-31"
+总计,2015Q1-2025Q4,6541,train(4656)+validation(681)+test(1204)=6541个成熟样本入分析；embargo(471)候选全部排除,NA,train+validation=是；test=封存后开封,4192,2349,471,embargo期471条候选样本因结果未成熟被排除,config.yaml: splits节

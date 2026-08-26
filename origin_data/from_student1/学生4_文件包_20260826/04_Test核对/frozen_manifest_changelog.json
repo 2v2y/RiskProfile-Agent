@@ -1,0 +1,85 @@
+[
+  {
+    "timestamp": "2026-08-20T03:35:33.942653+00:00",
+    "mode": "APPLY",
+    "changes": [
+      {
+        "name": "profiles_train_val",
+        "path": "数据/02_分析数据/profiles_train_val.csv",
+        "old_sha256": "9f1f776c120c08baebd81832b0d3699671ae2f575b92bb6a917efe928a63a24f",
+        "new_sha256": "7c231b119631157a3b9b4f17422d3f7be5fbff878198618e24614c11026e3992",
+        "change_reason": "文件内容已修改"
+      },
+      {
+        "name": "feature_dictionary",
+        "path": "数据/02_分析数据/feature_dictionary.csv",
+        "old_sha256": "4b80a14930d06d7839edea38074bdf4bf054ac30bb43a9ab178f3cb2a3957763",
+        "new_sha256": "212190d7efbbd07cab4b26633feaaba9fdb360aa25871ad257d7e31945acf73e",
+        "change_reason": "文件内容已修改"
+      },
+      {
+        "name": "config",
+        "path": "程序/config.yaml",
+        "old_sha256": "18b09a2a8dc4821e3756936ace9c4b12d6701daa3dfccc6509ead34a728bdb0f",
+        "new_sha256": "aff7b04a0f4e78ca79f601a14ce94de97acef0521cb40c412e3eea3413d9c568",
+        "change_reason": "文件内容已修改"
+      },
+      {
+        "name": "profile_script",
+        "path": "程序/02_build_profiles.py",
+        "old_sha256": "96f24bc5a2dac1697616227286d1a3a528b4b9f061274a5f57429965045c9e6e",
+        "new_sha256": "25e0d5875cad01dc771a3ee08f408fb02258eae013dc016c9b7b45fece38e870",
+        "change_reason": "文件内容已修改"
+      }
+    ],
+    "new_files_added": [
+      "data_manifest",
+      "join_audit",
+      "industry_filter_audit",
+      "data_quality_report",
+      "profile_definition_manifest"
+    ],
+    "summary": {
+      "changed": 4,
+      "unchanged": 28,
+      "missing": 3,
+      "new_added": 5,
+      "total_after_update": 40
+    }
+  },
+  {
+    "timestamp": "2026-08-20T03:45:16.884905+00:00",
+    "mode": "APPLY",
+    "changes": [
+      {
+        "name": "fit_script",
+        "path": "程序/03_fit_validate.py",
+        "old_sha256": "8b8248a95498ddfe6633937913ad18cb2aa2f554d81bb3d2e890dd4eab6938b8",
+        "new_sha256": "a24389f4585d958e7c207d1e7f8e167f97138cda48a6674c006e9d3d2f4f0815",
+        "change_reason": "文件内容已修改"
+      },
+      {
+        "name": "sealed_prediction_script",
+        "path": "程序/03b_generate_sealed_predictions.py",
+        "old_sha256": "435164b4a731fded05793c5943252e4cdf5379e5976a7e4ae081e00b70e9a7a3",
+        "new_sha256": "acbcc1e5c22edac909e348700dbecd3de55ec07d8125dda9ef6084086257821b",
+        "change_reason": "文件内容已修改"
+      },
+      {
+        "name": "requirements",
+        "path": "程序/requirements.txt",
+        "old_sha256": "e06f5924f250b44b98cd4a97b9227c4ca8fdde6863491cb11fbeee931d1882c7",
+        "new_sha256": "4c6cf723feb317b51b474798035101d0f344eba1bde65d878d447114c8d57edd",
+        "change_reason": "文件内容已修改"
+      }
+    ],
+    "new_files_added": [],
+    "summary": {
+      "changed": 3,
+      "unchanged": 37,
+      "missing": 0,
+      "new_added": 0,
+      "total_after_update": 40
+    }
+  }
+]

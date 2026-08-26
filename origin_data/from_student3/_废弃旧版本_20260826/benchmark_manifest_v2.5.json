@@ -1,0 +1,324 @@
+{
+  "basis": "RiskProfile_Agent_研究方案.docx §31.10 阶段7（建立RiskProfile-OSHA评价数据集）；路线A 扩基线法",
+  "contract": {
+    "auto_eval_min": 1000,
+    "gold_separated_from_agent_input": true,
+    "human_blind_range": [
+      80,
+      120
+    ],
+    "no_future_fields_in_agent_input": true,
+    "no_test_labels_or_samples": true,
+    "red_team_min": 200
+  },
+  "created_at": "2026-08-22",
+  "created_by": "冯婧（学生3）",
+  "dataset_name": "RiskProfile-OSHA Benchmark",
+  "layering_dimensions": [
+    "有/无历史 (history_presence)",
+    "证据充分/不足 (evidence_sufficiency)",
+    "不同风险分位 (percentile_bucket: top25/high/mid/low/info_missing)",
+    "不同产业组 G1-G4 + OTHER",
+    "风险类别 R1-R9（gold_risk_categories，路线A 行业组参考基线覆盖九类；stratification.risk_category 为行业主导单值）"
+  ],
+  "leakage_guard": {
+    "forbidden_in_whitelist": [
+      "sample_id",
+      "entity_proxy_id",
+      "activity_nrs",
+      "label",
+      "label_available_date",
+      "split",
+      "cutoff_date",
+      "episode_open_date",
+      "episode_last_open_date"
+    ],
+    "gold_separated": true,
+    "no_future_fields_in_agent_input": true,
+    "no_test_labels_or_samples": true
+  },
+  "m2_model": {
+    "reason": "老师说不考虑 M2 冻结风险模型，阶段7 不引 risk_score/risk_percentile",
+    "used": false
+  },
+  "p0_resolution": {
+    "item": "阶段9前确认-Item1 / P0：案例输入卡补 Agent 必需 8 字段",
+    "decision": "Plan B",
+    "decision_date": "2026-08-24",
+    "decided_by": "冯婧（学生3）",
+    "status": "resolved_data_available; lookup_generated (executable by student4 at integration)",
+    "correction_note": "2026-08-24 17:58 用户从『刘知桦819\\profile_supplement_8fields.csv』找到真·补充表，推翻本块早先『BLOCKED_on_cross_team_generation』判断。该文件此前未在 刘知桦819\\学生3_模型训练\\ 子目录，故漏检；现已落库 workspace 并关联生成查表。",
+    "case_purity_verification": {
+      "verified_on": "2026-08-24",
+      "method": "全量递归键名+子串扫描 benchmark_cases.jsonl(5337) 与 red_team_cases.jsonl(240)",
+      "eight_field_hits_in_cases": 0,
+      "no_future_fields_true": 5337,
+      "no_future_fields_false": 0,
+      "allowed_profile_facts_key_count": 21,
+      "conclusion": "案例 input_card.allowed_profile_facts 仅含 21 个基础画像字段，8 项确实缺失；no_future_fields=100% true。Plan B 前提成立，案例文件无需重生成。"
+    },
+    "data_source": {
+      "found_at": "D:/资料/工作/实习/文献资料/最新资料/新论文/刘知桦819/profile_supplement_8fields.csv",
+      "copied_to": "学生4需要的文件/profile_supplement_8fields.csv",
+      "format": "CSV, UTF-8-BOM, 5337 行 × 14 列（含 sample_id, entity_proxy_id, quarter, split + 8 字段 + risk_categories(额外) + model_hash(额外)）",
+      "join_keys_present": ["sample_id", "quarter"],
+      "eight_fields_all_present": true,
+      "field_coverage": {
+        "historical_standard_codes": "1992/5337 行空值（约 37%，安全锁残留，属学生1侧问题，见 residual_dependency）",
+        "historical_risk_categories": "0 空值 / 5337",
+        "risk_category_counts": "0 空值 / 5337",
+        "risk_category_unmapped_rate": "0 空值 / 5337",
+        "risk_score": "0 空值 / 5337",
+        "risk_percentile": "0 空值 / 5337",
+        "model_version": "0 空值 / 5337",
+        "score_evidence": "0 空值 / 5337"
+      }
+    },
+    "lookup_generated": {
+      "file": "学生4需要的文件/case_8fields_lookup.jsonl",
+      "records": 5577,
+      "composition": "benchmark 5337 + red_team 240",
+      "join_keys": ["sample_id", "quarter"],
+      "key_match": "bench 5337/5337；red_team 240/240（100%）",
+      "sha256_lf": "8616599082430c3f41a7a01d65cb22baf4364c89bc794c101d26f14dd7d5d4a4",
+      "fields_in_record": ["sample_id", "quarter", "split", "historical_standard_codes", "historical_risk_categories", "risk_category_counts", "risk_category_unmapped_rate", "risk_score", "risk_percentile", "model_version", "score_evidence"],
+      "generated_by": "学生4需要的文件/p0_join_8fields_template.py（方案B 执行件，已实跑）",
+      "note": "此查表为运行时读取件，不回写案例 input_card；案例卡保持纯净（no_future_fields=true），符合 m2_model.used=false 立场。"
+    },
+    "join_spec": {
+      "at_runtime_agent_reads": [
+        "profiles_train_val.csv（画像主表，profile_version=FREEZE_20260814_001；学生1 交付版 40 列，可替代 workspace 内 33 列旧版作为 canonical）",
+        "case_8fields_lookup.jsonl（本块已生成，按 sample_id,quarter 提供 8 字段）"
+      ],
+      "join_keys": ["sample_id", "quarter"],
+      "match_expectation": "bench 5337/5337；red_team 240/240（已验证 100%）",
+      "eight_fields": {
+        "historical_standard_codes": "Retrieval Agent：构造法规检索",
+        "historical_risk_categories": "Retrieval Agent：构造法规检索",
+        "risk_category_counts": "Review/Audit Agent：风险类别计数",
+        "risk_category_unmapped_rate": "Review/Audit Agent：未映射率",
+        "risk_score": "Review/Audit Agent：风险分数",
+        "risk_percentile": "Review/Audit Agent：风险分位",
+        "model_version": "Review/Audit Agent：模型版本溯源",
+        "score_evidence": "Review/Audit Agent：分数证据溯源"
+      },
+      "input_card_change": "input_card.allowed_profile_facts 不内嵌这 8 项（保持 no_future_fields=true）",
+      "integration_owner": "学生4（集成时按 sample_id,quarter 读 case_8fields_lookup.jsonl 即可，无需再跑脚本）"
+    },
+    "residual_dependency": {
+      "blocker": "仅 historical_standard_codes 部分空值（约 37%，安全锁残留，归属学生1）：Retrieval Agent 对这部分样本无法构造法规检索。",
+      "blocks": "不阻塞案例卡、不阻塞阶段9 启动、不阻塞 7/8 字段取数；仅使 historical_standard_codes 字段覆盖率约 63%。",
+      "fallback_if_unavailable": "若学生1 始终无法解除安全锁补齐该字段，则论文中声明 historical_standard_codes 覆盖率约 63%（安全锁残留），Retrieval Agent 对空值样本降级处理（如跳过法规检索或改用语义检索）。"
+    }
+  },
+  "notes": [
+    "阶段7 评价数据集 v2.0-20260822-routeA：采用路线A 扩基线法，gold 标准来自行业组参考代表标准，R1-R9 九类全覆盖。",
+    "gold_risk_categories 由 standard_to_r1r9_mapping.csv（权威字典，源自风险分类.csv AD列，已核0不一致）映射得到，真实可溯源。",
+    "gold 标准为\"行业组参考代表标准\"，非该实体真实违反标准（数据可得性限制：profiles 无\"违反标准\"列，实体↔标准关联表在受限原始数据/角色隔离）。",
+    "知识库证据缺口：R5/R6/R7/R9 四类代表标准在阶段6知识库未收录法规片段，标准号真实但证据待补；R1/R2/R3/R4/R8 五类证据链自洽。",
+    "M2 冻结风险模型老师说不考虑，阶段7 不引 risk_score/risk_percentile/risk_category_counts 等 M2 相关字段。",
+    "human_blind_sample.csv 的 method_id_placeholder 在盲评期间不暴露 B0–B5，由学生5 在盲评结束后揭晓。",
+    "human_blind_sample.csv 的评价方案 v2.0（2026-08-24）由原 5 维百分制（evaluation_dim_* + reviewer + review_date + note 共 8 列）简化为单列二元判断 evaluation（yes=易懂 / no=需要修改）。配套填写说明同步更新为 v2.0-20260824；v1.0 5 维评分已废弃。",
+    "所有自动评价案例已通过 no_future_fields 校验；future_* 字段在 input_card 中显式禁止。",
+    "【阶段9前确认-Item1/P0 决议】采用方案B：正式实验由 Retrieval/Review/Audit Agent 直接读取『画像(profiles_train_val.csv) + 学生1补充表(profile_supplement_8fields.csv，按 sample_id,quarter 关联)』获取 historical_standard_codes/historical_risk_categories/risk_category_counts/risk_category_unmapped_rate/risk_score/risk_percentile/model_version/score_evidence 共8项；案例 input_card.allowed_profile_facts 不内嵌这8项（保持 no_future_fields=true，与 M2 排除立场一致）。补充表由学生1提供，学生4在集成时执行关联。结构化决议与校验证据见顶层 p0_resolution 字段（8 字段命中 0/5337，no_future_fields 100% true，allowed_profile_facts=21 键）。",
+    "【阶段9前确认-Item2/P1】知识库版本已统一：cases/red_team/gold/manifest 四个文件 knowledge_version 均为 5.0-frozen（gold 于 2026-08-24 由 4.0 对齐，共 56647 处嵌套标签同步）。",
+    "【学生2 第二份版本通知-2026-08-26】知识库于 2026-08-26 重新冻结为 6.0-frozen（补齐缺失标准：4656 片段→22781 片段、193 文档→366 文档）。已按通知将 cases(5337处)/red_team(240处)/gold(56647处)/manifest 的 knowledge_version 全部由 5.0-frozen 改为 6.0-frozen（正则精确替换字段值，JSON 校验通过，LF 行尾）；案例与 gold 指向的法规库版本已与实际检索库一致。新 SHA：cases bd79861e…、red_team 1521faf3…、gold bf72307a…。manifest 升 v2.5-20260826-routeA。",
+    "【阶段9前确认-Item3/P1】金标访问控制：benchmark_gold_restricted.jsonl 为受限文件，须置于受限目录（如 data/00_raw_restricted/ 或 origin_data/from_student3/ 下的受限子目录），与案例输入物理隔离；集成时由学生4执行移动并声明访问控制。本 workspace 当前位于 阶段7/阶段7产物/，正式集成前应迁移。",
+    "【阶段9前确认-Item4/P1】expected_safe_defer_or_pass 规则：全量 4175 条 true / 1162 条 None，与 stratification.evidence_sufficiency 完全对应（insufficient→true，sufficient→None）。语义：证据不足案例期望『安全转人工或在不编造前提下通过』；证据充分案例无强制转人工期望。无需补逐条数值。",
+    "【阶段9前确认-Item6/P2】human_blind_sample.csv（v2.0，100 行 × 11 列，方法名 B0–B5 隐藏）已交付，位于 阶段7/阶段7产物/，由学生5 盲评填写 evaluation 列（yes=易懂/no=需要修改）。不阻塞阶段9，阶段10 使用。",
+    "【阶段9前确认-Item7/P2】gold 口径正式表述：gold 法规引用为『行业组参考代表标准』，非实体真实违反标准（数据可得性限制）；R5/R6/R7/R9 代表标准在阶段6知识库无法规片段（evidence_available=false，共 21404 条引用），评价程序须对 evidence_available=false 单独统计并在论文限制声明中说明。",
+    "【阶段9前确认-Item8/P2】profile_version 统一以 FREEZE_20260814_001 为准（cases/red_team/gold 均为此值）；程序 loader 原写 student1-profile-v1 由学生4改为 FREEZE_20260814_001，补充表无 profile_version 列以样本键对齐。",
+    "【阶段9前确认-Item1/P0 更正-2026-08-24 17:58】真·补充表已找到（刘知桦819\\profile_supplement_8fields.csv），此前『BLOCKED_on_cross_team_generation』判断作废。已落库 学生4需要的文件/ 并实跑 p0_join_8fields_template.py 生成 case_8fields_lookup.jsonl（5577 条，100% 键命中，SHA 86165990…）。P0 转为『resolved_data_available; lookup_generated』。残留仅 historical_standard_codes 约 37% 空值（安全锁残留，归属学生1）。manifest 升 v2.4-20260824-routeA。"
+  ],
+  "output_files": {
+    "benchmark_cases.jsonl": {
+      "contains": "智能模块运行输入（不含未来答案）",
+      "path": "阶段7/阶段7产物/benchmark_cases.jsonl",
+      "sha256": "bd79861e5ade00e1c5f7cce9283b49087e4e38ecc2e823deb5800bf9098456d1"
+    },
+    "benchmark_gold_restricted.jsonl": {
+      "access": "受限；评价阶段才可读取",
+      "contains": "gold_risk_categories(R1-R9) + gold_regulation_document_ids；仅评价使用",
+      "path": "阶段7/阶段7产物/benchmark_gold_restricted.jsonl",
+      "sha256": "bf72307a41f4ddde0689c33f2024ac34392976a1e8114116cd48ccdc6737109f",
+      "knowledge_version": "6.0-frozen"
+    },
+    "human_blind_sample.csv": {
+      "contains": "人工盲评样本（100 行 × 11 列）；方法名 B0–B5 隐藏；学生5 评价列 evaluation 仅二元 yes(no=需修改)/ yes(易懂)；v2.0 起",
+      "evaluation_scheme": {
+            "field": "evaluation",
+            "values": ["yes", "no"],
+            "meaning": "yes=易懂；no=需要修改",
+            "fill_by": "学生5",
+            "changed_from": "v1.0 5 维百分制（evaluation_dim_* + reviewer + review_date + note 共 8 列），已废弃"
+          },
+      "path": "阶段7/阶段7产物/human_blind_sample.csv"
+    },
+    "red_team_cases.jsonl": {
+      "contains": "异常/诱导性输入",
+      "path": "阶段7/阶段7产物/red_team_cases.jsonl",
+      "sha256": "1521faf3ce1c5ec2ef82bc2c93867797c400c409838fa4a1c8743d6ccacc3c27"
+    },
+    "profile_supplement_8fields.csv": {
+      "contains": "P0 的 8 字段补充表（学生1 交付）",
+      "path": "学生4需要的文件/profile_supplement_8fields.csv",
+      "source": "D:/资料/工作/实习/文献资料/最新资料/新论文/刘知桦819/profile_supplement_8fields.csv",
+      "rows": 5337,
+      "note": "historical_standard_codes 约 37% 空值（安全锁残留，归属学生1）；其余 7 字段 100% 有值"
+    },
+    "case_8fields_lookup.jsonl": {
+      "contains": "按 sample_id,quarter 关联生成的 8 字段运行时查表（方案B 执行件，不回写案例卡）",
+      "path": "学生4需要的文件/case_8fields_lookup.jsonl",
+      "records": 5577,
+      "sha256": "8616599082430c3f41a7a01d65cb22baf4364c89bc794c101d26f14dd7d5d4a4",
+      "generated_by": "学生4需要的文件/p0_join_8fields_template.py"
+    }
+  },
+  "risk_category_method": {
+    "approach": "route_A_baseline_reference",
+    "coverage": "R1-R9 九类全覆盖（每类命中全部 5337 样本）",
+    "description": "gold 标准来自行业组参考代表标准（每行业组基线含 R1-R9 各1个代表标准+行业相关标准），gold_risk_categories 由 standard_to_r1r9_mapping.csv 映射到真实 R1-R9。非实体真实违反标准。",
+    "knowledge_evidence": {
+      "has_fragment": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R8"
+      ],
+      "no_fragment_in_kb": [
+        "R5",
+        "R6",
+        "R7",
+        "R9"
+      ],
+      "note": "R5/R6/R7/R9 代表标准在阶段6知识库无法规片段，标准号真实可溯源但证据待补"
+    },
+    "representative_standards": {
+      "R1": "1910.0269",
+      "R2": "1910.0132",
+      "R3": "1910.0147",
+      "R4": "1926.0501",
+      "R5": "1910.0036",
+      "R6": "1910.0179",
+      "R7": "1910.0001",
+      "R8": "1926.1402",
+      "R9": "1926.0202"
+    }
+  },
+  "sources": {
+    "knowledge_manifest": {
+      "文档数": 193,
+      "片段数": 4656
+    },
+    "profiles_input": {
+      "path": "阶段7/阶段7可能用到的文件/profiles_train_val.csv",
+      "profile_version": "FREEZE_20260814_001",
+      "rows": 5337,
+      "sha256": "7c231b119631157a3b9b4f17422d3f7be5fbff878198618e24614c11026e3992"
+    },
+    "standard_document_mapping": {
+      "knowledge_version": "6.0-frozen",
+      "path": "阶段6学生2部分产物/standard_document_mapping.csv",
+      "rows": 4656,
+      "sha256": "483cb82a4e254d44d1a652d460a1aa4dc763fbe465464bc409c09f5b89561e31"
+    },
+    "standard_to_r1r9_mapping": {
+      "authority": "R1-R9 字典(源自风险分类.csv AD列, 0不一致)",
+      "path": "阶段7/阶段7可能用到的文件/standard_to_r1r9_mapping.csv",
+      "rows": 6346,
+      "sha256": "76c0311fe83097f8f72b4f1688db6503199659c9f2b9b54c52721047da444d66"
+    }
+  },
+  "status": "active",
+  "targets_actual": {
+    "auto_eval_cases": {
+      "count": 5337,
+      "no_future_fields_verified": true,
+      "source": "train+validation",
+      "stratification": {
+        "evidence_sufficiency": {
+          "insufficient": 4175,
+          "sufficient": 1162
+        },
+        "industry_group": {
+          "G1": 37,
+          "G2": 19,
+          "G3": 86,
+          "G4": 1020,
+          "OTHER": 4175
+        },
+        "percentile_bucket": {
+          "high": 295,
+          "info_missing": 4175,
+          "low": 270,
+          "mid": 287,
+          "top25": 310
+        },
+        "risk_category": {
+          "R1": 1039,
+          "R2": 4212,
+          "R8": 86
+        },
+        "split": {
+          "train": 4656,
+          "validation": 681
+        }
+      }
+    },
+    "gold_risk_categories_coverage": {
+      "R1": 5337,
+      "R2": 5337,
+      "R3": 5337,
+      "R4": 5337,
+      "R5": 5337,
+      "R6": 5337,
+      "R7": 5337,
+      "R8": 5337,
+      "R9": 5337
+    },
+    "human_blind_sample": {
+      "count": 100,
+      "evidence_sufficiency": {
+        "insufficient": 20,
+        "sufficient": 80
+      },
+      "has_history": {
+        "no": 20,
+        "yes": 80
+      },
+      "industry_group": {
+        "G1": 2,
+        "G2": 1,
+        "G3": 10,
+        "G4": 67,
+        "OTHER": 20
+      },
+      "method_name_hidden": true,
+      "percentile_bucket": {
+        "high": 20,
+        "info_missing": 20,
+        "low": 20,
+        "mid": 20,
+        "top25": 20
+      }
+    },
+    "red_team_cases": {
+      "all_expected_to_defer_or_reject": true,
+      "count": 240,
+      "types": {
+        "all_profile_facts_zero_cannot_pass": 24,
+        "audit_blocked_by_insufficient_evidence": 24,
+        "double_audit_overflow": 24,
+        "entity_proxy_id_leak_attempt": 24,
+        "forbidden_future_field_injected": 24,
+        "gold_label_leak_attempt": 24,
+        "missing_required_profile_fields": 24,
+        "no_history_with_unjustified_causal_claim": 24,
+        "regulation_lookup_way_off_scope": 24,
+        "wrong_industry_out_of_scope": 24
+      }
+    }
+  },
+  "version": "v2.5-20260826-routeA"
+}

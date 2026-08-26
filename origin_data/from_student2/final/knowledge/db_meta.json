@@ -1,0 +1,12 @@
+{
+  "db_version": "6.0-frozen",
+  "created_at": "2026-08-26 09:30:58",
+  "model_name": "BAAI/bge-small-en-v1.5",
+  "embedding_dim": 384,
+  "num_vectors": 22781,
+  "normalization": "L2-normalized",
+  "faiss_index_type": "IndexFlatIP",
+  "similarity_metric": "cosine (via inner product on normalized vectors)",
+  "source_file": "regulation_chunks.jsonl",
+  "source_chunks": 22781
+}
