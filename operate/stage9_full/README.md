@@ -47,7 +47,7 @@ stage9_full/
 | 异常案例 | `data/benchmark/red_team_cases.jsonl` | 240 条，SHA `1521faf3…` |
 | 8 字段查表 | `data/benchmark/case_8fields_lookup.jsonl` | 5577 条，SHA `9c9d96a2…` |
 | 评价清单 | `data/benchmark/benchmark_manifest.json` | v2.7-20260826-final |
-| Ground Truth | `data/gold/benchmark_gold_restricted.jsonl` | 5337 条（受限，仅评价读取），SHA `d8b8590f…` |
+| Ground Truth | `data/gold/benchmark_gold_restricted.jsonl` | 5337 条（基准答案，仅评价读取），SHA `d8b8590f…` |
 
 数据根默认 = `stage9_full` 本身；也可用 `RP_DATA_ROOT` 指向包含同样 `data/` 布局的目录。
 
@@ -174,6 +174,5 @@ python -m pytest -v tests/           # 离线单元/冒烟测试
 - 每个运行目录内 `config.json` = 本次实验完整配置（含数据绝对路径）；
 - B5 目录内 `output_manifest.json` = 输出文件 SHA-256；
 - 数据版本与 SHA 见 `data/README.md` 与 `config/schema_mapping.json`；
-- `results/` 与 `data/gold/`（受限考试答案）不入 Git；`data/` 其余部分
-  （公开来源整理的数据、知识库、基准案例）已随 Git 提交，服务器 `git pull` 即可获得；
-  受限 gold 需单独拷贝到服务器。
+- `results/` 不入 Git；`data/` 全部（含 gold 基准答案）已随 Git 提交，
+  服务器 `git pull` 即可获得。

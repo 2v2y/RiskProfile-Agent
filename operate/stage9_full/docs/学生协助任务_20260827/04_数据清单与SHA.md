@@ -1,8 +1,7 @@
 # 数据清单与 SHA（Stage9 正式实验）
 
-所有数据位于 `~/RiskProfile-Agent/operate/stage9_full/data/`。除 `data/gold/`
-（受限考试答案，单独拷贝）外，其余数据已随 Git 提交，`git pull` 即可获得。
-SHA-256 为完整值，用于核对版本。
+所有数据位于 `~/RiskProfile-Agent/operate/stage9_full/data/`，已全部随 Git 提交
+（含 `data/gold/` 基准答案），`git pull` 即可获得。SHA-256 为完整值，用于核对版本。
 
 ## 画像 / 映射（学生1 负责）
 
@@ -36,7 +35,7 @@ SHA-256 为完整值，用于核对版本。
 | `data/benchmark/red_team_cases.jsonl` | 1521faf3ce1c5ec2ef82bc2c93867797c400c409838fa4a1c8743d6ccacc3c27 | 354 KB | 240 条异常案例 |
 | `data/benchmark/case_8fields_lookup.jsonl` | 9c9d96a26b7744efb34eb4291af3887c42bc46b391a8dd010f2de9330b5f1882 | 2.5 MB | 5577 条查表 |
 | `data/benchmark/benchmark_manifest.json` | 0a315a69ea0a3584112a810abc1c045e17388198c36810f9eed492125390124f | 23 KB | v2.7-20260826-final |
-| `data/gold/benchmark_gold_restricted.jsonl` | d8b8590f68c4fbc2be7b06dcdff7c9c972aad9d57ef849232d9a64019f7ed961 | 12.7 MB | **受限，仅评价阶段读取，不外发** |
+| `data/gold/benchmark_gold_restricted.jsonl` | d8b8590f68c4fbc2be7b06dcdff7c9c972aad9d57ef849232d9a64019f7ed961 | 12.7 MB | 基准答案，仅评价阶段读取 |
 
 ## 服务器模型资源（运行时依赖，不复制）
 

@@ -12,7 +12,7 @@
 | `knowledge/` | 学生2 6.0-frozen 知识库：`chunks/regulation_chunks.jsonl`（22781）、`standard_document_mapping.csv`、`document_inventory.csv`、`knowledge_manifest.json`、`retrieval_gold.csv`、`retrieval_validation_metrics.csv`、`standard_to_r1r9_mapping.csv`、`vector_db/`（faiss_index.bin + chunk_ids.json + db_meta.json + embeddings.npy） | 6.0-frozen |
 | `mapping/` | `standard_to_r1r9_mapping.csv`（R1—R9 权威映射） | `76c0311f…` |
 | `benchmark/` | `benchmark_cases.jsonl`（5337）、`red_team_cases.jsonl`（240）、`case_8fields_lookup.jsonl`（5577）、`benchmark_manifest.json`（v2.7） | `bd79861e…` / `1521faf3…` / `9c9d96a2…` |
-| `gold/` | `benchmark_gold_restricted.jsonl`（5337，受限，仅评价阶段读取） | `d8b8590f…` |
+| `gold/` | `benchmark_gold_restricted.jsonl`（5337，基准答案，仅评价阶段读取） | `d8b8590f…` |
 
 ## 数据根解析
 
@@ -21,9 +21,8 @@
 
 ## 数据安全约定
 
-- `gold/benchmark_gold_restricted.jsonl` 是“考试答案”，与案例输入物理隔离，只在评价阶段读取；
-- 本目录已随 Git 提交（`data/` 其余部分）；唯一例外是 `data/gold/`
-  （受限考试答案，见 `stage9_full/.gitignore`），需单独拷贝到服务器；
+- `gold/benchmark_gold_restricted.jsonl` 是评价基准答案，只在评价阶段读取；
+- 本目录已随 Git 提交（含 `data/gold/` 基准答案，负责人已确认入库）；
 - `results/` 仍不入 Git；
 - 不把 `.env`、服务器密钥提交 Git。
 
