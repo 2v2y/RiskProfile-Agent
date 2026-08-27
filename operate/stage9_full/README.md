@@ -174,4 +174,6 @@ python -m pytest -v tests/           # 离线单元/冒烟测试
 - 每个运行目录内 `config.json` = 本次实验完整配置（含数据绝对路径）；
 - B5 目录内 `output_manifest.json` = 输出文件 SHA-256；
 - 数据版本与 SHA 见 `data/README.md` 与 `config/schema_mapping.json`；
-- `results/` 与 `data/` 按项目规则不入 Git；服务器部署时整体拷贝 `stage9_full`。
+- `results/` 与 `data/gold/`（受限考试答案）不入 Git；`data/` 其余部分
+  （公开来源整理的数据、知识库、基准案例）已随 Git 提交，服务器 `git pull` 即可获得；
+  受限 gold 需单独拷贝到服务器。
