@@ -60,6 +60,11 @@ class QwenClient:
             temperature=self.temperature,
             max_tokens=self.max_tokens,
             timeout=self.timeout,
+            extra_body={
+                "chat_template_kwargs": {
+                    "enable_thinking": False,
+                }
+            },
         )
         response = llm.invoke(messages)
         content = response.content
