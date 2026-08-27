@@ -25,17 +25,17 @@
   "review": {
     "max_points": 3,
     "model": "Qwen3.8-27B",
-    "use_llm": false,
+    "use_llm": true,
     "prompt_id": "review_agent_v1",
     "model_note": "服务器正式运行前把 use_llm 改为 true，并配置 llm.provider=qwen"
   },
   "llm": {
-    "provider": "dummy",
-    "base_url": "",
-    "api_key": "",
-    "model": "",
+    "provider": "qwen",
+    "base_url": "http://127.0.0.1:8000/v1",
+    "api_key": "EMPTY",
+    "model": "/DATA/models/Qwen3.8-27B",
     "temperature": 0.0,
-    "max_tokens": 2048,
+    "max_tokens": 1024,
     "timeout": 120
   },
   "audit": {
@@ -44,7 +44,7 @@
     "forbidden_rules_path": "operate/stage1/configs/forbidden_claim_rules.yaml"
   },
   "semantic_audit": {
-    "use_llm": false,
+    "use_llm": true,
     "prompt_id": "semantic_audit_v1"
   },
   "orchestrator": {

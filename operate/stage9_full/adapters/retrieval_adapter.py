@@ -20,6 +20,7 @@ import csv
 import importlib.util
 import io
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -50,6 +51,40 @@ def _read_text(path: Path) -> str:
 
 def _read_csv(path: Path) -> list[dict[str, str]]:
     return list(csv.DictReader(io.StringIO(_read_text(path))))
+
+
+def _configure_local_bge() -> Path | None:
+    """禁止联网下载 BGE；优先使用服务器本地模型目录。
+
+    - 环境变量 ``BGE_MODEL_PATH`` 优先，否则回落到服务器默认
+      ``/DATA/models/bge-small-en-v1.5``；
+    - 设置 HF_HUB_OFFLINE / TRANSFORMERS_OFFLINE，保证本地缺失时明确报错，
+      而不是静默联网下载。
+    """
+    os.environ.setdefault("HF_HUB_OFFLINE", "1")
+    os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
+    bge = os.getenv("BGE_MODEL_PATH") or "/DATA/models/bge-small-en-v1.5"
+    bge_path = Path(bge)
+    return bge_path if bge_path.is_dir() else None
+
+
+def _patch_bge_local(bge_path: Path | None) -> None:
+    """把学生2检索器里的 hub 模型名重定向到本地 BGE 目录（不修改其冻结文件）。"""
+    if not bge_path:
+        return
+    try:
+        import sentence_transformers as st
+    except Exception:
+        return
+    _orig_init = st.SentenceTransformer.__init__
+
+    def _init(self, model_name_or_path=None, *args, **kwargs):
+        name = str(model_name_or_path or "")
+        if name.startswith("BAAI/bge") and bge_path.is_dir():
+            model_name_or_path = str(bge_path)
+        return _orig_init(self, model_name_or_path, *args, **kwargs)
+
+    st.SentenceTransformer.__init__ = _init
 
 
 class Stage9RetrievalAdapter:
@@ -131,13 +166,19 @@ class Stage9RetrievalAdapter:
     def _try_load_rag(self, rag_path: Path | None):
         if not rag_path or not Path(rag_path).exists():
             return None
+        bge_path = _configure_local_bge()
+        _patch_bge_local(bge_path)
         try:
             spec = importlib.util.spec_from_file_location("rag_retriever", rag_path)
             module = importlib.util.module_from_spec(spec)
             sys.modules["rag_retriever"] = module
             spec.loader.exec_module(module)
             return module.RAGRetriever()
-        except Exception:
+        except Exception as exc:  # noqa: BLE001
+            print(
+                f"[WARN] RAG 检索器加载失败（已离线，将回退关键词检索）：{exc}",
+                file=sys.stderr,
+            )
             return None
 
     # ---------------------------------------------------------------- 证据构造
