@@ -1,4 +1,8 @@
-"""Smoke Test：用 1—3 个真实样本跑完整 Pipeline，验证端到端可用。"""
+"""Smoke Test：用 1—3 个真实样本跑完整 Pipeline，验证端到端可用。
+
+默认使用 config/experiment_config.json 的 llm.provider（正式运行=qwen）。
+离线验证可用 --provider dummy：不调用 Qwen，用确定性假模型跑通数据流。
+"""
 
 from __future__ import annotations
 
@@ -17,9 +21,23 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="阶段9 Smoke Test")
     parser.add_argument("--n", type=int, default=2)
     parser.add_argument("--split", default=None)
+    parser.add_argument(
+        "--provider", default=None,
+        help="覆盖 llm.provider（qwen/dummy）；默认用 config。",
+    )
     args = parser.parse_args(argv)
 
     config, data, stage_config = common.setup()
+    if args.provider:
+        config["llm"]["provider"] = args.provider
+        stage_config["llm"]["provider"] = args.provider
+        print(f"[INFO] llm.provider 覆盖为 {args.provider}")
+    if args.provider == "dummy":
+        # 离线确定性冒烟：同时关闭真实 RAG 与 LLM 审查，避免依赖服务器模型。
+        for cfg in (config, stage_config):
+            cfg["retrieval"]["use_rag"] = False
+            cfg["review"]["use_llm"] = False
+            cfg["semantic_audit"]["use_llm"] = False
     loaded = common.load_everything(data)
     eval_set = common.build_evaluation_set(loaded, split=args.split, limit=args.n)
     if not eval_set:

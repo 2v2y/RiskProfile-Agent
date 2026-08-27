@@ -1,26 +1,26 @@
-"""学生2知识库 -> evidence 检索适配器（阶段9正式版，含 Canonical Standard 统一层）。
+"""Stage9 自包含知识库 -> evidence 检索适配器（含 Canonical Standard 统一层）。
 
 标准编号链路：
     raw standard（DOL 原值 / 映射键 / 官方格式）
         ↓ canonical_standard.canonicalize()
     Canonical Standard（官方引用格式，如 1926.651）
-        ↓ 知识库覆盖预检 + 调用学生2已验证 RAG（不修改学生2算法/索引/模型）
+        ↓ 知识库覆盖预检 + 调用 stage9_full 内部 RAG 实现
+          （src/retrieval/rag_retriever.py，从学生2 6.0-frozen 交付复制，
+          知识库目录与 BGE 本地模型路径已自包含化，检索算法不变）
     RetrievalResult（含逐标准 standard_statuses 审计字段）
 
 原则（docs/standard_consistency_analysis.md）：
 1. 所有进入检索的标准必须先 canonicalize；
-2. 知识库无该标准正文时，不调用学生2 RAG 的纯 BGE 语义回退（避免 fallback 误命中），
+2. 知识库无该标准正文时，不调用 RAG 的纯 BGE 语义回退（避免 fallback 误命中），
    返回明确 coverage gap，禁止伪造；
-3. 不修改学生2 rag_retriever.py、embedding、FAISS index、chunking、top-k、hybrid 策略。
+3. 不修改检索算法、embedding、FAISS index、chunking、top-k、hybrid 策略。
 """
 
 from __future__ import annotations
 
 import csv
-import importlib.util
 import io
 import json
-import os
 import re
 import sys
 from pathlib import Path
@@ -53,40 +53,6 @@ def _read_csv(path: Path) -> list[dict[str, str]]:
     return list(csv.DictReader(io.StringIO(_read_text(path))))
 
 
-def _configure_local_bge() -> Path | None:
-    """禁止联网下载 BGE；优先使用服务器本地模型目录。
-
-    - 环境变量 ``BGE_MODEL_PATH`` 优先，否则回落到服务器默认
-      ``/DATA/models/bge-small-en-v1.5``；
-    - 设置 HF_HUB_OFFLINE / TRANSFORMERS_OFFLINE，保证本地缺失时明确报错，
-      而不是静默联网下载。
-    """
-    os.environ.setdefault("HF_HUB_OFFLINE", "1")
-    os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
-    bge = os.getenv("BGE_MODEL_PATH") or "/DATA/models/bge-small-en-v1.5"
-    bge_path = Path(bge)
-    return bge_path if bge_path.is_dir() else None
-
-
-def _patch_bge_local(bge_path: Path | None) -> None:
-    """把学生2检索器里的 hub 模型名重定向到本地 BGE 目录（不修改其冻结文件）。"""
-    if not bge_path:
-        return
-    try:
-        import sentence_transformers as st
-    except Exception:
-        return
-    _orig_init = st.SentenceTransformer.__init__
-
-    def _init(self, model_name_or_path=None, *args, **kwargs):
-        name = str(model_name_or_path or "")
-        if name.startswith("BAAI/bge") and bge_path.is_dir():
-            model_name_or_path = str(bge_path)
-        return _orig_init(self, model_name_or_path, *args, **kwargs)
-
-    st.SentenceTransformer.__init__ = _init
-
-
 class Stage9RetrievalAdapter:
     def __init__(self, data: dict[str, Path], top_k: int = 3, use_rag: bool = True):
         self.knowledge_dir = data["knowledge_dir"]
@@ -95,7 +61,7 @@ class Stage9RetrievalAdapter:
         self.mapping = self._load_mapping()
         self.inventory = self._load_inventory()
         self._kb_standards = self._build_kb_standards()
-        self.rag = self._try_load_rag(data.get("rag_retriever_path")) if use_rag else None
+        self.rag = self._try_load_rag() if use_rag else None
 
     # ---------------------------------------------------------------- 数据加载
     def _load_chunks(self) -> list[dict[str, Any]]:
@@ -163,20 +129,21 @@ class Stage9RetrievalAdapter:
                 out.add(canon)
         return out
 
-    def _try_load_rag(self, rag_path: Path | None):
-        if not rag_path or not Path(rag_path).exists():
-            return None
-        bge_path = _configure_local_bge()
-        _patch_bge_local(bge_path)
+    def _try_load_rag(self):
+        """加载 stage9_full 内部 RAG（src/retrieval/rag_retriever.py）。
+
+        该实现使用本地知识库目录（data/knowledge）与本地 BGE 模型
+        （/DATA/models/bge-small-en-v1.5，离线加载）；依赖缺失时打印警告，
+        回退关键词检索，不联网、不加载外部代码。
+        """
         try:
-            spec = importlib.util.spec_from_file_location("rag_retriever", rag_path)
-            module = importlib.util.module_from_spec(spec)
-            sys.modules["rag_retriever"] = module
-            spec.loader.exec_module(module)
-            return module.RAGRetriever()
+            from src.retrieval.rag_retriever import RAGRetriever
+
+            return RAGRetriever(knowledge_dir=str(self.knowledge_dir))
         except Exception as exc:  # noqa: BLE001
             print(
-                f"[WARN] RAG 检索器加载失败（已离线，将回退关键词检索）：{exc}",
+                "[WARN] RAG 检索器加载失败（依赖缺失或模型路径不可用，"
+                f"将回退关键词检索）：{exc}",
                 file=sys.stderr,
             )
             return None

@@ -1,0 +1,104 @@
+# Agent Registry（阶段8）
+# 登记每个智能模块与流程控制器的名称、职责、输入/输出Schema、模型、工具和版本。
+
+schema_version: "1.0"
+registry_version: "v1.0"
+created_by: "学生4"
+created_at: "2026-08-21"
+reference: "RiskProfile_Agent_研究方案 §31.11 成果：agent_registry.yaml"
+
+agents:
+  - name: profile_agent
+    display_name_zh: 画像整理模块
+    responsibility_zh: >-
+      只读取画像白名单字段，把画像转换为结构化原子事实；
+      每个数字/日期/ID 关键事实记录来源 profile:<field_name>；
+      禁止补造管理情况、现场情况、违法判断、事故必然性和数据中不存在的事实；
+      输入字段不符合白名单时返回明确错误（严格模式）或转人工。
+    input_schema: "schemas/profile_schema.json + configs/agent_profile_whitelist.json"
+    output_schema: "结构化原子事实列表（字段见 schemas/review_card_schema.json $defs.profile_fact）"
+    model: "none（确定性规则，不使用LLM）"
+    tools: []
+    deterministic: true
+    version: "v0.2"
+    changelog: "v0.1 阶段1最小实现；v0.2 增加白名单严格校验与明确错误"
+
+  - name: retrieval_agent
+    display_name_zh: 法规检索模块
+    responsibility_zh: >-
+      根据历史OSHA标准编号、风险类别和画像原子事实构造检索请求，
+      在已冻结知识库中检索，返回文档ID、标准编号、条款、片段、URL、版本和得分；
+      找不到足够证据时返回空结果与失败原因，禁止编造OSHA标准号、条款、URL和法规内容。
+    input_schema: "schemas/evidence_schema.json（query_id/standard_number/risk_categories）+ 画像事实"
+    output_schema: "schemas/evidence_schema.json（RetrievalResult）"
+    model: "none（确定性 TF-IDF 检索，无LLM）"
+    tools: ["knowledge/chunks/regulation_chunks.jsonl", "knowledge/chunks/standard_document_mapping.csv"]
+    deterministic: true
+    frozen_params: "TF-IDF，k=3，知识库 5.0-frozen（学生2阶段6交付）"
+    version: "v0.2"
+    changelog: "v0.1 关键词/BM25-lite；v0.2 按冻结结论改为标准限定候选集 + TF-IDF 排序"
+
+  - name: review_agent
+    display_name_zh: 复核建议模块
+    responsibility_zh: >-
+      生成最多3项人工复核重点；每项必须引用画像原子事实和法规证据，
+      列出需要进一步确认的现场信息与建议的人工核实方法；
+      禁止法律结论、违法认定、处罚建议、事故必然性判断；
+      法规证据为空或不足时不得强行生成有法规依据的建议，转人工复核。
+    input_schema: "画像原子事实 + schemas/evidence_schema.json"
+    output_schema: "草稿建议卡（schemas/review_card_schema.json 的 review_points/citations/missing_information/evidence_ledger 等）"
+    model: "qwen（config.review.use_llm=true 且 provider=qwen 时）或 v0-rule-template（离线/测试）"
+    tools: ["src/llm/client.py（LLMClient 统一接口）"]
+    deterministic: false
+    version: "v0.2"
+    prompt_version: "review_agent_v1"
+    changelog: "v0.1 规则模板；v0.2 增加证据不足转人工点、Prompt 版本化"
+
+  - name: audit_agent
+    display_name_zh: 内容审查模块（程序核对器）
+    responsibility_zh: >-
+      Python 确定性规则检查：数字与画像来源一致、ID一致、标准编号来自真实输入/检索证据、
+      日期符合要求、无未来字段、无禁止性表达、无中美法规混用、输出格式合法；
+      每条原子陈述输出 PASS/DEFER/REJECT 并记录原因；不修改原始数据。
+    input_schema: "草稿建议卡 evidence_ledger + 画像事实 + 检索结果"
+    output_schema: "schemas/audit_result_schema.json"
+    model: "none（确定性规则，不使用LLM）"
+    tools: ["configs/forbidden_claim_rules.yaml"]
+    deterministic: true
+    version: "v0.2"
+    changelog: "v0.1 数字/引用/禁止表述/未来信息等检查；v0.2 增加ID一致性与标准编号溯源检查，规则文件外置"
+
+  - name: semantic_audit_agent
+    display_name_zh: 内容审查模块（独立语义审查）
+    responsibility_zh: >-
+      独立于程序核对器，判断“生成的每条陈述是否真的被已有画像事实和法规证据支持”；
+      每条原子陈述输出 PASS/DEFER/REJECT 并记录原因；
+      provider=qwen 时调用独立LLM，dummy 时使用独立规则回退；不修改原始数据。
+    input_schema: "草稿建议卡 evidence_ledger + 画像事实 + 检索结果 + 程序核对结果"
+    output_schema: "semantic audit 结果（claim_id -> verdict/reason），写入建议卡 audit.per_claim"
+    model: "qwen（provider=qwen 时）或 independent_rule（dummy）"
+    tools: ["src/llm/client.py（LLMClient 统一接口）", "configs/prompts/semantic_audit_v1.md"]
+    deterministic: false
+    version: "v0.1"
+    prompt_version: "semantic_audit_v1"
+    changelog: "阶段8新增：与确定性核对器分离的独立语义审查"
+
+  - name: orchestrator
+    display_name_zh: 流程控制器
+    responsibility_zh: >-
+      用 LangGraph 固定状态机编排：画像整理 -> 法规检索 -> 复核建议 -> 内容审查(程序+语义)
+      -> PASS / DEFER(转人工) / REJECT；限制最大审计/修改轮次，超过即停止转人工；
+      证据不足失败关闭；不允许智能模块修改风险分数、候选排序、数据划分和原始输入；
+      记录每一步的输入、输出、模型、Prompt版本、工具调用、运行时间、文字量、错误和状态变化。
+    input_schema: "画像卡（schemas/profile_schema.json）"
+    output_schema: "schemas/review_card_schema.json（最终建议卡）+ runs/ 完整运行记录"
+    model: "n/a（编排层，不直接调用LLM）"
+    tools: ["langgraph.StateGraph", "src/common/run_log.py", "configs/registries"]
+    deterministic: true
+    version: "v0.1"
+    changelog: "阶段8新增：LangGraph 固定状态机，替代阶段1顺序脚本编排"
+
+freeze_notes:
+  - "模块输入输出一律以 schemas/ 下 JSON Schema 为契约，不得绕过。"
+  - "LLM 调用只允许通过 src/llm/client.py 的 LLMClient 接口，业务代码不写死 Qwen 地址/Key。"
+  - "Agent 不得修改 risk_score、risk_percentile、候选排序、split 与原始输入（研究方案 §5、§31.11）。"

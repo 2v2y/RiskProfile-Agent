@@ -22,14 +22,14 @@
 
 ## 3. R1—R9 映射权威版本 —— 已决议（2026-08-25 更新）：以学生1交付版为唯一 Canonical Standard
 
-- 决议：R1—R9 权威映射采用**学生1 08-24 最终版** `origin_data/from_student1/回复学生4_20260824/回复学生4_20260824/standard_to_r1r9_mapping.csv`（6346 行，SHA `76c0311f…`，含 R6=179）。`config/experiment_config.json` 的 `data.r1r9_mapping` 已同步切换。
+- 决议：R1—R9 权威映射采用**学生1 08-24 最终版** `standard_to_r1r9_mapping.csv`（6346 行，SHA `76c0311f…`，含 R6=179），已复制到 `stage9_full/data/mapping/standard_to_r1r9_mapping.csv`。`config/experiment_config.json` 的 `data.r1r9_mapping` 已指向该文件。
 - 原因：以学生1交付的标准体系作为 Stage 9 唯一 Canonical Standard（见 `docs/standard_consistency_analysis.md`）。画像 `risk_category_counts` / `historical_risk_categories` 本身就是按学生1口径生成（实测含 R6，如 1910.212 → R6 共 85 行），与学生2包内旧映射（R6=0、R8=777）不一致；stage9_验收报告 06 也判定学生2包内映射为旧版需替换。
 - 记录的事实（供追溯）：学生1版 R6=27 个唯一标准（179 行映射键）、R8=152；学生2包内版 R6=0、R8=179，二者差异仅 27 个标准的 R6/R8 归属。
 - 运行说明：stage9_full 运行链路仍直接使用学生1补充表已算好的 `historical_risk_categories`；该映射用于标准一致性审计与复算（`experiments/audit_standard_consistency.py`、`tests/test_canonical_standard.py`）。
 
 ## 4. `historical_standard_codes` 约 37% 空值
 
-- 相关文件：学生1 `profile_supplement_8fields.csv`（1992/5337 行空）
+- 相关文件：`stage9_full/data/profiles/profile_supplement_8fields.csv`（学生1 2026-08-26 版回填后 1809/5337 行空）
 - 当前观察：空值样本检索会返回“无历史标准编号”，按失败关闭转人工（DEFER）。
 - 影响：这些样本的检索维度无法评价（安全转人工是否“对”取决于 gold 口径）。
 - 候选方案：学生1 后续补齐；或评价时对空值样本单独统计。
@@ -50,7 +50,7 @@
 
 ## 7. [已解决] 学生2知识库覆盖缺口（6.0-frozen 已补齐 1926.651 等）→ 剩余两类小缺口
 
-- 状态：学生2 6.0-frozen（`origin_data/from_student2/交付_学生4修正`）已把知识库扩充到
+- 状态：学生2 6.0-frozen（已复制到 `stage9_full/data/knowledge/`）已把知识库扩充到
   22,781 片段 / 273 标准，画像 144 个联邦标准 **144/144 覆盖**（含 1926.651×37、1926.652×54）；
   stage9 config 已切换到该版本。原"1926.651 覆盖缺失"问题已解决。
 - 剩余缺口（已核验）：

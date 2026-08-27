@@ -6,8 +6,8 @@
 3. RAG path coverage discipline：有覆盖才检索、无覆盖不前缀误命中、1926.65 != 1926.651；
 4. adapter 与 canonical_standard 的接口，以及 1926.651 <-> 1926.0651 等价回归。
 
-所有用例都用 use_rag=False 或 fake RAG：**不初始化学生2真实 RAG**，
-因此不会触发 SentenceTransformer 联网、BGE 下载、FAISS 加载。
+所有用例都用 use_rag=False 或 fake RAG：**不初始化真实 RAG**，
+因此不会触发嵌入模型联网下载或 FAISS 加载。
 真实 RAG 的集成验证放到独立 integration 脚本（显式使用本地模型路径）。
 
 可单独运行：python -m tests.test_canonical_standard

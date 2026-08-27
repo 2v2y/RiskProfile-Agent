@@ -1,0 +1,90 @@
+# 禁止性表达规则（阶段8）
+# 依据：研究方案 §14.5 / §31.11（违法认定、处罚建议、事故必然性）
+#      共同材料 10_数据与结论边界 §3（不允许的结论，仅收录 claim 级可直接判定的部分）
+# 原则：不自行扩展规则；研究方案/共同材料未明确是否禁止的表达列入 pending_confirmation。
+
+schema_version: "1.0"
+rule_version: "v1.0"
+created_by: "学生4（冯同学）"
+created_at: "2026-08-21"
+reference:
+  - "RiskProfile_Agent_研究方案 §14.5 内容审查模块：违法认定、事故必然性或处罚意见"
+  - "RiskProfile_Agent_研究方案 §31.11 复核建议模块：禁止法律结论、处罚建议和事故必然性"
+  - "共同材料 10_数据与结论边界 §3 不允许的结论"
+
+# 说明：
+# - action=REJECT 表示命中即整条陈述拒绝；
+# - 命中词只匹配输出文本，不匹配输入画像与法规原文；
+# - 规则按 id 稳定登记，修改只能新增版本，不覆盖历史。
+claim_level_forbidden:
+  - id: FC-01
+    category_zh: 违法认定
+    rationale_zh: "研究方案 §14.5/§31.11：系统输出是人工复核线索，不是违法认定"
+    patterns: ["违反了", "构成违法", "认定违法", "属于违法行为", "确认违法", "违法作业", "违章作业"]
+    action: REJECT
+
+  - id: FC-02
+    category_zh: 处罚建议
+    rationale_zh: "研究方案 §31.11：禁止处罚建议"
+    patterns: ["应当处罚", "应予以处罚", "建议处罚", "处以罚款", "应罚款", "应当罚款", "处罚建议"]
+    action: REJECT
+
+  - id: FC-03
+    category_zh: 事故必然性
+    rationale_zh: "研究方案 §14.5/§31.11：禁止事故必然性判断"
+    patterns: ["必然发生事故", "必定发生事故", "事故必然", "必将发生事故", "必然导致事故", "必然发生伤亡", "必定会发生"]
+    action: REJECT
+
+  - id: FC-04
+    category_zh: 事故/伤亡预测
+    rationale_zh: "共同材料 §3：禁止预测事故、伤亡或人员个体风险"
+    patterns: ["预测事故", "预测伤亡", "将发生事故", "会发生事故", "未来发生事故", "预测人员伤亡", "预测个体风险", "发生人员伤亡"]
+    action: REJECT
+
+  - id: FC-05
+    category_zh: 未检查等于没有违章
+    rationale_zh: "共同材料 §3：未检查、未公开或未成熟记录不等于没有违章"
+    patterns: ["未检查等于没有违章", "没有检查记录因此没有违章", "未检查即合规", "没有违章记录等于没有违章", "未发现违章记录即合规"]
+    action: REJECT
+
+  - id: FC-06
+    category_zh: 排名分数即绝对安全分
+    rationale_zh: "共同材料 §3：排名分数不是企业绝对安全分，也不是真实发生概率"
+    patterns: ["分数代表绝对安全", "绝对安全分", "风险分数即安全等级", "分数等于安全等级", "排序即安全排名"]
+    action: REJECT
+
+  - id: FC-07
+    category_zh: 模型替代专业人员
+    rationale_zh: "共同材料 §3：模型不能自动处罚、定责或替代专业人员"
+    patterns: ["可自动处罚", "自动定责", "替代专业人员", "取代人工", "无需人工复核", "自动出具处罚"]
+    action: REJECT
+
+  - id: FC-08
+    category_zh: 中美法规等价
+    rationale_zh: "共同材料 §3：美国OSHA标准与中国电力规程不存在一一等价关系"
+    patterns: ["与中国规程等价", "等同于GB", "OSHA标准等同于", "一一等价", "等同中国标准", "与GB标准相同"]
+    action: REJECT
+
+# 论文写作层面的禁止结论：这些属于阶段12论文表述约束，
+# 不在内容审查模块对单条陈述自动命中（避免误伤建议卡的正常描述），
+# 需要确认是否升级为 claim 级规则，见 pending_confirmation。
+paper_level_constraints:
+  - "不得声称模型能减少检查工作量、事故或处罚（需要实验证据）"
+  - "不得声称某项管理措施导致风险下降"
+  - "不得声称OSHA样本代表四川电网、中国电力企业或纯电网行业"
+  - "不得把历史关联写成因果（'该类别导致未来citation'）"
+  - "不得把风险分类写成法规等价或自动定责"
+
+pending_confirmation:
+  - question: "是否把'因果性表述'（如'导致风险下降''导致未来违章'）纳入 claim 级禁止规则？"
+    impact: "研究方案 §14.5 未把因果表述列为内容审查项；共同材料 §3 在论文结论层面禁止"
+    option_a: "作为 claim 级 REJECT 规则，防止 LLM 生成因果断言"
+    option_b: "仅保留在 paper_level_constraints，不加入内容审查自动规则"
+  - question: "是否把'减少检查工作量/事故率'等效果声明纳入 claim 级规则？"
+    impact: "同上，研究方案未在内容审查项中明确，属于论文结论边界"
+    option_a: "作为 claim 级 REJECT 规则"
+    option_b: "仅保留在 paper_level_constraints"
+  - question: "是否把'企业整体不安全'类概括性表述（共同材料 §5：单位整体不安全）纳入规则？"
+    impact: "研究方案未在内容审查项中明确列出，需确认后才决定是否自动命中"
+    option_a: "作为 claim 级 REJECT 规则"
+    option_b: "不加入自动规则，仅由人工复核把关"

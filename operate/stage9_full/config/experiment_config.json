@@ -1,33 +1,35 @@
 {
   "project": "RiskProfile-Agent",
   "stage": "stage9-full",
-  "version": "1.0",
+  "version": "2.0",
+  "note": "Stage9 自包含版本：所有 data.* 路径均指向 stage9_full/data/ 内部，所有配置资源指向 stage9_full/config/ 内部，不依赖其他 stage 或外部交付数据目录。",
   "data_root_env": "RP_DATA_ROOT",
   "data": {
-    "profiles_train_val": "origin_data/from_student1/student1/数据_分析数据/profiles_train_val.csv",
-    "profile_supplement": "origin_data/from_student1/学生4_完整包_20260826/01_数据文件/profile_supplement_8fields.csv",
-    "knowledge_dir": "origin_data/from_student2/交付_学生4修正/交付_学生4修正/knowledge",
-    "rag_retriever_path": "origin_data/from_student2/交付_学生4修正/交付_学生4修正/src/retrieval/rag_retriever.py",
-    "r1r9_mapping": "origin_data/from_student1/学生4_完整包_20260826/01_数据文件/standard_to_r1r9_mapping.csv",
-    "benchmark_cases": "origin_data/from_student3/benchmark_cases.jsonl",
-    "red_team_cases": "origin_data/from_student3/red_team_cases.jsonl",
-    "gold": "origin_data/from_student3/00_gold_restricted/benchmark_gold_restricted.jsonl",
-    "manifest": "origin_data/from_student3/学生4交付包_20260826/benchmark_manifest.json",
-    "lookup": "origin_data/from_student3/学生4交付包_20260826/case_8fields_lookup.jsonl",
-    "whitelist": "origin_data/from_student1/学生4_完整包_20260826/01_数据文件/agent_profile_whitelist.json"
+    "profiles_train_val": "data/profiles/profiles_train_val.csv",
+    "profile_supplement": "data/profiles/profile_supplement_8fields.csv",
+    "knowledge_dir": "data/knowledge",
+    "r1r9_mapping": "data/mapping/standard_to_r1r9_mapping.csv",
+    "benchmark_cases": "data/benchmark/benchmark_cases.jsonl",
+    "red_team_cases": "data/benchmark/red_team_cases.jsonl",
+    "gold": "data/gold/benchmark_gold_restricted.jsonl",
+    "manifest": "data/benchmark/benchmark_manifest.json",
+    "lookup": "data/benchmark/case_8fields_lookup.jsonl",
+    "whitelist": "data/profiles/agent_profile_whitelist.json"
   },
   "retrieval": {
     "top_k": 3,
     "use_rag": true,
     "fallback": "keyword",
-    "method": "student2-hybrid-faiss-bge"
+    "method": "student2-hybrid-faiss-bge",
+    "min_score": 1.0,
+    "bge_model_path": "/DATA/models/bge-small-en-v1.5",
+    "bge_model_note": "服务器本地 BGE 模型目录（禁止联网下载）；可用环境变量 BGE_MODEL_PATH 覆盖。db_meta.json 中的 model_name 仅作版本记录，不作为加载路径。"
   },
   "review": {
     "max_points": 3,
-    "model": "Qwen3.8-27B",
+    "model": "/DATA/models/Qwen3.8-27B",
     "use_llm": true,
-    "prompt_id": "review_agent_v1",
-    "model_note": "服务器正式运行前把 use_llm 改为 true，并配置 llm.provider=qwen"
+    "prompt_id": "review_agent_v1"
   },
   "llm": {
     "provider": "qwen",
@@ -36,12 +38,19 @@
     "model": "/DATA/models/Qwen3.8-27B",
     "temperature": 0.0,
     "max_tokens": 1024,
-    "timeout": 120
+    "timeout": 120,
+    "prompt_budget": {
+      "max_input_tokens": 6000,
+      "max_evidence_chars": 600,
+      "max_facts": 50,
+      "note": "vLLM max_model_len=8192；输入预算 6000 + max_tokens 1024 <= 7024，留足余量。由 src/common/prompt_budget.py 在 prompt 构造端强制执行。"
+    },
+    "model_note": "model ID 必须为 vLLM 实际暴露的 /DATA/models/Qwen3.8-27B（含路径），不能使用裸 Qwen3.8-27B。"
   },
   "audit": {
     "max_rounds": 2,
     "forbidden_patterns": ["违反了", "违法", "必然", "必定", "应当处罚", "应予以处罚", "事故必然"],
-    "forbidden_rules_path": "operate/stage1/configs/forbidden_claim_rules.yaml"
+    "forbidden_rules_path": "config/forbidden_claim_rules.yaml"
   },
   "semantic_audit": {
     "use_llm": true,
@@ -54,13 +63,13 @@
     "human_review_verdict": "DEFER"
   },
   "prompts": {
-    "review_agent": "operate/stage1/configs/prompts/review_agent_v1.md",
-    "semantic_audit": "operate/stage1/configs/prompts/semantic_audit_v1.md"
+    "review_agent": "config/prompts/review_agent_v1.md",
+    "semantic_audit": "config/prompts/semantic_audit_v1.md"
   },
   "registries": {
-    "agent_registry": "operate/stage1/configs/agent_registry.yaml",
-    "prompt_registry": "operate/stage1/configs/prompt_registry.yaml",
-    "forbidden_claim_rules": "operate/stage1/configs/forbidden_claim_rules.yaml"
+    "agent_registry": "config/agent_registry.yaml",
+    "prompt_registry": "config/prompt_registry.yaml",
+    "forbidden_claim_rules": "config/forbidden_claim_rules.yaml"
   },
   "baselines": ["B0", "B1", "B2", "B3", "B4", "B5"],
   "ablation": {

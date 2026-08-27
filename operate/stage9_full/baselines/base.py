@@ -138,17 +138,22 @@ class BaseBaseline:
 
     def _direct_llm_points(self, profile: dict[str, Any], facts: list[dict[str, Any]],
                            retrieval: RetrievalResult) -> list[dict[str, Any]]:
+        # Stage9 输入预算：画像卡/事实/证据正文发送前压缩（见 src/common/prompt_budget.py）。
+        from src.common.prompt_budget import compact_evidence, compact_facts, compact_profile, enforce_input_budget
+
         messages = [
             {"role": "system", "content": self._review_system_prompt()},
             {
                 "role": "user",
                 "content": json.dumps(
-                    {"profile": profile, "profile_facts": facts,
-                     "evidence": [i.model_dump() for i in retrieval.items]},
+                    {"profile": compact_profile(profile),
+                     "profile_facts": compact_facts(facts),
+                     "evidence": compact_evidence(retrieval.items)},
                     ensure_ascii=False,
                 ),
             },
         ]
+        enforce_input_budget(messages)
         text = self._llm_client().generate(messages)
         try:
             data = self._parse_json_response(text)
