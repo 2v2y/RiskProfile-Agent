@@ -1,20 +1,23 @@
-# Prompt Registry（阶段8）
+# Prompt Registry（Stage9 自包含版）
 # Prompt 必须版本化：修改 Prompt 时新增版本文件，不得覆盖历史版本。
-# sha256 由生成脚本在文件落盘后计算并回填，禁止手写。
+# sha256 由文件落盘后计算并回填。
+#
+# Stage9 五个 Agent 全部登记：review / semantic_audit 为 LLM Prompt；
+# profile / retrieval / audit 为确定性规则模块（不使用 LLM），其“Prompt”
+# 是规则说明文档（供论文/评审引用，不参与运行时推理）。
 
 schema_version: "1.0"
-registry_version: "v1.0"
+registry_version: "v2.0-stage9-full"
 created_by: "学生4"
-created_at: "2026-08-21"
+created_at: "2026-08-27"
 reference: "RiskProfile_Agent_研究方案 §31.11 成果：prompt_registry.yaml"
-note: "确定性模块（profile/retrieval/audit）不使用LLM，条目仅登记规则说明，作为版本追溯。"
 
 prompts:
   - agent: review_agent
     prompt_id: "review_agent_v1"
     version: "v1"
     updated_at: "2026-08-21"
-    file: "configs/prompts/review_agent_v1.md"
+    file: "config/prompts/review_agent_v1.md"
     sha256: "5426bddfc208e1897a0f0f86b847c9e0053e3313cb7a99788cd4d980b27d71e9"
     changelog: "阶段8首版：生成最多3项复核重点，每项引用画像事实与法规证据，列出缺失现场信息与人工核实方法，禁止法律结论/处罚建议/事故必然性"
 
@@ -22,30 +25,30 @@ prompts:
     prompt_id: "semantic_audit_v1"
     version: "v1"
     updated_at: "2026-08-21"
-    file: "configs/prompts/semantic_audit_v1.md"
+    file: "config/prompts/semantic_audit_v1.md"
     sha256: "c73a6b43e569a3ed53456629f7d0287816ca76b04ab106827d4d9bd442a2cd97"
     changelog: "阶段8首版：独立语义审查，判断每条陈述是否被已有画像事实和法规证据支持，输出 PASS/DEFER/REJECT 及原因"
 
   - agent: profile_agent
     prompt_id: "profile_agent_v1"
     version: "v1"
-    updated_at: "2026-08-21"
-    file: null
-    sha256: null
+    updated_at: "2026-08-27"
+    file: "config/prompts/profile_agent_v1.md"
+    sha256: "f2ece1f20073d89468571bb13918375969922e36751f2ae7ce31acab592e96e9"
     note: "确定性规则实现（不使用LLM），规则说明见 src/agents/profile_agent.py 与 agent_registry.yaml"
 
   - agent: retrieval_agent
     prompt_id: "retrieval_agent_v1"
     version: "v1"
-    updated_at: "2026-08-21"
-    file: null
-    sha256: null
-    note: "确定性 TF-IDF 检索（不使用LLM），检索请求构造规则见 src/agents/retrieval_agent.py 与 agent_registry.yaml"
+    updated_at: "2026-08-27"
+    file: "config/prompts/retrieval_agent_v1.md"
+    sha256: "076666e599a53c0cf4be1a727a2229b91299ff66bddd12098cb8b903193f766b"
+    note: "确定性检索实现（不使用LLM），检索请求构造规则见 src/agents/retrieval_agent.py、adapters/retrieval_adapter.py 与 agent_registry.yaml"
 
   - agent: audit_agent
     prompt_id: "audit_agent_v1"
     version: "v1"
-    updated_at: "2026-08-21"
-    file: null
-    sha256: null
-    note: "确定性程序核对器（不使用LLM），检查项见 src/agents/audit_agent.py 与 schemas/audit_result_schema.json"
+    updated_at: "2026-08-27"
+    file: "config/prompts/audit_agent_v1.md"
+    sha256: "1322ca78be2457179d2aa3cba3dc1213cc0ebdb12231476bb1dc5b2de86471dd"
+    note: "确定性程序核对器（不使用LLM），检查项见 src/agents/audit_agent.py、config/forbidden_claim_rules.yaml 与 agent_registry.yaml"

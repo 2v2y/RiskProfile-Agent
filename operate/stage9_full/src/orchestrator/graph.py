@@ -463,6 +463,8 @@ class OrchestratorGraph:
                 "max_attempts": int(state.get("max_attempts", self.max_attempts)),
                 "per_claim": self._per_claim(audit, semantic),
             },
+            "llm_used": draft.get("llm_used", False),
+            "llm_source": draft.get("llm_source", "template"),
             "final_verdict": final_verdict,
         }
         ReviewCard.model_validate(card)

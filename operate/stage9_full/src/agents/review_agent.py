@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 from pathlib import Path
 from typing import Any, Optional
 
@@ -232,6 +233,8 @@ class ReviewAgent:
         missing = self._missing(profile, retrieval)
 
         points: Optional[list[dict[str, Any]]] = None
+        llm_used = False
+        llm_source = "template"
         if not retrieval.items:
             # 法规证据为空/不足：不得强行生成有法规依据的建议，输出人工复核点
             points = [self._human_review_point(retrieval)]
@@ -239,13 +242,21 @@ class ReviewAgent:
             if self.use_llm and self.llm_client is not None:
                 try:
                     points = self._llm_points(facts, retrieval, evidence_ids)
+                    if points:
+                        llm_used = True
+                        llm_source = getattr(self.llm_client, "provider", "qwen")
                 except Exception as exc:
+                    print(
+                        f"[WARN] review LLM 调用失败，已回退确定性模板：{exc}",
+                        file=sys.stderr,
+                    )
                     if self.fail_on_llm_error:
                         raise RuntimeError(f"Review LLM 调用失败，已停止：{exc}") from exc
                     points = None
                 if not points and self.fail_on_llm_error:
                     raise RuntimeError("Review LLM 返回结果为空或格式无效，已停止")
             if not points:
+                llm_source = "template_fallback" if self.use_llm else "template"
                 points = self._template_points(facts, retrieval, evidence_ids)
 
         points = points[: self.max_points]
@@ -278,4 +289,6 @@ class ReviewAgent:
             "model": self.model,
             "prompt_version": self.prompt_version,
             "evidence_sufficient": len(retrieval.items) > 0,
+            "llm_used": llm_used,
+            "llm_source": llm_source,
         }

@@ -8,12 +8,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
 from adapters import paths  # noqa: F401
 from adapters import validator
 from experiments import common
+from src.llm.client import get_llm_call_log, reset_llm_call_log  # noqa: E402
 from src.common.run_log import new_run_dir  # noqa: E402
 
 
@@ -25,6 +27,10 @@ def main(argv: list[str] | None = None) -> int:
         "--provider", default=None,
         help="覆盖 llm.provider（qwen/dummy）；默认用 config。",
     )
+    parser.add_argument(
+        "--require-qwen", action="store_true",
+        help="provider=qwen 时若没有任何真实 Qwen 调用则失败（防止静默跑假模型）。",
+    )
     args = parser.parse_args(argv)
 
     config, data, stage_config = common.setup()
@@ -32,6 +38,10 @@ def main(argv: list[str] | None = None) -> int:
         config["llm"]["provider"] = args.provider
         stage_config["llm"]["provider"] = args.provider
         print(f"[INFO] llm.provider 覆盖为 {args.provider}")
+    effective_provider = os.getenv("RP_LLM_PROVIDER") or stage_config["llm"].get("provider", "dummy")
+    print(f"[INFO] 实际生效 provider = {effective_provider}"
+          + ("" if effective_provider == stage_config["llm"].get("provider")
+             else f"（环境变量覆盖 config 的 {stage_config['llm'].get('provider')!r}）"))
     if args.provider == "dummy":
         # 离线确定性冒烟：同时关闭真实 RAG 与 LLM 审查，避免依赖服务器模型。
         for cfg in (config, stage_config):
@@ -53,8 +63,21 @@ def main(argv: list[str] | None = None) -> int:
 
     methods = config["baselines"]
     outputs: dict[str, list[dict]] = {}
+    llm_records: list[dict] = []
     for method in methods:
-        outputs[method] = [common.run_method(method, stage_config, data, s["card"]) for s in eval_set]
+        outputs[method] = []
+        for s in eval_set:
+            reset_llm_call_log()
+            out = common.run_method(method, stage_config, data, s["card"])
+            calls = get_llm_call_log()
+            out["qwen_attempts"] = len(calls)
+            out["qwen_calls_ok"] = sum(1 for c in calls if c.get("success"))
+            for c in calls:
+                c = dict(c)
+                c["method"] = method
+                c["sample_id"] = out.get("sample_id")
+                llm_records.append(c)
+            outputs[method].append(out)
 
     print("\nSmoke Test 结果（每方法 x 样本）：")
     ok = True
@@ -62,9 +85,31 @@ def main(argv: list[str] | None = None) -> int:
         for out in outputs[method]:
             verdict = out.get("final_verdict")
             n_ev = len((out.get("retrieval") or {}).get("items", []))
-            print(f"  {method} sample={out.get('sample_id')} verdict={verdict} evidence={n_ev}")
+            qwen = out.get("qwen_calls_ok", 0)
+            llm_src = (out.get("draft_review") or {}).get("llm_source", "n/a")
+            print(
+                f"  {method} sample={out.get('sample_id')} verdict={verdict} "
+                f"evidence={n_ev} qwen_ok={qwen} llm_source={llm_src}"
+            )
             if verdict not in ("PASS", "DEFER", "REJECT"):
                 ok = False
+
+    print("\nQwen 真实调用统计（成功次数）：")
+    total_ok = 0
+    for method in methods:
+        n_ok = sum(o.get("qwen_calls_ok", 0) for o in outputs[method])
+        total_ok += n_ok
+        print(f"  {method}: {n_ok}")
+    print(f"  合计: {total_ok}")
+    if effective_provider == "qwen" and total_ok == 0:
+        print("[FAIL] provider=qwen 但没有任何真实 Qwen 调用（可能被环境变量/RAG空证据/回退影响）。")
+        ok = False
+    if args.require_qwen and effective_provider != "qwen":
+        print(f"[FAIL] --require-qwen 但实际 provider={effective_provider}。")
+        ok = False
+    if args.require_qwen and effective_provider == "qwen" and total_ok == 0:
+        print("[FAIL] --require-qwen 但真实 Qwen 调用数为 0。")
+        ok = False
 
     run_dir = new_run_dir(Path(stage_config["paths"]["runs"]), "smoke_test", stage_config)
     (run_dir / "cards.json").write_text(
@@ -73,6 +118,22 @@ def main(argv: list[str] | None = None) -> int:
         json.dumps(outputs, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
     (run_dir / "validation_report.json").write_text(
         json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    (run_dir / "llm_calls.jsonl").write_text(
+        "\n".join(json.dumps(r, ensure_ascii=False, default=str) for r in llm_records),
+        encoding="utf-8")
+    (run_dir / "llm_summary.json").write_text(
+        json.dumps(
+            {
+                "effective_provider": effective_provider,
+                "total_qwen_calls_ok": total_ok,
+                "per_method": {
+                    m: sum(o.get("qwen_calls_ok", 0) for o in outputs[m]) for m in methods
+                },
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8")
     print(f"\n结果目录：{run_dir}")
     return 0 if ok else 1
 

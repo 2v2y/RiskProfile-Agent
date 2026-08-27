@@ -22,7 +22,24 @@ QWEN_TEMPERATURE / QWEN_MAX_TOKENS / QWEN_TIMEOUT。
 from __future__ import annotations
 
 import os
+import sys
+from datetime import datetime, timezone
 from typing import Any, Protocol
+
+# 真实 LLM 调用日志：run_smoke / check_stage9 用它证明“确实调用了 Qwen”。
+_LLM_CALL_LOG: list[dict[str, Any]] = []
+
+
+def reset_llm_call_log() -> None:
+    _LLM_CALL_LOG.clear()
+
+
+def get_llm_call_log() -> list[dict[str, Any]]:
+    return list(_LLM_CALL_LOG)
+
+
+def _record_llm_call(record: dict[str, Any]) -> None:
+    _LLM_CALL_LOG.append(record)
 
 
 class LLMClient(Protocol):
@@ -38,6 +55,7 @@ class DummyLLMClient:
 
     def __init__(self, model: str = "dummy-stage9"):
         self.model = model
+        self.provider = "dummy"
 
     def generate(self, messages: list[dict[str, str]]) -> str:
         return (
@@ -60,45 +78,94 @@ class QwenClient:
         temperature: float = 0.0,
         max_tokens: int = 1024,
         timeout: float = 120.0,
+        max_context_tokens: int = 8192,
+        input_budget_tokens: int = 6000,
     ):
         self.base_url = base_url
         self.api_key = api_key
         self.model = model
+        self.provider = "qwen"
         self.temperature = temperature
         self.max_tokens = max_tokens
         self.timeout = timeout
+        self.max_context_tokens = max_context_tokens
+        self.input_budget_tokens = input_budget_tokens
 
     def generate(self, messages: list[dict[str, str]]) -> str:
-        from langchain_openai import ChatOpenAI  # 懒加载：不装 langchain 时不影响其他模块
+        # 统一 context budget 闸门：所有真实 Qwen 调用（review / semantic audit /
+        # check_qwen / 任何未来入口）都在这里强制裁剪，保证 input + max_tokens <= 8192。
+        from src.common.prompt_budget import prepare_messages
 
-        llm = ChatOpenAI(
-            base_url=self.base_url,
-            api_key=self.api_key,
-            model=self.model,
-            temperature=self.temperature,
-            max_tokens=self.max_tokens,
-            timeout=self.timeout,
-            extra_body={
-                "chat_template_kwargs": {
-                    "enable_thinking": False,
-                }
-            },
+        messages, report = prepare_messages(
+            messages,
+            max_input_tokens=self.input_budget_tokens,
+            max_context_tokens=self.max_context_tokens,
+            output_tokens=self.max_tokens,
         )
-        response = llm.invoke(messages)
-        content = response.content
-        # Qwen/vLLM 返回的 content 可能是字符串，也可能是内容块列表。
-        # 统一转成字符串，避免后续 .strip() / JSON 解析出错。
-        if isinstance(content, str):
-            return content
-        if isinstance(content, list):
-            parts: list[str] = []
-            for block in content:
-                if isinstance(block, dict):
-                    parts.append(str(block.get("text", "")))
-                else:
-                    parts.append(str(block))
-            return "".join(parts)
-        return str(content)
+        print(
+            "[budget] input_est={} (available={}) output={} chars={} total_est={}/{} trimmed={}".format(
+                report["after_tokens"],
+                report["available_input_tokens"],
+                self.max_tokens,
+                report["after_chars"],
+                report["estimated_total"],
+                self.max_context_tokens,
+                ",".join(report["trimmed"]) or "-",
+            ),
+            file=sys.stderr,
+        )
+        record: dict[str, Any] = {
+            "ts_utc": datetime.now(timezone.utc).isoformat(timespec="milliseconds"),
+            "provider": "qwen",
+            "model": self.model,
+            "base_url": self.base_url,
+            "input_est": report["after_tokens"],
+            "output_tokens": self.max_tokens,
+            "total_est": report["estimated_total"],
+            "chars": report["after_chars"],
+            "trimmed": report["trimmed"],
+            "success": False,
+            "error": None,
+        }
+        try:
+            from langchain_openai import ChatOpenAI  # 懒加载：不装 langchain 时不影响其他模块
+
+            llm = ChatOpenAI(
+                base_url=self.base_url,
+                api_key=self.api_key,
+                model=self.model,
+                temperature=self.temperature,
+                max_tokens=self.max_tokens,
+                timeout=self.timeout,
+                extra_body={
+                    "chat_template_kwargs": {
+                        "enable_thinking": False,
+                    }
+                },
+            )
+            response = llm.invoke(messages)
+            content = response.content
+            # Qwen/vLLM 返回的 content 可能是字符串，也可能是内容块列表。
+            # 统一转成字符串，避免后续 .strip() / JSON 解析出错。
+            if isinstance(content, str):
+                text = content
+            elif isinstance(content, list):
+                parts: list[str] = []
+                for block in content:
+                    if isinstance(block, dict):
+                        parts.append(str(block.get("text", "")))
+                    else:
+                        parts.append(str(block))
+                text = "".join(parts)
+            else:
+                text = str(content)
+            record.update({"success": True, "output_chars": len(text)})
+            _record_llm_call(record)
+            return text
+        except Exception as exc:  # noqa: BLE001
+            record.update({"success": False, "error": str(exc)[:300]})
+            _record_llm_call(record)
+            raise
 
 
 def _env_or(name: str, default: Any) -> Any:
@@ -118,6 +185,12 @@ def get_llm_client(config: dict[str, Any]) -> LLMClient:
     llm_cfg = config.get("llm", {})
     # RP_LLM_PROVIDER 允许在不改 config 的情况下离线运行整条实验（dummy）。
     provider = os.getenv("RP_LLM_PROVIDER") or llm_cfg.get("provider", "dummy")
+    if os.getenv("RP_LLM_PROVIDER") and os.getenv("RP_LLM_PROVIDER") != llm_cfg.get("provider"):
+        print(
+            f"[WARN] 环境变量 RP_LLM_PROVIDER={os.getenv('RP_LLM_PROVIDER')} "
+            f"覆盖了 config 的 llm.provider={llm_cfg.get('provider')!r}",
+            file=sys.stderr,
+        )
     if provider == "qwen":
         base_url = str(_env_or("QWEN_BASE_URL", llm_cfg.get("base_url", "")))
         api_key = str(_env_or("QWEN_API_KEY", llm_cfg.get("api_key", "")))
@@ -131,6 +204,10 @@ def get_llm_client(config: dict[str, Any]) -> LLMClient:
         # vLLM 当前 max_model_len=8192：max_tokens 显式取 config（默认 1024），
         # 输入预算由 src/common/prompt_budget.py 在 prompt 构造端控制（input<=6000）。
         max_tokens = int(_env_or("QWEN_MAX_TOKENS", llm_cfg.get("max_tokens", 1024)))
+        budget = llm_cfg.get("prompt_budget") or {}
+        input_budget = int(
+            _env_or("QWEN_INPUT_BUDGET", budget.get("max_input_tokens", 6000))
+        )
         return QwenClient(
             base_url=base_url,
             api_key=api_key,
@@ -138,5 +215,7 @@ def get_llm_client(config: dict[str, Any]) -> LLMClient:
             temperature=float(_env_or("QWEN_TEMPERATURE", llm_cfg.get("temperature", 0.0))),
             max_tokens=max_tokens,
             timeout=float(_env_or("QWEN_TIMEOUT", llm_cfg.get("timeout", 120.0))),
+            max_context_tokens=int(llm_cfg.get("max_context_tokens", 8192)),
+            input_budget_tokens=input_budget,
         )
     return DummyLLMClient(model=llm_cfg.get("model") or "dummy-stage9")

@@ -67,8 +67,7 @@ def build_stage_config(config: dict[str, Any], data: dict[str, Path]) -> dict[st
         "manifests": str(STAGE9_FULL / "results"),
     }
     merged["prompts"] = {
-        "review_agent": _abs(config["prompts"]["review_agent"]),
-        "semantic_audit": _abs(config["prompts"]["semantic_audit"]),
+        key: _abs(rel) for key, rel in (config.get("prompts") or {}).items()
     }
     merged["registries"] = {
         "agent_registry": _abs(config["registries"]["agent_registry"]),

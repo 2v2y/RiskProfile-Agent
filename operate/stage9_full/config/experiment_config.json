@@ -39,11 +39,13 @@
     "temperature": 0.0,
     "max_tokens": 1024,
     "timeout": 120,
+    "max_context_tokens": 8192,
     "prompt_budget": {
       "max_input_tokens": 6000,
-      "max_evidence_chars": 600,
-      "max_facts": 50,
-      "note": "vLLM max_model_len=8192；输入预算 6000 + max_tokens 1024 <= 7024，留足余量。由 src/common/prompt_budget.py 在 prompt 构造端强制执行。"
+      "max_evidence_chars": 300,
+      "max_facts": 30,
+      "safety_tokens": 600,
+      "note": "vLLM max_model_len=8192；输入预算 6000 + max_tokens 1024 + 安全余量 <= 8192。由 src/common/prompt_budget.py 在构造端裁剪 + src/llm/client.py 统一闸门双重强制。"
     },
     "model_note": "model ID 必须为 vLLM 实际暴露的 /DATA/models/Qwen3.8-27B（含路径），不能使用裸 Qwen3.8-27B。"
   },
@@ -64,7 +66,10 @@
   },
   "prompts": {
     "review_agent": "config/prompts/review_agent_v1.md",
-    "semantic_audit": "config/prompts/semantic_audit_v1.md"
+    "semantic_audit": "config/prompts/semantic_audit_v1.md",
+    "profile_agent": "config/prompts/profile_agent_v1.md",
+    "retrieval_agent": "config/prompts/retrieval_agent_v1.md",
+    "audit_agent": "config/prompts/audit_agent_v1.md"
   },
   "registries": {
     "agent_registry": "config/agent_registry.yaml",

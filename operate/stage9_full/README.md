@@ -20,6 +20,8 @@ stage9_full/
 ├── baselines/         B0—B5 六个基线（沿用项目既有定义，逻辑不变）
 ├── config/            experiment_config.json + schema_mapping.json
 │                      + agent_registry / prompt_registry / forbidden_claim_rules / prompts/
+│                      （prompts/ 覆盖全部 5 个 Agent：review + semantic_audit 为 LLM Prompt，
+│                        profile / retrieval / audit 为确定性规则说明）
 ├── data/              全部冻结实验数据（profiles / knowledge / mapping / benchmark / gold）
 ├── evaluation/        metrics / error_analysis / bootstrap
 ├── experiments/       check_stage9（离线自检）/ check_qwen / run_smoke /
@@ -97,17 +99,21 @@ stage9_full/
 ## 6. 8192 context 问题如何解决（不改实验设计）
 
 服务器 vLLM `max_model_len=8192`，因此约束为 `input + output <= 8192`。
-`src/common/prompt_budget.py` 在 **prompt 构造端**控制：
+`src/common/prompt_budget.py` + `src/llm/client.py` 双重控制：
 
-- 画像事实上限 50 条（`compact_facts`）；
-- 每条法规证据正文只送前 600 字符（`compact_evidence`，引用键完整保留）；
+- 画像事实只送 `field + statement_zh + 压缩 value`（去掉重复的 fact_id/provenance，
+  长字符串截断、list/dict 只留前 8 项），上限 30 条（`compact_facts`）；
+- 每条法规证据正文只送前 300 字符（`compact_evidence`，引用键完整保留），
+  按检索相关性顺序保留，上限 3 条；
 - 画像卡超长字符串字段截断（`compact_profile`）；
-- 构造完成后估算 token，超预算再渐进截断证据正文（`enforce_input_budget`）；
-- 目标：`input <= 6000`，`max_tokens = 1024`，合计 `<= 7024`，留足余量。
+- 客户端统一闸门（`QwenClient.generate`）：所有真实调用先 `prepare_messages`，
+  按 证据正文 → 事实条数 → 证据条数 → 硬字符上限 逐级裁剪，并打印
+  `[budget] input_est=.../6000 output=1024 total_est=.../8192`；
+- 目标：`input <= 6000`，`max_tokens = 1024`，`input + output <= 8192` 且留安全余量。
 
 该压缩只影响“发送给 LLM 的文本”，不影响检索结果、证据清单、评价输入
-（`outputs` 中 `retrieval.items` 仍保留完整原文）。自检会实测样例 prompt：
-当前验证样本估算 input ≈ 2500 tokens。
+（`outputs` 中 `retrieval.items` 仍保留完整原文）。自检会实测样例 prompt 的
+输入估算、输出预算与总预算，并断言不超过 8192。
 
 ## 7. 安装依赖
 
@@ -132,6 +138,10 @@ python -m experiments.check_qwen
 
 # 3) 在线冒烟（3 个真实样本，B0—B5 全链路，provider=qwen）
 python -m experiments.run_smoke --n 3
+
+run_smoke 会逐方法打印真实 Qwen 调用次数与 llm_source（qwen / template_fallback），
+并把每次调用写入结果目录的 llm_calls.jsonl / llm_summary.json；想强制要求
+“必须真的调用了 Qwen，否则失败”可加 --require-qwen。
 
 # 4) 正式实验
 python -m experiments.run_comparison --split validation --limit 50     # 先小规模

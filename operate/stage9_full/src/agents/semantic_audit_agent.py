@@ -197,6 +197,8 @@ class SemanticAuditAgent:
             "provider": provider,
             "model": self.model,
             "prompt_version": self.prompt_version,
+            "llm_used": self.use_llm and self.llm_client is not None,
+            "llm_source": provider,
             "per_claim": per_claim,
             "aggregate": {"n_pass": n_pass, "n_defer": n_defer, "n_reject": n_reject},
             "overall_verdict": overall,

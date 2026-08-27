@@ -33,6 +33,7 @@ class FakeLLM:
     """离线干跑确定性假模型：不依赖 Qwen，返回固定的复核点 JSON。"""
 
     model = "fake-stage9"
+    provider = "dummy"
 
     def generate(self, messages: list[dict[str, str]]) -> str:
         return json.dumps(
@@ -176,7 +177,9 @@ class BaseBaseline:
         return points
 
     def _draft_from_points(self, profile: dict[str, Any], retrieval: RetrievalResult,
-                           points: list[dict[str, Any]], model: str) -> dict[str, Any]:
+                           points: list[dict[str, Any]], model: str,
+                           llm_used: bool = False,
+                           llm_source: str = "template") -> dict[str, Any]:
         missing: list[dict[str, str]] = []
         if profile.get("no_history_flag"):
             missing.append({"field": "history_inspections", "reason": "没有历史检查记录"})
@@ -197,6 +200,8 @@ class BaseBaseline:
             "model": model,
             "prompt_version": self.config["review"].get("prompt_id", "review_agent_v1"),
             "evidence_sufficient": len(retrieval.items) > 0,
+            "llm_used": llm_used,
+            "llm_source": llm_source,
         }
 
     def _pack(self, method: str, profile: dict[str, Any], facts: list[dict[str, Any]],
@@ -242,12 +247,19 @@ class B1LLM(BaseBaseline):
         retrieval = RetrievalResult(query_id=profile.get("sample_id", "q0"),
                                     standard_number="UNKNOWN", risk_categories=[], items=[],
                                     empty_reason="B1 不检索法规")
-        points = self._direct_llm_points(profile, facts, retrieval) or [
+        points_llm = self._direct_llm_points(profile, facts, retrieval)
+        points = points_llm or [
             {"point_id": "point_1", "focus_zh": "证据不足，无法生成有法规依据的复核建议，建议人工确认后转人工复核",
              "basis_profile_facts": [], "regulation_refs": [], "missing_field_info": ["法规证据未检索到或不足"],
              "verification_instructions_zh": "由人工确认单位历史、监管背景与现场情况后再决定检查重点"}
         ]
-        draft = self._draft_from_points(profile, retrieval, points, "B1")
+        provider = self.config.get("llm", {}).get("provider", "dummy")
+        llm_used = bool(points_llm)
+        draft = self._draft_from_points(
+            profile, retrieval, points, "B1",
+            llm_used=llm_used,
+            llm_source=("qwen" if (provider == "qwen" and llm_used) else ("dummy" if llm_used else "template_fallback")),
+        )
         audit = self.audit_agent.run(draft, facts, retrieval, profile)
         return self._pack("B1", profile, facts, retrieval, draft, audit, None,
                           audit.overall_verdict, (time.perf_counter() - t0) * 1000, "plain_llm")
@@ -269,12 +281,19 @@ class B3SingleAgent(BaseBaseline):
         t0 = time.perf_counter()
         facts = self._facts(profile)
         retrieval = self._retrieve(profile, facts)
-        points = self._direct_llm_points(profile, facts, retrieval) or [
+        points_llm = self._direct_llm_points(profile, facts, retrieval)
+        points = points_llm or [
             {"point_id": "point_1", "focus_zh": "证据不足，无法生成有法规依据的复核建议，建议人工确认后转人工复核",
              "basis_profile_facts": [], "regulation_refs": [], "missing_field_info": ["法规证据未检索到或不足"],
              "verification_instructions_zh": "由人工确认单位历史、监管背景与现场情况后再决定检查重点"}
         ]
-        draft = self._draft_from_points(profile, retrieval, points, "B3")
+        provider = self.config.get("llm", {}).get("provider", "dummy")
+        llm_used = bool(points_llm)
+        draft = self._draft_from_points(
+            profile, retrieval, points, "B3",
+            llm_used=llm_used,
+            llm_source=("qwen" if (provider == "qwen" and llm_used) else ("dummy" if llm_used else "template_fallback")),
+        )
         audit = self.audit_agent.run(draft, facts, retrieval, profile)
         return self._pack("B3", profile, facts, retrieval, draft, audit, None,
                           audit.overall_verdict, (time.perf_counter() - t0) * 1000, "single_agent")
@@ -294,6 +313,8 @@ class B4MultiAgentNoSemantic(BaseBaseline):
                   "missing_field_info": ["法规证据未检索到或不足"],
                   "verification_instructions_zh": "由人工确认单位历史、监管背景与现场情况后再决定检查重点"}],
                 "B4",
+                llm_used=False,
+                llm_source="template",
             )
         else:
             draft = self.review_llm.run(profile, facts, retrieval)

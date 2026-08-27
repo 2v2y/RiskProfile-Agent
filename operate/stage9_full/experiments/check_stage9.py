@@ -150,6 +150,20 @@ def main(argv: list[str] | None = None) -> int:
             record("config data paths", "CONFIG ERROR", f"仍引用外部路径：{bad_data_refs}")
         else:
             record("config data paths", "OK", "全部指向 data/ 内部")
+        prompt_refs = config.get("prompts") or {}
+        missing_prompts = [
+            name
+            for name, rel in prompt_refs.items()
+            if not (root / rel).exists()
+        ]
+        if missing_prompts:
+            record("prompt files", "MISSING", f"{missing_prompts}")
+        else:
+            record(
+                "prompt files",
+                "OK",
+                f"{len(prompt_refs)} 个：{', '.join(sorted(prompt_refs))}",
+            )
 
     # 3) imports
     import_targets = [
@@ -413,11 +427,11 @@ def main(argv: list[str] | None = None) -> int:
     if budget is None:
         record("prompt budget", "WARN", "未能构造样例 prompt（样本无可用画像/证据）")
     else:
-        tokens, summary = budget
+        tokens, detail = budget
         record(
             "prompt budget",
-            "OK" if tokens <= 7000 else "CONFIG ERROR",
-            f"估算 input={tokens} tokens（上限 6000，+1024 输出 <= 8192）",
+            "OK" if tokens <= 8192 else "CONFIG ERROR",
+            detail,
         )
 
     # 12) offline data flow（dummy LLM + 关键词回退，B0—B5 一个样本）
@@ -450,13 +464,13 @@ def main(argv: list[str] | None = None) -> int:
 
 def _check_prompt_budget(
     root: Path, config: dict[str, Any]
-) -> tuple[int, dict[str, Any]] | None:
+) -> tuple[int, str] | None:
     """用真实数据构造 review prompt（ReviewAgent 生产路径），返回估算 token 与摘要。"""
     from adapters.retrieval_adapter import Stage9RetrievalAdapter
     from experiments import common
     from src.agents.profile_agent import ProfileAgent
     from src.agents.review_agent import ReviewAgent
-    from src.common.prompt_budget import budget_summary
+    from src.common import prompt_budget as pb
 
     cfg, data, stage_config = common.setup()
     loaded = common.load_everything(data)
@@ -485,7 +499,23 @@ def _check_prompt_budget(
         )
         review.run(card, facts, retrieval)
         if capture.messages:
-            return budget_summary(capture.messages)["estimated_input_tokens"], budget_summary(capture.messages)
+            messages, report = pb.prepare_messages(
+                capture.messages,
+                max_input_tokens=6000,
+                max_context_tokens=8192,
+                output_tokens=1024,
+            )
+            parts: dict[str, int] = {}
+            for m in messages:
+                parts.setdefault(str(m.get("role")), 0)
+                parts[str(m.get("role"))] += pb.estimate_tokens(m.get("content"))
+            detail = (
+                f"input_est={report['after_tokens']}/{report['available_input_tokens']} "
+                f"+ output=1024 = {report['estimated_total']} <= 8192；"
+                f"chars={report['after_chars']}；分项(est)={parts}；"
+                f"trimmed={','.join(report['trimmed']) or '-'}"
+            )
+            return report["estimated_total"], detail
     return None
 
 
